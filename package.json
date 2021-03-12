@@ -10,10 +10,13 @@
   "license": "ISC",
   "dependencies": {
     "config": "^3.3.4",
-    "ejs": "^3.1.6",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
+    "global": "^4.4.0",
     "mysql": "^2.18.1",
+    "mysql2": "^2.2.5",
+    "sequelize": "^6.5.0",
+    "sequelize-cli": "^6.2.0",
     "yarn": "^1.22.10"
   }
 }

@@ -4,7 +4,7 @@
         "port": 3001
     },
     "mysql":{
-        "host":"0.0.0.0",
+        "host":"localhost",
         "user":"hieuld",
         "password":"ldhSQL@321",
         "database":"blogger",
