@@ -8,6 +8,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      roleName: {
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
       configSys: {
         allowNull: false,
         type: Sequelize.BOOLEAN,

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const testadmin = require(__dirname + "/test");
+const testadmin = require("./test");
 
 
 // Dung router o cac phan khac

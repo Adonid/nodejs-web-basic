@@ -1,7 +1,7 @@
 // Core express
 const express = require('express');
 // Config info
-const config = require('config');
+const config = require(__dirname+'/config/config.json');
 // Use for route & controller
 const controllers = require(__dirname + '/apps/controllers');
 // Use express
@@ -16,8 +16,8 @@ app.use('/static', express.static(__dirname + "/public"));
 app.use(controllers);
 
 // lang nghe cong ket noi
-const host = config.get("server.host")||"http://localhost";
-const port = config.get("server.port")||3000;
+const host = config.server.host||"http://localhost";
+const port = config.server.port||3000;
 app.listen(port, host, () => {
     console.log("Serve is running on port " +port);
 });
