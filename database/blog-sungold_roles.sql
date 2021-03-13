@@ -16,27 +16,34 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `sequelizemeta`
+-- Table structure for table `roles`
 --
 
-DROP TABLE IF EXISTS `sequelizemeta`;
+DROP TABLE IF EXISTS `roles`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `sequelizemeta` (
-  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`name`),
-  UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+CREATE TABLE `roles` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `roleName` varchar(255) NOT NULL,
+  `configSys` tinyint(1) NOT NULL,
+  `addPost` tinyint(1) NOT NULL,
+  `delPost` tinyint(1) NOT NULL,
+  `writePost` tinyint(1) NOT NULL,
+  `addUser` tinyint(1) NOT NULL,
+  `delUser` tinyint(1) NOT NULL,
+  `writeUser` tinyint(1) NOT NULL,
+  `delComment` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `sequelizemeta`
+-- Dumping data for table `roles`
 --
 
-LOCK TABLES `sequelizemeta` WRITE;
-/*!40000 ALTER TABLE `sequelizemeta` DISABLE KEYS */;
-INSERT INTO `sequelizemeta` VALUES ('20210312002959-create-editors.js'),('20210312020711-create-roles.js'),('20210312075655-create-administrators.js'),('20210312075950-create-users.js'),('20210313025802-create-provinces.js'),('20210313030633-create-districts.js'),('20210313031518-create-communes.js');
-/*!40000 ALTER TABLE `sequelizemeta` ENABLE KEYS */;
+LOCK TABLES `roles` WRITE;
+/*!40000 ALTER TABLE `roles` DISABLE KEYS */;
+/*!40000 ALTER TABLE `roles` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
