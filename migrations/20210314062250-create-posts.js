@@ -20,7 +20,19 @@ module.exports = {
         allowNull: false,
         type: Sequelize.TEXT
       },
+      readTime: {
+        allowNull: false,
+        type: Sequelize.TEXT
+      },
       authorId: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'managers',
+          key: 'id',
+        }
+      },
+      categoryId: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
