@@ -16,27 +16,29 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `sequelizemeta`
+-- Table structure for table `postscontents`
 --
 
-DROP TABLE IF EXISTS `sequelizemeta`;
+DROP TABLE IF EXISTS `postscontents`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `sequelizemeta` (
-  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`name`),
-  UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+CREATE TABLE `postscontents` (
+  `postId` int NOT NULL,
+  `content` text,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  KEY `postId` (`postId`),
+  CONSTRAINT `postscontents_ibfk_1` FOREIGN KEY (`postId`) REFERENCES `posts` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `sequelizemeta`
+-- Dumping data for table `postscontents`
 --
 
-LOCK TABLES `sequelizemeta` WRITE;
-/*!40000 ALTER TABLE `sequelizemeta` DISABLE KEYS */;
-INSERT INTO `sequelizemeta` VALUES ('20210312020711-create-roles.js'),('20210312075655-create-managers.js'),('20210312075950-create-users.js'),('20210313025802-create-provinces.js'),('20210313030633-create-districts.js'),('20210313031518-create-communes.js'),('20210314061232-create-categories.js'),('20210314062250-create-posts.js');
-/*!40000 ALTER TABLE `sequelizemeta` ENABLE KEYS */;
+LOCK TABLES `postscontents` WRITE;
+/*!40000 ALTER TABLE `postscontents` DISABLE KEYS */;
+/*!40000 ALTER TABLE `postscontents` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -48,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-03-15  7:59:16
+-- Dump completed on 2021-03-15  8:51:40

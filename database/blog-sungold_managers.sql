@@ -16,34 +16,49 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `roles`
+-- Table structure for table `managers`
 --
 
-DROP TABLE IF EXISTS `roles`;
+DROP TABLE IF EXISTS `managers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `roles` (
+CREATE TABLE `managers` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `roleName` varchar(255) NOT NULL,
-  `configSys` tinyint(1) NOT NULL,
-  `addPost` tinyint(1) NOT NULL,
-  `delPost` tinyint(1) NOT NULL,
-  `writePost` tinyint(1) NOT NULL,
-  `addUser` tinyint(1) NOT NULL,
-  `delUser` tinyint(1) NOT NULL,
-  `writeUser` tinyint(1) NOT NULL,
-  `delComment` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`)
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `fullName` varchar(255) DEFAULT NULL,
+  `phoneNumber` varchar(255) DEFAULT NULL,
+  `avatarUrl` text,
+  `bio` text,
+  `socials` json DEFAULT NULL,
+  `address` text,
+  `provinceId` int DEFAULT '0',
+  `districtId` int DEFAULT '0',
+  `communeId` int DEFAULT '10615',
+  `roleId` int NOT NULL,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`),
+  KEY `provinceId` (`provinceId`),
+  KEY `districtId` (`districtId`),
+  KEY `communeId` (`communeId`),
+  KEY `roleId` (`roleId`),
+  CONSTRAINT `managers_ibfk_1` FOREIGN KEY (`provinceId`) REFERENCES `provinces` (`id`),
+  CONSTRAINT `managers_ibfk_2` FOREIGN KEY (`districtId`) REFERENCES `districts` (`id`),
+  CONSTRAINT `managers_ibfk_3` FOREIGN KEY (`communeId`) REFERENCES `communes` (`id`),
+  CONSTRAINT `managers_ibfk_4` FOREIGN KEY (`roleId`) REFERENCES `roles` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `roles`
+-- Dumping data for table `managers`
 --
 
-LOCK TABLES `roles` WRITE;
-/*!40000 ALTER TABLE `roles` DISABLE KEYS */;
-/*!40000 ALTER TABLE `roles` ENABLE KEYS */;
+LOCK TABLES `managers` WRITE;
+/*!40000 ALTER TABLE `managers` DISABLE KEYS */;
+/*!40000 ALTER TABLE `managers` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -55,4 +70,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-03-15  7:59:16
+-- Dump completed on 2021-03-15  8:51:40
