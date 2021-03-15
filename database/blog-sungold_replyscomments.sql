@@ -16,30 +16,34 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `categories`
+-- Table structure for table `replyscomments`
 --
 
-DROP TABLE IF EXISTS `categories`;
+DROP TABLE IF EXISTS `replyscomments`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `categories` (
+CREATE TABLE `replyscomments` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `imgUrl` text NOT NULL,
-  `color` varchar(255) DEFAULT NULL,
+  `commentId` int NOT NULL,
+  `userId` int NOT NULL,
+  `reply` text NOT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `commentId` (`commentId`),
+  KEY `userId` (`userId`),
+  CONSTRAINT `replyscomments_ibfk_1` FOREIGN KEY (`commentId`) REFERENCES `commentsposts` (`id`),
+  CONSTRAINT `replyscomments_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `categories`
+-- Dumping data for table `replyscomments`
 --
 
-LOCK TABLES `categories` WRITE;
-/*!40000 ALTER TABLE `categories` DISABLE KEYS */;
-/*!40000 ALTER TABLE `categories` ENABLE KEYS */;
+LOCK TABLES `replyscomments` WRITE;
+/*!40000 ALTER TABLE `replyscomments` DISABLE KEYS */;
+/*!40000 ALTER TABLE `replyscomments` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-03-15  8:51:40
+-- Dump completed on 2021-03-15 10:43:12

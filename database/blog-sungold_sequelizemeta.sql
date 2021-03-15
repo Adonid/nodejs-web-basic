@@ -16,34 +16,27 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `favouritesposts`
+-- Table structure for table `sequelizemeta`
 --
 
-DROP TABLE IF EXISTS `favouritesposts`;
+DROP TABLE IF EXISTS `sequelizemeta`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `favouritesposts` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `userId` int NOT NULL,
-  `postId` int NOT NULL,
-  `level` int DEFAULT '0',
-  `createdAt` datetime NOT NULL,
-  `updatedAt` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `userId` (`userId`),
-  KEY `postId` (`postId`),
-  CONSTRAINT `favouritesposts_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`),
-  CONSTRAINT `favouritesposts_ibfk_2` FOREIGN KEY (`postId`) REFERENCES `posts` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `sequelizemeta` (
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`name`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `favouritesposts`
+-- Dumping data for table `sequelizemeta`
 --
 
-LOCK TABLES `favouritesposts` WRITE;
-/*!40000 ALTER TABLE `favouritesposts` DISABLE KEYS */;
-/*!40000 ALTER TABLE `favouritesposts` ENABLE KEYS */;
+LOCK TABLES `sequelizemeta` WRITE;
+/*!40000 ALTER TABLE `sequelizemeta` DISABLE KEYS */;
+INSERT INTO `sequelizemeta` VALUES ('20210312020711-create-roles.js'),('20210312075655-create-managers.js'),('20210312075950-create-users.js'),('20210313025802-create-provinces.js'),('20210313030633-create-districts.js'),('20210313031518-create-communes.js'),('20210314061232-create-categories.js'),('20210314062250-create-posts.js'),('20210315011903-create-posts-content.js'),('20210315013031-create-favourites-post.js'),('20210315030108-create-comments-post.js'),('20210315030442-create-replys-comment.js'),('20210315031504-create-favourites-comment.js'),('20210315032421-create-favourites-reply-comment.js');
+/*!40000 ALTER TABLE `sequelizemeta` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -55,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-03-15  8:51:39
+-- Dump completed on 2021-03-15 10:43:12

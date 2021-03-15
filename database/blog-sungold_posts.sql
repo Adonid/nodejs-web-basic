@@ -16,49 +16,37 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `managers`
+-- Table structure for table `posts`
 --
 
-DROP TABLE IF EXISTS `managers`;
+DROP TABLE IF EXISTS `posts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `managers` (
+CREATE TABLE `posts` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `email` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `fullName` varchar(255) DEFAULT NULL,
-  `phoneNumber` varchar(255) DEFAULT NULL,
-  `avatarUrl` text,
-  `bio` text,
-  `socials` json DEFAULT NULL,
-  `address` text,
-  `provinceId` int DEFAULT '0',
-  `districtId` int DEFAULT '0',
-  `communeId` int DEFAULT '10615',
-  `roleId` int NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `imgUrl` text NOT NULL,
+  `desc` text NOT NULL,
+  `readTime` text NOT NULL,
+  `authorId` int NOT NULL,
+  `categoryId` int NOT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `email` (`email`),
-  KEY `provinceId` (`provinceId`),
-  KEY `districtId` (`districtId`),
-  KEY `communeId` (`communeId`),
-  KEY `roleId` (`roleId`),
-  CONSTRAINT `managers_ibfk_1` FOREIGN KEY (`provinceId`) REFERENCES `provinces` (`id`),
-  CONSTRAINT `managers_ibfk_2` FOREIGN KEY (`districtId`) REFERENCES `districts` (`id`),
-  CONSTRAINT `managers_ibfk_3` FOREIGN KEY (`communeId`) REFERENCES `communes` (`id`),
-  CONSTRAINT `managers_ibfk_4` FOREIGN KEY (`roleId`) REFERENCES `roles` (`id`) ON DELETE CASCADE
+  KEY `authorId` (`authorId`),
+  KEY `categoryId` (`categoryId`),
+  CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`authorId`) REFERENCES `managers` (`id`),
+  CONSTRAINT `posts_ibfk_2` FOREIGN KEY (`categoryId`) REFERENCES `categories` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `managers`
+-- Dumping data for table `posts`
 --
 
-LOCK TABLES `managers` WRITE;
-/*!40000 ALTER TABLE `managers` DISABLE KEYS */;
-/*!40000 ALTER TABLE `managers` ENABLE KEYS */;
+LOCK TABLES `posts` WRITE;
+/*!40000 ALTER TABLE `posts` DISABLE KEYS */;
+/*!40000 ALTER TABLE `posts` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -70,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-03-15  8:51:40
+-- Dump completed on 2021-03-15 10:43:12
