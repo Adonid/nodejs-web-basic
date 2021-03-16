@@ -14,7 +14,15 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Role.init({
-    configSys: DataTypes.BOOLEAN
+    roleName: DataTypes.BOOLEAN,
+    configSys: DataTypes.BOOLEAN,
+    addPost: DataTypes.BOOLEAN,
+    delPost: DataTypes.BOOLEAN,
+    writePost: DataTypes.BOOLEAN,
+    addUser: DataTypes.BOOLEAN,
+    delUser: DataTypes.BOOLEAN,
+    writeUser: DataTypes.BOOLEAN,
+    delComment: DataTypes.BOOLEAN,
   }, {
     sequelize,
     modelName: 'Role',

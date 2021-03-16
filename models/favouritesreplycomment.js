@@ -15,7 +15,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   FavouritesReplyComment.init({
-    replyCommentId: DataTypes.INTEGER
+    replyCommentId: DataTypes.INTEGER,
+    userId: DataTypes.INTEGER,
+    level: DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: 'FavouritesReplyComment',

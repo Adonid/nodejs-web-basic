@@ -15,7 +15,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   FavouritesPost.init({
-    postId: DataTypes.INTEGER
+    userId: DataTypes.INTEGER,
+    postId: DataTypes.INTEGER,
+    level: DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: 'FavouritesPost',

@@ -14,7 +14,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   PostsContent.init({
-    content: DataTypes.TEXT
+    postId: DataTypes.INTEGER,
+    content: DataTypes.TEXT,
   }, {
     sequelize,
     modelName: 'PostsContent',
