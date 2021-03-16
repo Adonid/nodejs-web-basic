@@ -11,7 +11,6 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Commune.belongsTo(models.District, {foreignKey: 'districtId'})
-      Commune.hasMany(models.Manager, {foreignKey: 'communeId'})
       Commune.hasMany(models.User, {foreignKey: 'communeId'})
     }
   };

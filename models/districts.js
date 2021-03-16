@@ -13,7 +13,6 @@ module.exports = (sequelize, DataTypes) => {
       District.belongsTo(models.Province, {foreignKey: 'provinceId'})
       District.hasMany(models.Commune, {foreignKey: 'districtId'})
       District.hasMany(models.User, {foreignKey: 'districtId'})
-      District.hasMany(models.Manager, {foreignKey: 'districtId'})
     }
   };
   District.init(

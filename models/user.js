@@ -14,6 +14,13 @@ module.exports = (sequelize, DataTypes) => {
       User.belongsTo(models.Province, {foreignKey: 'provinceId'})
       User.belongsTo(models.District, {foreignKey: 'districtId'})
       User.belongsTo(models.Commune, {foreignKey: 'communeId'})
+
+      User.hasMany(models.Post, {foreignKey: 'authorId'})
+      User.hasMany(models.FavouritesPost, {foreignKey: 'userId'})
+      User.hasMany(models.CommentsPost, {foreignKey: 'userId'})
+      User.hasMany(models.FavouritesComment, {foreignKey: 'userId'})
+      User.hasMany(models.ReplysComment, {foreignKey: 'userId'})
+      User.hasMany(models.FavouritesReplyComment, {foreignKey: 'userId'})
     }
   };
   User.init({

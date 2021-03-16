@@ -12,7 +12,6 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Province.hasMany(models.District, {foreignKey: 'provinceId'})
       Province.hasMany(models.User, {foreignKey: 'provinceId'})
-      Province.hasMany(models.Manager, {foreignKey: 'provinceId'})
     }
   };
   Province.init(
