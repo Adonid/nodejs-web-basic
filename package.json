@@ -4,13 +4,15 @@
   "description": "Khoi tao cau truc thu muc cho ung dung",
   "main": "app.js",
   "scripts": {
-    "dev": "node app"
+    "dev": "nodemon  app",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "LeeHieu",
   "license": "ISC",
   "dependencies": {
     "config": "^3.3.4",
     "express": "^4.17.1",
+    "express-rate-limit": "^5.2.6",
     "express-session": "^1.17.1",
     "global": "^4.4.0",
     "mysql": "^2.18.1",
@@ -18,5 +20,8 @@
     "sequelize": "^6.5.0",
     "sequelize-cli": "^6.2.0",
     "yarn": "^1.22.10"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
   }
 }

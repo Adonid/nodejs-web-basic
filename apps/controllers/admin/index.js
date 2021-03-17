@@ -1,14 +1,17 @@
 const express = require('express');
 const router = express.Router();
-const testadmin = require("./test");
+const auth = require("./authentication");
+const action = require("./action");
+
+/**
+ *  Route nay dung cho nguoi muon dang ky lam admin cua trang web
+ */
+router.use('/auth', auth)
+
+/**
+ *  Route nay dung cho admin dang dang ky, dang nhap muon vao lam viec
+ */
+ router.use('/', action)
 
 
-// Dung router o cac phan khac
-router.use('/test', testadmin);
-
-//Router dung chung cho tat ca ADMIN
-router.get('/', (req, res) => {
-    res.json({message: "This is Admin page popular"});
-});
-
-module.exports = router;
+module.exports = router

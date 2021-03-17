@@ -1,9 +1,15 @@
 const express = require('express');
 const router = express.Router();
 
-//Router dung cho test cac admin
+
+/**
+ * Ly du lieu cho trang dashboard ADMIN
+ * 
+ */
 router.get('/', (req, res) => {
-    res.json({message: "This is Admin page test"});
+    res.json({
+        error: "Du lieu cho trang DASHBOARD admin",
+    });
 });
 
 module.exports = router;

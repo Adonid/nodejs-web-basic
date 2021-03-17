@@ -24,6 +24,10 @@ module.exports = {
         allowNull: false,
         len: [0,16],
       },
+      active: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+      },
       fullName: {
         type: Sequelize.STRING,
         allowNull: true,

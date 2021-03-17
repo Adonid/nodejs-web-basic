@@ -24,6 +24,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.TEXT
       },
+      active: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+      },
       authorId: {
         allowNull: false,
         type: Sequelize.INTEGER,
