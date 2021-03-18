@@ -1,21 +1,17 @@
-const express = require('express');
-const router = express.Router();
-const register = require("./register");
-const login = require("./login");
-const resetPw = require("./resetPassword");
+const express = require('express')
+const router = express.Router()
+const register = require("./register")
+const login = require("./login")
+const resetPw = require("./resetPassword")
+
+// const {checkLimit} = require("../../../common")
 
 
 /**
- *  RATING LIMIT
+ *  So lan request khong qua nhieu trong 1 thoi gian nhat dinh
  * 
  */
- router.use( (req, res, next) => {
-    if (false){
-        res.send({error: 'Chua vuot qua validate!'})
-        return next('router')
-    }
-    next()
-});
+//  router.use(checkLimit(3,5))
 
 /**
  *  Route nay dung cho admin dang nhap
