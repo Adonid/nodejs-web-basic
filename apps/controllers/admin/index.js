@@ -11,7 +11,7 @@ router.use('/auth', auth)
 /**
  *  Route nay dung cho admin dang dang ky, dang nhap muon vao lam viec
  */
- router.use('/', action)
+ router.use('/dashboard', action)
 
 
 module.exports = router

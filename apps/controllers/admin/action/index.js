@@ -11,9 +11,11 @@ const users = require('./users')
  * Cac route khong dung hoac khong du tieu chuan se bi tra ve loi
  * 
  * Authenticate, Authorizator,
+ * 
+ * Bo qua tat ca cac method di vao ben duoi
  */
  router.use( (req, res, next) => {
-    if (false){
+    if (true){
         res.status(401).send({error: 'Chua vuot qua validate vao dashboard!'})
         return next('router')
     }
