@@ -1,10 +1,10 @@
-//  Qua trinh validate la 1 qua trinh DONG BO
 /**
+ * KIEM TRA DINH DANH DU LIEU REQ 
  * 
- * @param {*} req 
- * @param {*} res 
- * @param {*} next 
- * @returns {*} next
+ * @param req 
+ * @param res 
+ * @param next 
+ * @returns next, res
  * 
  */
 const loginValidation = (req, res, next) => {
