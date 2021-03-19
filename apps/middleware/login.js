@@ -1,28 +1,20 @@
-const {checkSchema } = require('express-validator')
 
 /**
  * 
- * SCHEMA matchs
- * 
+ * @param {]} req 
+ * @param {*} res 
+ * @param {*} next 
+ * @returns 
  */
 
-const schemaLogin = {
-    email: {
-        isEmail: {
-            errorMessage: 'Password should be at least 7 chars long',
-            bail: true,
-        },
-    },
-}
-
-
-/**
- * 
- * Methods xac thuc Authenticate & Authorizator
- * 
- */
- const adminLogin = (req, res, next) => {
-    checkSchema(schemaLogin)
+const adminLogin = (req, res, next) => {
+    if(true){
+        res.status(400).send({error: "Khong vuot qua duoc LOGIN"})
+        return next('route')
+    }
+    else{
+        return next()
+    }
 }
 
 module.exports={
