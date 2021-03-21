@@ -14,15 +14,42 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Role.init({
-    roleName: DataTypes.BOOLEAN,
-    configSys: DataTypes.BOOLEAN,
-    addPost: DataTypes.BOOLEAN,
-    delPost: DataTypes.BOOLEAN,
-    writePost: DataTypes.BOOLEAN,
-    addUser: DataTypes.BOOLEAN,
-    delUser: DataTypes.BOOLEAN,
-    writeUser: DataTypes.BOOLEAN,
-    delComment: DataTypes.BOOLEAN,
+    roleName: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    configSys: {
+      allowNull: false,
+      type: DataTypes.BOOLEAN,
+    },
+    addPost: {
+      allowNull: false,
+      type: DataTypes.BOOLEAN,
+    },
+    delPost: {
+      allowNull: false,
+      type: DataTypes.BOOLEAN,
+    },
+    writePost: {
+      allowNull: false,
+      type: DataTypes.BOOLEAN,
+    },
+    addUser: {
+      allowNull: false,
+      type: DataTypes.BOOLEAN,
+    },
+    delUser: {
+      allowNull: false,
+      type: DataTypes.BOOLEAN,
+    },
+    writeUser: {
+      allowNull: false,
+      type: DataTypes.BOOLEAN,
+    },
+    delComment: {
+      allowNull: false,
+      type: DataTypes.BOOLEAN,
+    },
   }, {
     sequelize,
     modelName: 'Role',
