@@ -9,19 +9,22 @@
 
 const _200 = {
     code: 200,
+    error: false,
     msg: "Thành công!"
 }
 
 const _201 = (name, as=null) => {
     return {
-        code: 200,
-        msg: `${as||name} đã được tạo thành công!`
+        code: 201,
+        error: false,
+        msg: `${as||name} thành công!`
     }
 }
 
 const _202 = (name, as=null) => {
     return {
         code: 200,
+        error: false,
         msg: `${as||name} đã được phê duyệt!`
     }
 }
@@ -38,6 +41,11 @@ const _422 = {
     error: "Thực thể không thể xử lý!"
 }
 /** Lỗi máy chủ 5 ×× */
+const _500 = {
+    code: 500,
+    error: "Uh! đã xảy ra lỗi!"
+}
+
 const _599 = {
     code: 599,
     error: "Lỗi hết thời gian chờ kết nối mạng"
@@ -116,5 +124,6 @@ module.exports={
     _202,
     _403,
     _422,
+    _500,
     _599,
 }

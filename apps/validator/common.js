@@ -2,6 +2,8 @@ const validator = require('validator')
 const {notices} = require('../common')
 const {User} = require('../../models')
 
+/** CAC METHODS NAY DUNG DE SOI CHIEU VOI DU LIEU CUA REQUEST - ONLY SELECT */
+
 
 /** KIEM TRA EMAIL CO BAN - khong rong - dung dinh dang
  * 
@@ -23,23 +25,26 @@ const emailCheckBase = email => {
  * 
  * @param email address
  * 
- * @return boolean
+ * @return boolean or OBJECT
 */
-const isUser = async email => {
-    await User.findAll({
+const emailAvailable = email => {
+    const data = User.findAll({
         where: {
             email: email
         }
     })
     .then(users => {
-        return users.toJSON!=undefined?users:false
+        if(users.length)
+            return users[0].dataValues
+        return false
     })
     .catch(err => {
         return false
     })
+    return data
 }
 
 module.exports={
     emailCheckBase,
-    isUser
+    emailAvailable
 }

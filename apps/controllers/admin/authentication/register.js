@@ -4,18 +4,26 @@ const {
     adminMiddleware
 } = require("../../../middleware")
 const {bcrypt} = require('../../../common')
+const {User} = require('../../../models')
+const {notices} = require('../../../common')
 
 /**
- *  TAO TAI KHOAN ADMIN or EDITOR
+ *  CONTROLLER TAO TAI KHOAN ADMIN or EDITOR
  * 
  * @params {name, email, password}
  * 
  * @returns msg
  */
-router.post('/', adminMiddleware.register, (req, res) => {
+router.post('/', adminMiddleware.register, async (req, res) => {
     const {name, email, password} = req.body
     const hash = bcrypt.hashPassword(password)
-    res.json({message: "Xu ly DANG KY cho admin", hash: hash});
+    const created = await User.createAdmin(name, email, hash)
+    if (created!==false) {
+        return res.json(notices._201('createManager', 'Đăng ký tài khoản admin'));
+    } else {
+        return res.json(notices._500);
+    }
+    
 });
 
 module.exports = router;

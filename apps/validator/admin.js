@@ -2,12 +2,12 @@ const {notices, regex} = require('../common')
 const validate = require('./common')
 
 /**
- * @params 
+ * @params req
  * @returns errors
  */
 
 
-const login = req => {
+const login = async req => {
     const {email, password} = req.body
 
     // Validate email
@@ -28,14 +28,16 @@ const login = req => {
     }
 
     // email nay phai dang ky roi
-    const user = validate.isUser(email)
-    if(user!==false)
+    let user = false
+    user = await validate.emailAvailable(email)
+    console.log(user);
+    if(!user)
         return notices.loginFailed
 
     return false
 }
 /**
- * @params 
+ * @params req
  * @returns errors
  */
 const register = req => {
@@ -67,8 +69,9 @@ const register = req => {
     }
 
     // email nay phai chua dang ky
-    const user = validate.isUser(email)
-    if(user===false)
+    const user = validate.emailAvailable(email)
+    console.log(user);
+    if(user)
         return notices.registerFailed
 
     return false

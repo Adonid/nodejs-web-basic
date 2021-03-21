@@ -33,6 +33,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     name: DataTypes.STRING,
+    active: DataTypes.BOOLEAN,
     fullName: DataTypes.STRING,
     phoneNumber: DataTypes.STRING,
     avatarUrl: DataTypes.TEXT,
@@ -50,6 +51,14 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id',
       }
     },
+    createdAt: {
+      allowNull: false,
+      type: DataTypes.DATE
+    },
+    updatedAt: {
+      allowNull: false,
+      type: DataTypes.DATE
+    }
   }, {
     sequelize,
     modelName: 'User',
