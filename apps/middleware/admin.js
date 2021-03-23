@@ -8,8 +8,8 @@ const {adminValidator} = require('../validator')
  * @returns 
  */
 
-const login = (req, res, next) => {
-    const errors = adminValidator.login(req)
+const login = async (req, res, next) => {
+    const errors = await adminValidator.login(req)
     if(errors){
         res.status(errors.code).send(errors)
         return next('route')

@@ -12,8 +12,9 @@ const login = async req => {
 
     // Validate email
     const emailBase = validate.emailCheckBase(email)
-    if(emailBase)
+    if(emailBase){
         return emailBase
+    }
     if(email.length < 9 || email.length > 32){
         return notices.loginFailed
     }
@@ -28,12 +29,14 @@ const login = async req => {
     }
 
     // email nay phai dang ky roi
-    let user = false
-    user = await validate.emailAvailable(email)
-    console.log(user);
-    if(!user)
+    const user = await validate.emailAvailable(email)
+                        .then(data => data)
+                        .catch(err=>err)
+    console.log(user + " validate", notices.loginFailed)
+    if(!user){
         return notices.loginFailed
-
+    }
+        
     return false
 }
 /**

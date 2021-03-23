@@ -28,20 +28,18 @@ const emailCheckBase = email => {
  * @return boolean or OBJECT
 */
 const emailAvailable = email => {
-    const data = User.findAll({
-        where: {
-            email: email
-        }
+    return new Promise( async (resolve, reject) => {
+        const data = await User.findAll({
+            where: {
+                email: email  
+            }
+        })
+        console.log(data[0] + " promise")
+        if(data[0]||false)
+            resolve(data[0].dataValues)
+        else
+            reject(false)
     })
-    .then(users => {
-        if(users.length)
-            return users[0].dataValues
-        return false
-    })
-    .catch(err => {
-        return false
-    })
-    return data
 }
 
 module.exports={
