@@ -1,4 +1,4 @@
-const {notices, regex} = require('../common')
+const {notices, regex, bcrypt} = require('../common')
 const validate = require('./common')
 
 /**
@@ -28,14 +28,17 @@ const login = async req => {
         return notices.loginFailed
     }
 
-    // email nay phai dang ky roi
+    // email nay phai dang ky ROI
     const user = await validate.emailAvailable(email)
                         .then(data => data)
                         .catch(err=>err)
-    console.log(user + " validate", notices.loginFailed)
-    if(!user){
+    if(!user)
         return notices.loginFailed
-    }
+        
+    // Mat khau phai trung khop
+    const compare = bcrypt.comparePassword(password, user.password)
+    if(!compare)
+        return notices.loginFailed
         
     return false
 }
@@ -43,7 +46,7 @@ const login = async req => {
  * @params req
  * @returns errors
  */
-const register = req => {
+const register = async req => {
     const {name, email, password, repassword} = req.body
 
     // Validate username
@@ -71,9 +74,10 @@ const register = req => {
         return notices.notDuplicate
     }
 
-    // email nay phai chua dang ky
-    const user = validate.emailAvailable(email)
-    console.log(user);
+    // email nay phai CHUA dang ky
+    const user = await validate.emailAvailable(email)
+                        .then(data => data)
+                        .catch(err=>err)
     if(user)
         return notices.registerFailed
 

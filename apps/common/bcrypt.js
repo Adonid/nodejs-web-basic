@@ -19,10 +19,7 @@ const hashPassword = password => {
  * @param password 
  * @returns boolean
  */
-const comparePassword = password => {
-    const hash = hashPassword(password)
-    return bcrypt.compareSync(password, hash)
-}
+const comparePassword = (password, hash) => bcrypt.compareSync(password, hash)
 
 module.exports={
     hashPassword,

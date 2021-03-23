@@ -17,8 +17,8 @@ const login = async (req, res, next) => {
     return next()
 }
 
-const register = (req, res, next) => {
-    const errors = adminValidator.register(req)
+const register = async (req, res, next) => {
+    const errors = await adminValidator.register(req)
     if(errors){
         res.status(errors.code).send(errors)
         return next('route')

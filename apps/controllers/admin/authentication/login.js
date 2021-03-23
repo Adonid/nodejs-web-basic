@@ -1,5 +1,5 @@
-const express = require('express');
-const router = express.Router();
+const express = require('express')
+const router = express.Router()
 
 const {
     adminMiddleware
@@ -15,7 +15,8 @@ const {
  */
 router.post('/', adminMiddleware.login, (req, res) => {
     // Du lieu da OK - thuc thi logic cho du lieu ly tuong phia MODEL
-    res.json({message: "Xu ly DANG NHAP cho admin"});
+    // Tra ve MA JWT & huong toi trang chu DASHBOARD
+    res.json({message: "Xu ly DANG NHAP cho admin"})
 });
 
-module.exports = router;
+module.exports = router

@@ -34,7 +34,6 @@ const emailAvailable = email => {
                 email: email  
             }
         })
-        console.log(data[0] + " promise")
         if(data[0]||false)
             resolve(data[0].dataValues)
         else

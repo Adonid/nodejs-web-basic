@@ -20,7 +20,6 @@ const createAdmin = async (name, email, password) => {
         return user?true:false
     })
     .catch(err => {
-        console.log(err);
         return false
     })
     return user
