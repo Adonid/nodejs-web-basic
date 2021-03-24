@@ -1,5 +1,25 @@
 const {User} = require('../../models')
 
+/** KIEM TRA SU TON TAI CUA TAI KHOAN THEO EMAIL 
+ * 
+ * @param email address
+ * 
+ * @return boolean or OBJECT
+*/
+const emailAvailable = email => {
+    return new Promise( async (resolve, reject) => {
+        const data = await User.findAll({
+            where: {
+                email: email  
+            }
+        })
+        if(data[0]||false)
+            resolve(data[0].dataValues)
+        else
+            reject(false)
+    })
+}
+
 /** LUU TAI KHOAN ADMIN DANG KY
  * 
  * @param {*} name 
@@ -52,6 +72,7 @@ const createEditor = async (name, email, password) => {
 }
 
 module.exports={
+    emailAvailable,
     createAdmin,
     createEditor
 }

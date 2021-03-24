@@ -1,4 +1,4 @@
-const {adminValidator} = require('../validator')
+const {General} = require('../validator')
 
 /**
  * 
@@ -9,7 +9,7 @@ const {adminValidator} = require('../validator')
  */
 
 const login = async (req, res, next) => {
-    const errors = await adminValidator.login(req)
+    const errors = await General.login(req)
     if(errors){
         res.status(errors.code).send(errors)
         return next('route')
@@ -18,7 +18,7 @@ const login = async (req, res, next) => {
 }
 
 const register = async (req, res, next) => {
-    const errors = await adminValidator.register(req)
+    const errors = await General.register(req)
     if(errors){
         res.status(errors.code).send(errors)
         return next('route')

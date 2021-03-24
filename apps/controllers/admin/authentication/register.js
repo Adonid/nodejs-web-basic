@@ -19,9 +19,9 @@ router.post('/', adminMiddleware.register, async (req, res) => {
     const hash = bcrypt.hashPassword(password)
     const created = await User.createAdmin(name, email, hash)
     if (created!==false) {
-        return res.json(notices._201('createManager', 'Đăng ký tài khoản admin'))
+        return res.status(201).json(notices._201('createManager', 'Đăng ký tài khoản admin'))
     } else {
-        return res.json(notices._500)
+        return res.status(500).json(notices._500)
     }
     
 })

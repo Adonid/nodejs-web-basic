@@ -48,7 +48,7 @@ const _500 = {
 
 const _599 = {
     code: 599,
-    error: "Lỗi hết thời gian chờ kết nối mạng"
+    error: "Lỗi! hết thời gian chờ kết nối mạng"
 }
 
 /** Lỗi ở các trường dữ liệu */
@@ -65,7 +65,7 @@ const fieldEmpty = (name, as=null) => {
     return {
         code: 411,
         field: name,
-        error: `Uh ${as||name} rỗng rồi kìa!`
+        error: `Uh ${as||name} không để trống nhé!`
     }
 }
 
@@ -102,6 +102,11 @@ const loginFailed = {
     field: "login",
     error: "Uh! email hoặc mật khẩu chưa đúng!"
 }
+const userNotActive = {
+    code: 401,
+    field: "login",
+    error: "Uh! tài khoản của bạn đang chờ admin kích hoạt nhé!"
+}
 
 /** BAO LOI KHI DANG KY TAI KHOAN */
 const registerFailed = {
@@ -117,6 +122,7 @@ module.exports={
     passwordNotFormat,
     notDuplicate,
     loginFailed,
+    userNotActive,
     registerFailed,
     notEmail,
     _200,

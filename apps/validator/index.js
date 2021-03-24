@@ -1,7 +1,6 @@
-const adminValidator = require("./admin")
-const common = require("./common")
+
+const General = require("./general")
 
 module.exports={
-    adminValidator,
-    common
+    General
 }
