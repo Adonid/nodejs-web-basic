@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const {Passport} = require('../../../common')
+const passport = require('passport')
 const dashboard = require('./dashboard')
 const users = require('./users')
 
@@ -16,8 +16,9 @@ const users = require('./users')
  * Bo qua tat ca cac method di vao ben duoi
  */
 
+//  passport.use( Passport.applyPassport())
 
- Passport.applyPassport()
+router.use(passport.authenticate('jwt', { session: false }))
 
 // router.use(passport.initialize())
 

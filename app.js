@@ -6,12 +6,13 @@ const config = require(__dirname+'/config/config.json');
 const controllers = require(__dirname + '/apps/controllers');
 // Use passport
 const passport = require('passport')
+const {Passport} = require('./apps/services')
 // Use express
 const app = express();
 
 
 // Dua passport vao su dung
-app.use(passport.initialize())
+Passport.applyPassportStrategy(passport)
 // Dua req ve dang json va chi lam viec voi json
 app.use(express.json());
 // Cau hinh file static

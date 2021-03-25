@@ -8,7 +8,7 @@ const router = express.Router();
  */
 router.get('/', (req, res) => {
     res.json({
-        error: "Du lieu cho trang DASHBOARD admin",
+        msg: "Du lieu cho trang DASHBOARD admin",
     });
 });
 
