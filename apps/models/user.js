@@ -2,19 +2,17 @@ const {User} = require('../../models')
 
 /** KIEM TRA SU TON TAI CUA TAI KHOAN THEO EMAIL 
  * 
- * @param email address
+ * @param obj options - {email: "123hello@gmail.com"}...
  * 
  * @return boolean or OBJECT
 */
-const emailAvailable = email => {
+const getUser = obj => {
     return new Promise( async (resolve, reject) => {
-        const data = await User.findAll({
-            where: {
-                email: email  
-            }
+        const data = await User.findOne({
+            where: obj
         })
-        if(data[0]||false)
-            resolve(data[0].dataValues)
+        if(data.dataValues||false)
+            resolve(data.dataValues)
         else
             reject(false)
     })
@@ -72,7 +70,7 @@ const createEditor = async (name, email, password) => {
 }
 
 module.exports={
-    emailAvailable,
+    getUser,
     createAdmin,
     createEditor
 }

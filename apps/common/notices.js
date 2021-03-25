@@ -29,6 +29,15 @@ const _202 = (name, as=null) => {
     }
 }
 
+const loginSuccess = token => {
+    return {
+        code: 200,
+        error: false,
+        msg: "Đăng nhập thành công!",
+        token
+    }
+}
+
 
 /** Lỗi máy khách 4 ×× */
 const _403 = {
@@ -128,6 +137,7 @@ module.exports={
     _200,
     _201,
     _202,
+    loginSuccess,
     _403,
     _422,
     _500,

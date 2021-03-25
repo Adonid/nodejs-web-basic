@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const {notices, jwt} = require('../../../common')
 
 const {
     adminMiddleware
@@ -13,10 +14,12 @@ const {
  * @return json
  * 
  */
-router.post('/', adminMiddleware.login, (req, res) => {
-    // Du lieu da OK - thuc thi logic cho du lieu ly tuong phia MODEL
-    // Tra ve MA JWT & huong toi trang chu DASHBOARD
-    res.json({message: "Xu ly DANG NHAP cho admin"})
+router.post('/', adminMiddleware.login, async (req, res) => {
+    const {email} = req.body
+    // Tra ve MA JWT cho ADMIN
+    const token = await jwt.generateToken(email)
+    const info = notices.loginSuccess(token)
+    return res.status(info.code).json(info)
 });
 
 module.exports = router

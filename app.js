@@ -4,10 +4,14 @@ const express = require('express');
 const config = require(__dirname+'/config/config.json');
 // Use for route & controller
 const controllers = require(__dirname + '/apps/controllers');
+// Use passport
+const passport = require('passport')
 // Use express
 const app = express();
 
 
+// Dua passport vao su dung
+app.use(passport.initialize())
 // Dua req ve dang json va chi lam viec voi json
 app.use(express.json());
 // Cau hinh file static

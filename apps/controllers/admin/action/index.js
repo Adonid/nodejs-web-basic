@@ -1,5 +1,6 @@
-const express = require('express');
-const router = express.Router();
+const express = require('express')
+const router = express.Router()
+const {Passport} = require('../../../common')
 const dashboard = require('./dashboard')
 const users = require('./users')
 
@@ -14,13 +15,11 @@ const users = require('./users')
  * 
  * Bo qua tat ca cac method di vao ben duoi
  */
- router.use( (req, res, next) => {
-    if (true){
-        res.status(401).send({error: 'Chua vuot qua validate vao dashboard!'})
-        return next('router')
-    }
-    next()
-});
+
+
+ Passport.applyPassport()
+
+// router.use(passport.initialize())
 
 /**
  *  Route cho phep vao lay ra du lieu cho trang dashboard

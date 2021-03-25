@@ -47,7 +47,7 @@ const emailCheckBase = email => {
     }
 
     // email nay phai dang ky ROI
-    const user = await User.emailAvailable(email)
+    const user = await User.getUser({email})
                         .then(data => data)
                         .catch(err=>err)
     if(!user)
@@ -98,7 +98,7 @@ const register = async req => {
     }
 
     // email nay phai CHUA dang ky
-    const user = await User.emailAvailable(email)
+    const user = await User.getUser({email})
                         .then(data => data)
                         .catch(err=>err)
     if(user)
