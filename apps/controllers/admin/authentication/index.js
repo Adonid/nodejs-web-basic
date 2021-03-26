@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const register = require("./register")
 const login = require("./login")
-const resetPw = require("./resetPassword")
+const verifyEmail = require("./verifyEmail")
 
 // const {checkLimit} = require("../../../common")
 
@@ -28,7 +28,7 @@ router.use('/register', register)
 /**
  *  Route nay dung cho admin muon reset mat khau
  */
- router.use('/reset-password', resetPw)
+ router.use('/reset-password', verifyEmail)
 
 
 module.exports = router

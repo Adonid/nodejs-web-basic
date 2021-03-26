@@ -5,7 +5,7 @@ const {General} = require('../validator')
  * @param {]} req 
  * @param {*} res 
  * @param {*} next 
- * @returns 
+ * @returns next('route') | next()
  */
 
 const login = async (req, res, next) => {
@@ -26,7 +26,17 @@ const register = async (req, res, next) => {
     return next()
 }
 
+const verifyEmail = async (req, res, next) => {
+    const errors = await General.isValidEmail(req)
+    if(errors){
+        res.status(errors.code).send(errors)
+        return next('route')
+    }
+    return next()
+}
+
 module.exports={
     login,
-    register
+    register,
+    verifyEmail
 }

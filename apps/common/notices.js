@@ -124,6 +124,13 @@ const registerFailed = {
     error: "Uh! email này đã đăng ký tài khoản rồi!"
 }
 
+/** LOI EMAIL CHUA DANG KY or KHONG TON TAI */
+const notValidEmail = {
+    code: 401,
+    field: "email",
+    error: "Uh! email này bạn chưa đăng ký hoặc không tồn tại!"
+}
+
 module.exports={
     fieldEmpty,
     lengthNotIn,
@@ -133,6 +140,7 @@ module.exports={
     loginFailed,
     userNotActive,
     registerFailed,
+    notValidEmail,
     notEmail,
     _200,
     _201,
