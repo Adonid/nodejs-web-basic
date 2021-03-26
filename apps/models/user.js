@@ -11,7 +11,7 @@ const getUser = obj => {
         const data = await User.findOne({
             where: obj
         })
-        if(data.dataValues||false)
+        if(data)
             resolve(data.dataValues)
         else
             reject(false)

@@ -10,14 +10,13 @@ const applyPassportStrategy = passport => {
       const user = await User.getUser({email: payload.email})
                       .then(data => data)
                       .catch(err=>err)
-      console.log(user)
       if (user) {
         return done(null, {
           email: user.email,
           _id: user[config.underscoreId]
         })
       }
-      return done(null, false)
+      return done(null, false, {msg: "Uh, bạn đăng nhập trước đã nhé!"})
     })
   )
 }

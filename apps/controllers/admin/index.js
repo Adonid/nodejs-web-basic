@@ -12,7 +12,7 @@ router.use('/auth', checkLimit(7, 3), auth)
 /**
  *  Route nay dung cho admin dang dang ky, dang nhap muon vao lam viec
  */
- router.use('/dashboard', checkLimit(15, 2), action)
+ router.use('/dashboard', checkLimit(20, 3), action)
 
 
 module.exports = router
