@@ -28,7 +28,7 @@ router.use('/register', register)
 /**
  *  Route nay dung cho admin muon reset mat khau
  */
- router.use('/reset-password', verifyEmail)
+ router.use('/forgot-password', verifyEmail)
 
 
 module.exports = router

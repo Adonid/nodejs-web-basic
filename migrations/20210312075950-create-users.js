@@ -28,6 +28,10 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         allowNull: false,
       },
+      codeReset: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
       fullName: {
         type: Sequelize.STRING,
         allowNull: true,

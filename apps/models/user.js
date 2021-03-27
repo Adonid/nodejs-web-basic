@@ -69,8 +69,28 @@ const createEditor = async (name, email, password) => {
     return user
 }
 
+/** CAP NHAT 1 FIELD TRONG BANG USER
+ * 
+ * @params email
+ * @returns code
+ */
+const updateUser = async (value, index) => {
+    const user = await User.update(value, {
+        where: index    
+    })
+    .then(() => {
+        console.log(user)
+        return user||false
+    })
+    .catch(err => {
+        return false
+    })
+    return user
+}
+
 module.exports={
     getUser,
     createAdmin,
-    createEditor
+    createEditor,
+    updateUser
 }

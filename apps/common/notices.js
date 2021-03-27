@@ -38,6 +38,15 @@ const loginSuccess = token => {
     }
 }
 
+const resetCodeSuccess = email => {
+    return {
+        code: 200,
+        error: false,
+        msg: "Bạn hãy nhập mã xác nhận đã được gửi vào email của bạn để đổi mật khẩu nhé!",
+        email
+    }
+}
+
 
 /** Lỗi máy khách 4 ×× */
 const _403 = {
@@ -146,6 +155,7 @@ module.exports={
     _201,
     _202,
     loginSuccess,
+    resetCodeSuccess,
     _403,
     _422,
     _500,
