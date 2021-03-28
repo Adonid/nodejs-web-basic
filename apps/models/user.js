@@ -79,12 +79,23 @@ const updateUser = async (value, index) => {
         where: index    
     })
     .then((data) => {
+        console.log(data)
         return data||false
     })
     .catch(err => {
         return false
     })
-    return user
+    if(user){
+        const data = await getUser(index)
+                           .then(u => u)
+                           .catch(err => false)
+        if(data){
+            const {name, fullName} = data
+            return {name, fullName}
+        }
+        return false
+    }
+    return false
 }
 
 module.exports={
