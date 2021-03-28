@@ -42,7 +42,7 @@ const resetCodeSuccess = email => {
     return {
         code: 200,
         error: false,
-        msg: "Bạn hãy nhập mã xác nhận đã được gửi vào email của bạn để đổi mật khẩu nhé!",
+        msg: "Mã xác minh đã được gửi vào email của bạn, vui lòng dùng mã để thay đổi mật khẩu!",
         email
     }
 }

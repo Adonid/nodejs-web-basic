@@ -78,9 +78,8 @@ const updateUser = async (value, index) => {
     const user = await User.update(value, {
         where: index    
     })
-    .then(() => {
-        console.log(user)
-        return user||false
+    .then((data) => {
+        return data||false
     })
     .catch(err => {
         return false

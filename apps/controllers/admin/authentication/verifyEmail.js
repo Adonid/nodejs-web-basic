@@ -1,10 +1,13 @@
 const express = require('express')
 const router = express.Router()
+const {notices} = require('../../../common')
 const {
     adminMiddleware
 } = require('../../../middleware')
 const {User} = require('../../../models')
 const {Random} = require('../../../helpers')
+const {Mailer} = require('../../../services')
+const codeResetEmail = require('../../../../views/codeResetEmail.js')
 
 /**
  * XAC MINH TAI KHOAN  & GUI EMAIL CHUA LINK DOI MAT KHAU
@@ -15,14 +18,20 @@ const {Random} = require('../../../helpers')
  */
 router.post('/', adminMiddleware.verifyEmail, async (req, res) => {
     const {email} = req.body
-    const codeReset = Random.makeCodeReset(8)
+    const codeReset = Random.makeCodeReset(5)
     const update = await User.updateUser({codeReset}, {email})
-    if (update!==false) {
+    if (update) {
         // Gui email chua codereset
-        return res.status(201).json(notices.resetCodeSuccess(email))
+        const isSendMail = await Mailer.sendMail(email, "Xin chào! Mã xác minh thay đổi mật khẩu của bạn", codeResetEmail)
+        if(isSendMail)
+            return res.status(201).json(notices.resetCodeSuccess(email))
+        else
+            return res.status(500).json(notices._500)
+        
+        // return res.status(201).json(notices.resetCodeSuccess(email))
     } else {
         return res.status(500).json(notices._500)
     }
-}); 
+})
 
 module.exports = router
