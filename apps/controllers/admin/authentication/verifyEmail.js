@@ -7,7 +7,7 @@ const {
 const {User} = require('../../../models')
 const {Random} = require('../../../helpers')
 const {Mailer} = require('../../../services')
-const codeResetEmail = require('../../../../views/codeResetEmail.js')
+const {ResetPassword} = require('../../../../views')
 
 /**
  * XAC MINH TAI KHOAN  & GUI EMAIL CHUA LINK DOI MAT KHAU
@@ -22,7 +22,7 @@ router.post('/', adminMiddleware.verifyEmail, async (req, res) => {
     const update = await User.updateUser({codeReset}, {email})
     if (update) {
         // Gui email chua codereset
-        const isSendMail = await Mailer.sendMail(email, "Xin chào! Mã xác minh thay đổi mật khẩu của bạn", codeResetEmail)
+        const isSendMail = await Mailer.sendMail(email, "Xin chào! Mã xác minh thay đổi mật khẩu của bạn", ResetPassword.contentMail({codeReset}))
         if(isSendMail)
             return res.status(201).json(notices.resetCodeSuccess(email))
         else
