@@ -74,19 +74,19 @@ const createEditor = async (name, email, password) => {
  * @params email
  * @returns code
  */
-const updateUser = async (value, index) => {
+const updateUser = async (value, index, indexPrimary=false) => {
+    console.log(value, index)
     const user = await User.update(value, {
         where: index    
     })
     .then((data) => {
-        console.log(data)
         return data||false
     })
     .catch(err => {
         return false
     })
     if(user){
-        const data = await getUser(index)
+        const data = await getUser(indexPrimary||index)
                            .then(u => u)
                            .catch(err => false)
         if(data){

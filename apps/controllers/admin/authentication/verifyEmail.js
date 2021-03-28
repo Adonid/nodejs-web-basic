@@ -14,7 +14,7 @@ const {ResetPassword} = require('../../../../views')
  * 
  * @params email
  * 
- * @returns 
+ * @returns string notifies
  */
 router.post('/', adminMiddleware.verifyEmail, async (req, res) => {
     const {email} = req.body

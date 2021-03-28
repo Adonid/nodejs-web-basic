@@ -3,6 +3,7 @@ const router = express.Router()
 const register = require("./register")
 const login = require("./login")
 const verifyEmail = require("./verifyEmail")
+const updatePassword = require("./updatePassword")
 
 // const {checkLimit} = require("../../../common")
 
@@ -26,9 +27,15 @@ const verifyEmail = require("./verifyEmail")
 router.use('/register', register)
 
 /**
- *  Route nay dung cho admin muon reset mat khau
+ *  Route nay dung cho admin quen mat khau
  */
  router.use('/forgot-password', verifyEmail)
+
+/**
+ *  Route nay dung cho admin muon reset lai mat khau
+ */
+ router.use('/reset-password', updatePassword)
+
 
 
 module.exports = router

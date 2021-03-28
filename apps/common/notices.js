@@ -140,6 +140,14 @@ const notValidEmail = {
     error: "Uh! email này bạn chưa đăng ký hoặc không tồn tại!"
 }
 
+/** LOI DU LIEU XAC THUC CAP NHAT MAT KHAU KHONG DUNG */
+const notDataResetPassword = {
+    code: 401,
+    field: "reset-password",
+    error: "Uh! Mã xác minh chưa đúng"
+}
+
+
 module.exports={
     fieldEmpty,
     lengthNotIn,
@@ -150,6 +158,7 @@ module.exports={
     userNotActive,
     registerFailed,
     notValidEmail,
+    notDataResetPassword,
     notEmail,
     _200,
     _201,

@@ -131,10 +131,50 @@ const register = async req => {
 
     return false
 }
+/**
+ * @params req
+ * @returns errors
+ */
+const isResetPassword = async req => {
+    const {email, codeReset, password, repassword} = req.body
+    // Validate codeReset
+    const code = codeReset.toString()
+    if(!code || !code.trim() || code.length !== 5){
+        return notices.notDataResetPassword
+    }
+    // Validate email
+    const emailBase = emailCheckBase(email)
+    if(emailBase)
+        return notices.notDataResetPassword
+    if(email.length < 9 || email.length > 32){
+        return notices.notDataResetPassword
+    }
+    // Validate pasword
+    if(!password || !password.trim()){
+        return notices.fieldEmpty('password')
+    }
+    if(regex.password(password)){
+        return notices.passwordNotFormat
+    }
+    if(password!==repassword){
+        return notices.notDuplicate
+    }
+
+    // Du lieu yeu cau reset password phai khop voi du lieu da luu tru
+    const user = await User.getUser({email, codeReset})
+                        .then(data => data)
+                        .catch(err=>err)
+    if(!user)
+        return notices.notDataResetPassword
+
+    return false
+}
+
 
 module.exports={
     emailCheckBase,
     isValidEmail,
     login,
-    register
+    register,
+    isResetPassword
 }
