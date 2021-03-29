@@ -1,5 +1,5 @@
-const adminMiddleware = require("./admin")
+const generalMiddleware = require("./general")
 
 module.exports={
-    adminMiddleware
+    generalMiddleware
 }

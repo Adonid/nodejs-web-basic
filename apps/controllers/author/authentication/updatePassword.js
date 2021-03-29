@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const {notices, bcrypt} = require('../../../common')
 const {
-    adminMiddleware
+    generalMiddleware
 } = require('../../../middleware')
 const {User} = require('../../../models')
 
@@ -13,7 +13,7 @@ const {User} = require('../../../models')
  * 
  * @returns string notifies
  */
-router.post('/', adminMiddleware.updatePassword, async (req, res) => {
+router.post('/', generalMiddleware.updatePassword, async (req, res) => {
     // Du lieu CLEAR
     const {email, codeReset, password} = req.body
     const hash = bcrypt.hashPassword(password)

@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const {
-    adminMiddleware
+    generalMiddleware
 } = require("../../../middleware")
 const {bcrypt} = require('../../../common')
 const {User} = require('../../../models')
@@ -14,7 +14,7 @@ const {notices} = require('../../../common')
  * 
  * @returns msg
  */
-router.post('/', adminMiddleware.register, async (req, res) => {
+router.post('/', generalMiddleware.register, async (req, res) => {
     const {name, email, password} = req.body
     const hash = bcrypt.hashPassword(password)
     const created = await User.createAdmin(name, email, hash)

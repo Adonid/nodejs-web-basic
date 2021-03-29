@@ -4,7 +4,7 @@ const {notices} = require('../../../common')
 const {JwtStrategy} = require('../../../services')
 
 const {
-    adminMiddleware
+    generalMiddleware
 } = require("../../../middleware")
 
 /**
@@ -15,7 +15,7 @@ const {
  * @return json
  * 
  */
-router.post('/', adminMiddleware.login, async (req, res) => {
+router.post('/', generalMiddleware.login, async (req, res) => {
     const {email} = req.body
     // Tra ve MA JWT cho ADMIN
     const token = await JwtStrategy.generateToken(email)

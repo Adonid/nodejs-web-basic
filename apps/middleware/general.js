@@ -1,4 +1,4 @@
-const {General} = require('../validator')
+const {GeneralMiddleware} = require('../validator')
 
 /**
  * 
@@ -9,7 +9,7 @@ const {General} = require('../validator')
  */
 
 const login = async (req, res, next) => {
-    const errors = await General.login(req)
+    const errors = await GeneralMiddleware.login(req)
     if(errors){
         res.status(errors.code).send(errors)
         return next('route')
@@ -18,7 +18,7 @@ const login = async (req, res, next) => {
 }
 
 const register = async (req, res, next) => {
-    const errors = await General.register(req)
+    const errors = await GeneralMiddleware.register(req)
     if(errors){
         res.status(errors.code).send(errors)
         return next('route')
@@ -27,7 +27,7 @@ const register = async (req, res, next) => {
 }
 
 const verifyEmail = async (req, res, next) => {
-    const errors = await General.isValidEmail(req)
+    const errors = await GeneralMiddleware.isValidEmail(req)
     if(errors){
         res.status(errors.code).send(errors)
         return next('route')
@@ -36,7 +36,7 @@ const verifyEmail = async (req, res, next) => {
 }
 
 const updatePassword = async (req, res, next) => {
-    const errors = await General.isResetPassword(req)
+    const errors = await GeneralMiddleware.isResetPassword(req)
     if(errors){
         res.status(errors.code).send(errors)
         return next('route')

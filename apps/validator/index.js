@@ -1,6 +1,6 @@
 
-const General = require("./general")
+const GeneralMiddleware = require("./general")
 
 module.exports={
-    General
+    GeneralMiddleware
 }
