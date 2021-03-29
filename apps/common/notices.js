@@ -144,7 +144,7 @@ const notValidEmail = {
 const notDataResetPassword = {
     code: 401,
     field: "reset-password",
-    error: "Uh! Mã xác minh chưa đúng"
+    error: "Uh! Mã xác minh chưa đúng hoặc không phải dành cho email này"
 }
 
 

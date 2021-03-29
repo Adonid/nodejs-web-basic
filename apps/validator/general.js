@@ -110,7 +110,7 @@ const register = async req => {
  * @params req
  * @returns errors
  */
-const isResetPassword = async req => {
+const isResetPassword = req => {
     const {email, codeReset, password, repassword} = req.body
     // Validate codeReset
     const code = codeReset.toString()
@@ -134,13 +134,6 @@ const isResetPassword = async req => {
     if(password!==repassword){
         return notices.notDuplicate
     }
-
-    // Du lieu yeu cau reset password phai khop voi du lieu da luu tru
-    const user = await User.getUser({email, codeReset})
-                        .then(data => data)
-                        .catch(err=>err)
-    if(!user)
-        return notices.notDataResetPassword
 
     return false
 }

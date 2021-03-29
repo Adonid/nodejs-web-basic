@@ -1,6 +1,6 @@
 const {notices} = require('../common')
 const {User} = require('../models')
-const {emailCheckBase} = require('./general')
+const GeneralValidation = require('./general')
 
 /** KIEM TRA XEM EMAIL NAY DA DANG KY CHUA
  * 
@@ -10,7 +10,7 @@ const {emailCheckBase} = require('./general')
  const isValidEmailEditor = async req => {
     const {email} = req.body
     // Validate email
-    const emailBase = emailCheckBase(email)
+    const emailBase = GeneralValidation.emailCheckBase(email)
     if(emailBase){
         return emailBase
     }
@@ -27,6 +27,30 @@ const {emailCheckBase} = require('./general')
     
 }
 
+/** KIEM TRA XEM req nay co du tieu chuan de update password CHO EDITOR khong
+ * @params req
+ * @returns errors
+ */
+ const isResetPasswordEditor = async req => {
+    const {email, codeReset} = req.body
+    const roleId = 2
+    // Kiem tra so bo req
+    const isReset = GeneralValidation.isResetPassword(req)
+    if(isReset)
+        return isReset
+
+    // Du lieu yeu cau reset password phai khop voi du lieu da luu tru CUA EDITOR
+    const user = await User.getUser({email, codeReset, roleId})
+                        .then(data => data)
+                        .catch(err=>err)
+    if(!user)
+        return notices.notDataResetPassword
+
+    return false
+}
+
+
 module.exports={
-    isValidEmailEditor
+    isValidEmailEditor,
+    isResetPasswordEditor
 }

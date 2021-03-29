@@ -75,7 +75,6 @@ const createEditor = async (name, email, password) => {
  * @returns code
  */
 const updateUser = async (value, index, indexPrimary=false) => {
-    console.log(value, index)
     const user = await User.update(value, {
         where: index    
     })
