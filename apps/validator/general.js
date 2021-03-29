@@ -21,31 +21,6 @@ const emailCheckBase = email => {
     return false
 }
 
-/** KIEM TRA XEM EMAIL NAY DA DANG KY CHUA
- * 
- * @param req 
- * @returns boolean | json
- */
-const isValidEmail = async req => {
-    const {email} = req.body
-    // Validate email
-    const emailBase = emailCheckBase(email)
-    if(emailBase){
-        return emailBase
-    }
-    if(email.length < 9 || email.length > 32){
-        return notices.notEmail
-    }
-    // Check email is valid in database 
-    const user = await User.getUser({email})
-                        .then(data => data)
-                        .catch(err=>err)
-    if(!user)
-        return notices.notValidEmail
-    return false
-    
-}
-
 /**
  * @params req
  * @returns errors
@@ -173,7 +148,6 @@ const isResetPassword = async req => {
 
 module.exports={
     emailCheckBase,
-    isValidEmail,
     login,
     register,
     isResetPassword

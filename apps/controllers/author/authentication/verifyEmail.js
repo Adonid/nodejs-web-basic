@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const {notices} = require('../../../common')
 const {
-    generalMiddleware
+    editorMiddleware
 } = require('../../../middleware')
 const {User} = require('../../../models')
 const {Random} = require('../../../helpers')
@@ -16,7 +16,7 @@ const {ResetPassword} = require('../../../../views')
  * 
  * @returns string notifies
  */
-router.post('/', generalMiddleware.verifyEmail, async (req, res) => {
+router.post('/', editorMiddleware.verifyEmailEditor, async (req, res) => {
     const {email} = req.body
     const codeReset = Random.makeCodeReset(5)
     const update = await User.updateUser({codeReset}, {email})

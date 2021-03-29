@@ -137,7 +137,7 @@ const registerFailed = {
 const notValidEmail = {
     code: 401,
     field: "email",
-    error: "Uh! email này bạn chưa đăng ký hoặc không tồn tại!"
+    error: "Uh! email này chưa đăng ký hoặc không thuộc về bạn!"
 }
 
 /** LOI DU LIEU XAC THUC CAP NHAT MAT KHAU KHONG DUNG */

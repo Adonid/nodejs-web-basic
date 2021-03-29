@@ -1,5 +1,9 @@
 const generalMiddleware = require("./general")
+const adminMiddleware = require("./admin")
+const editorMiddleware = require("./editor")
 
 module.exports={
-    generalMiddleware
+    generalMiddleware,
+    adminMiddleware,
+    editorMiddleware
 }

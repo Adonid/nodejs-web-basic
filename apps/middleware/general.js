@@ -26,15 +26,6 @@ const register = async (req, res, next) => {
     return next()
 }
 
-const verifyEmail = async (req, res, next) => {
-    const errors = await generalValidation.isValidEmail(req)
-    if(errors){
-        res.status(errors.code).send(errors)
-        return next('route')
-    }
-    return next()
-}
-
 const updatePassword = async (req, res, next) => {
     const errors = await generalValidation.isResetPassword(req)
     if(errors){
@@ -47,6 +38,5 @@ const updatePassword = async (req, res, next) => {
 module.exports={
     login,
     register,
-    verifyEmail,
     updatePassword
 }

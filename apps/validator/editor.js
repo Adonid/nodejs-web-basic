@@ -7,7 +7,7 @@ const {emailCheckBase} = require('./general')
  * @param req 
  * @returns boolean | json
  */
- const isValidEmailAdmin = async req => {
+ const isValidEmailEditor = async req => {
     const {email} = req.body
     // Validate email
     const emailBase = emailCheckBase(email)
@@ -18,7 +18,7 @@ const {emailCheckBase} = require('./general')
         return notices.notEmail
     }
     // Check email is valid in database 
-    const user = await User.getUser({email, roleId: 1})
+    const user = await User.getUser({email, roleId: 2})
                         .then(data => data)
                         .catch(err=>err)
     if(!user)
@@ -28,5 +28,5 @@ const {emailCheckBase} = require('./general')
 }
 
 module.exports={
-    isValidEmailAdmin
+    isValidEmailEditor
 }
