@@ -17,9 +17,9 @@ const {notices} = require('../../../common')
 router.post('/', generalMiddleware.register, async (req, res) => {
     const {name, email, password} = req.body
     const hash = bcrypt.hashPassword(password)
-    const created = await User.createAdmin(name, email, hash)
-    if (created!==false) {
-        return res.status(201).json(notices._201('createManager', 'Đăng ký tài khoản admin'))
+    const created = await User.createEditor(name, email, hash)
+    if (created) {
+        return res.status(201).json(notices._201('createEditor', 'Đăng ký tài khoản viết bài'))
     } else {
         return res.status(500).json(notices._500)
     }

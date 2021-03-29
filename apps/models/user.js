@@ -59,11 +59,11 @@ const createEditor = async (name, email, password) => {
         roleId  : 2,
         active  : false
     })
-    .then(() => {
-        return user?true:false
+    .then( u => {
+        return u?true:false
     })
     .catch(err => {
-        // console.log(err);
+        // console.log(err)
         return false
     })
     return user
