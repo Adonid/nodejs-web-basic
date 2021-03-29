@@ -6,12 +6,12 @@ const auth = require("./authentication")
 const action = require("./action")
 
 /**
- *  Route nay dung cho nguoi muon dang ky lam admin cua trang web
+ *  Route nay dung xac minh la editor
  */
 router.use('/auth', checkLimit(3, 7), auth)
 
 /**
- *  Route nay dung cho admin dang dang ky, dang nhap muon vao lam viec
+ *  Route nay dung cho editor dang dang ky, dang nhap muon vao lam viec
  * 
  *  Chong request qua nhieu
  * 
