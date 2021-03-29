@@ -1,6 +1,6 @@
 
-const GeneralMiddleware = require("./general")
+const generalValidation = require("./general")
 
 module.exports={
-    GeneralMiddleware
+    generalValidation
 }
