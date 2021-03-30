@@ -69,6 +69,33 @@ const createEditor = async (name, email, password) => {
     return user
 }
 
+/** LUU TAI KHOAN USER DANG KY BANG MANG SOCIALs
+ * 
+ * @param {provider, name, email, profile_picture, meta} user 
+ * 
+ * @returns boolean
+ */
+const createUser = async (user) => {
+    const resuft = await User.create({
+        name        : user.name,
+        email       : user.email,
+        provider    : user.provider,
+        avatarUrl   : user.profile_picture,
+        social      : user.meta,
+        password    : "aa@A88",
+        roleId      : 3,
+        active      : true
+    })
+    .then( u => {
+        return u?true:false
+    })
+    .catch(err => {
+        // console.log(err)
+        return false
+    })
+    return resuft
+}
+
 /** CAP NHAT 1 FIELD TRONG BANG USER
  * 
  * @params email
@@ -101,5 +128,6 @@ module.exports={
     getUser,
     createAdmin,
     createEditor,
+    createUser,
     updateUser
 }

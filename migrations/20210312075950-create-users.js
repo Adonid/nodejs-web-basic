@@ -32,6 +32,14 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true,
       },
+      provider: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      social:{
+        type: Sequelize.JSON,
+        allowNull: true,
+      },
       fullName: {
         type: Sequelize.STRING,
         allowNull: true,
@@ -50,7 +58,7 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: true,
       },
-      socials:{
+      linkSocials:{
         type: Sequelize.JSON,
         allowNull: true,
       },

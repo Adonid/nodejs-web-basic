@@ -3,7 +3,7 @@ const FacebookStrategy = require('passport-facebook')
 const config = require('../../config/config.json')
 const { User } = require('../models')
 
-/**
+/** PASSPORT VOI JWT - dung cho ADMIN & EDITOR
  * 
  * @param {*} passport 
  * @returns {*} function
@@ -27,7 +27,7 @@ const applyPassportStrategy = passport => {
   )
 }
 
-/**
+/** PASSPORT VOI SOCIAL - dung cho end USER
  * 
  * @param {*} passport 
  * @returns {*} function
@@ -37,10 +37,13 @@ const applyPassportFacebookStrategy = passport => {
   options.clientID = config.facebook.appId
   options.clientSecret = config.facebook.appSecret
   options.callbackURL = config.facebook.callbackUrl
-  // options.enableProof = true
+  options.profileFields = ['id', 'displayName', 'photos', 'email'],
+  options.passReqToCallback  = true
   
-  passport.use( new FacebookStrategy(options, async (accessToken, refreshToken, profile, cb) => {
-      console.log(accessToken, refreshToken, profile, cb)
+  passport.use( new FacebookStrategy(options, async (req, accessToken, refreshToken, profile, done) => {
+      const {name, email} = profile._json
+      const id = profile.id
+      // Xu ly dang ky | dang nhap tai khoan facebook cho user nay
       return cb(err, false)
     })
   )
