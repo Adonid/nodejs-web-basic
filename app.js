@@ -13,6 +13,8 @@ const app = express()
 
 // Dua passport vao su dung
 Passport.applyPassportStrategy(passport)
+// Dua passport-facebook vao login cho user cuoi
+Passport.applyPassportFacebookStrategy(passport)
 // Dua req ve dang json va chi lam viec voi json
 app.use(express.json())
 // Cau hinh file static

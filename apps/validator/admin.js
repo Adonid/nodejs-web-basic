@@ -1,6 +1,8 @@
-const {notices} = require('../common')
+const {notices, bcrypt} = require('../common')
 const {User} = require('../models')
-const {emailCheckBase, isResetPassword} = require('./general')
+const {emailCheckBase, isResetPassword, login, register} = require('./general')
+
+const roleId = 1
 
 /** KIEM TRA XEM EMAIL NAY DA DANG KY CHUA
  * 
@@ -27,13 +29,63 @@ const {emailCheckBase, isResetPassword} = require('./general')
     
 }
 
+/** KIEM TRA XEM req nay co du tieu chuan de dang ky ADMIN khong
+ * @params req
+ * @returns errors
+ */
+ const isRegisterAdmin = async req => {
+    const {email} = req.body
+    // Kiem tra so bo req
+    const isPreRegister = register(req)
+    if(isPreRegister)
+        return isPreRegister
+
+    //  email nay phai CHUA dang ky
+    const user = await User.getUser({email, roleId})
+                        .then(data => data)
+                        .catch(err=>err)
+    if(user)
+        return notices.registerFailed
+
+    return false
+}
+
+/** KIEM TRA XEM req nay co du tieu chuan de danh nhap vao ADMIN khong
+ * @params req
+ * @returns errors
+ */
+ const isLoginAdmin = async req => {
+    const {email, password} = req.body
+    // Kiem tra so bo req
+    const isPreLogin = login(req)
+    if(isPreLogin)
+        return isPreLogin
+
+    // email nay phai dang ky ROI
+    const user = await User.getUser({email, roleId})
+                        .then(data => data)
+                        .catch(err=>err)
+    if(!user)
+        return notices.loginFailed
+        
+    // Mat khau phai trung khop
+    const compare = bcrypt.comparePassword(password, user.password)
+    if(!compare)
+        return notices.loginFailed
+    
+    // Admin nay phai da duoc kich hoat
+    if(!user.active)
+        return notices.userNotActive
+
+    return false
+}
+
 /** KIEM TRA XEM req nay co du tieu chuan de update password CHO ADMIN khong
  * @params req
  * @returns errors
  */
  const isResetPasswordAdmin = async req => {
     const {email, codeReset} = req.body
-    const roleId = 1
     // Kiem tra so bo req
     const isReset = isResetPassword(req)
     if(isReset)
@@ -52,5 +104,7 @@ const {emailCheckBase, isResetPassword} = require('./general')
 
 module.exports={
     isValidEmailAdmin,
+    isRegisterAdmin,
+    isLoginAdmin,
     isResetPasswordAdmin
 }

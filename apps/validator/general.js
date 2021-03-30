@@ -25,7 +25,7 @@ const emailCheckBase = email => {
  * @params req
  * @returns errors
  */
- const login = async req => {
+ const login = req => {
     const {email, password} = req.body
 
     // Validate email
@@ -46,22 +46,6 @@ const emailCheckBase = email => {
         return notices.loginFailed
     }
 
-    // email nay phai dang ky ROI
-    const user = await User.getUser({email})
-                        .then(data => data)
-                        .catch(err=>err)
-    if(!user)
-        return notices.loginFailed
-        
-    // Mat khau phai trung khop
-    const compare = bcrypt.comparePassword(password, user.password)
-    if(!compare)
-        return notices.loginFailed
-    
-    // Admin nay phai da duoc kich hoat
-    if(!user.active)
-        return notices.userNotActive
-
     return false
 }
 
@@ -69,7 +53,7 @@ const emailCheckBase = email => {
  * @params req
  * @returns errors
  */
-const register = async req => {
+const register = req => {
     const {name, email, password, repassword} = req.body
 
     // Validate username
@@ -96,13 +80,6 @@ const register = async req => {
     if(password!==repassword){
         return notices.notDuplicate
     }
-
-    // email nay phai CHUA dang ky
-    const user = await User.getUser({email})
-                        .then(data => data)
-                        .catch(err=>err)
-    if(user)
-        return notices.registerFailed
 
     return false
 }

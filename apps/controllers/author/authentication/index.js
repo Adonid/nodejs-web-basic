@@ -5,14 +5,6 @@ const login = require("./login")
 const verifyEmail = require("./verifyEmail")
 const updatePassword = require("./updatePassword")
 
-// const {checkLimit} = require("../../../common")
-
-
-/**
- *  So lan request khong qua nhieu trong 1 thoi gian nhat dinh
- * 
- */
-//  router.use(checkLimit(3,5))
 
 /**
  *  Route nay dung cho admin dang nhap

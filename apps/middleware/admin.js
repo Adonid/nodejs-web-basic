@@ -10,6 +10,26 @@ const verifyEmailAdmin = async (req, res, next) => {
     return next()
 }
 
+const verifyLoginAdmin = async (req, res, next) => {
+    const errors = await adminValidation.isLoginAdmin(req)
+    if(errors){
+        res.status(errors.code).send(errors)
+        return next('route')
+    }
+    return next()
+}
+
+const verifyRegisterAdmin = async (req, res, next) => {
+    const errors = await adminValidation.isRegisterAdmin(req)
+    if(errors){
+        res.status(errors.code).send(errors)
+        return next('route')
+    }
+    return next()
+}
+
+
+
 const updatePasswordAdmin = async (req, res, next) => {
     const errors = await adminValidation.isResetPasswordAdmin(req)
     if(errors){
@@ -21,5 +41,7 @@ const updatePasswordAdmin = async (req, res, next) => {
 
 module.exports={
     verifyEmailAdmin,
-    updatePasswordAdmin
+    verifyLoginAdmin,
+    verifyRegisterAdmin,
+    updatePasswordAdmin,
 }

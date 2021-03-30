@@ -1,7 +1,13 @@
 const { Strategy, ExtractJwt } = require('passport-jwt')
+const FacebookStrategy = require('passport-facebook')
 const config = require('../../config/config.json')
 const { User } = require('../models')
 
+/**
+ * 
+ * @param {*} passport 
+ * @returns {*} function
+ */
 const applyPassportStrategy = passport => {
   var options = {}
   options.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken()
@@ -20,6 +26,29 @@ const applyPassportStrategy = passport => {
     })
   )
 }
+
+/**
+ * 
+ * @param {*} passport 
+ * @returns {*} function
+ */
+const applyPassportFacebookStrategy = passport => {
+  var options = {}
+  options.clientID = config.facebook.appId
+  options.clientSecret = config.facebook.appSecret
+  options.callbackURL = config.facebook.callbackUrl
+  // options.enableProof = true
+  
+  passport.use( new FacebookStrategy(options, async (accessToken, refreshToken, profile, cb) => {
+      console.log(accessToken, refreshToken, profile, cb)
+      return cb(err, false)
+    })
+  )
+}
+
+
+
 module.exports = {
-  applyPassportStrategy
+  applyPassportStrategy,
+  applyPassportFacebookStrategy
 }
