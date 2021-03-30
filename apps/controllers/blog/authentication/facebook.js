@@ -12,11 +12,11 @@ const {notices} = require('../../../common')
  * @return json
  * 
  */
-router.post('/',  async (req, res) => {
-    const {email} = req.body
-    // Tra ve MA JWT cho ADMIN
+router.get('/',  (req, res) => {
+    // const {email} = req.body
+    // Tra ve MA JWT cho USER
     // const token = await JwtStrategy.generateToken(email)
-    const info = notices.loginSuccess(email)
+    const info = notices.loginSuccess("This is a token!")
     return res.status(info.code).json(info)
 });
 

@@ -16,7 +16,7 @@ const applyPassportStrategy = passport => {
       const user = await User.getUser({email: payload.email, id: payload.id, roleId: payload.roleId})
                       .then(data => data)
                       .catch(err=>err)
-      if (user) {
+      if(user) {
         return done(null, {
           email: user.email,
           _id: user[config.underscoreId]
@@ -41,10 +41,37 @@ const applyPassportFacebookStrategy = passport => {
   options.passReqToCallback  = true
   
   passport.use( new FacebookStrategy(options, async (req, accessToken, refreshToken, profile, done) => {
-      const {name, email} = profile._json
+      const provider = "facebook"
       const id = profile.id
+      const {name, email} = profile._json
+      const profile_picture = profile._json.picture.data.url
+      const meta = {
+        provider,
+        id,
+        token: accessToken
+      }
       // Xu ly dang ky | dang nhap tai khoan facebook cho user nay
-      return cb(err, false)
+      const existing_user = await User.getUser({email, name, roleId: 3})
+                                    .then(data => data)
+                                    .catch(err=>err)
+      // Thuc hien dang nhap
+      if(existing_user){
+        return done(null, {
+          email: user.email,
+          _id: user[config.underscoreId]
+        })
+      }
+      // Thuc hien dang ky tk cho user
+      const new_user = await User.createUser({provider, name, email, profile_picture, meta})
+      if(!new_user){
+        // Tra ve loi
+        return done(null, false, {msg: "Uh! chỉ được dùng 1 email. Một tài khoản khác của bạn đang dùng email của facebook này"})
+      }
+      // Tra ve user moi dang ky
+      return done(null, {
+        email: new_user.email,
+        _id: new_user[config.underscoreId]
+      })
     })
   )
 }

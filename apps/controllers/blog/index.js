@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const passport = require('passport')
 const {checkLimit} = require('../../common')
 const auth = require("./authentication")
 const action = require("./action")
@@ -10,7 +11,7 @@ const home = require("./default")
  * 
  *  Chu y: Ung dung nay chi cho dang nhap bang mang xa hoi nhu - facebook, google, twitter, linkedin thong qua OAuth
  */
-router.use('/auth', checkLimit(3, 7), auth)
+router.use('/auth', checkLimit(3, 7), passport.authenticate('facebook', { scope: ['email', 'public_profile', 'user_location'] }), auth)
 
 /**
  *  Route nay dung cho user muon thao tac - thong tin ca nhan, comment, like post...
