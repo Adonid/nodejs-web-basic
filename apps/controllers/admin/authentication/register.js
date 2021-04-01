@@ -21,7 +21,7 @@ router.post('/', adminMiddleware.verifyRegisterAdmin, async (req, res) => {
     if (created!==false) {
         return res.status(201).json(notices._201('createManager', 'Đăng ký tài khoản admin'))
     } else {
-        return res.status(500).json(notices._500)
+        return res.status(500).json(notices.duplicationAccount)
     }
     
 })

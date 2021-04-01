@@ -6,10 +6,8 @@ const router = express.Router()
  * Ly du lieu cho trang dashboard ADMIN
  * 
  */
-router.get('/', (req, res) => {
-    res.json({
-        msg: "Du lieu cho trang danh sach cac nguoi dung",
-    })
+router.post('/', (req, res) => {
+    return res.status(201).json({msg: "Thuc hien cap nhat thong tin"})
 })
 
 module.exports = router

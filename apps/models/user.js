@@ -87,11 +87,11 @@ const createUser = async (user) => {
         active      : true
     })
     .then( u => {
-        console.log(u.dataValues)
+        // console.log(u.dataValues)
         return u?u.dataValues:false
     })
     .catch(err => {
-        console.log(err)
+        // console.log(err)
         return false
     })
     // console.log(resuft)

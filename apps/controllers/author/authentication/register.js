@@ -21,7 +21,7 @@ router.post('/', editorMiddleware.verifyRegisterEditor, async (req, res) => {
     if (created) {
         return res.status(201).json(notices._201('createEditor', 'Đăng ký tài khoản viết bài'))
     } else {
-        return res.status(500).json(notices._500)
+        return res.status(500).json(notices.duplicationAccount)
     }
     
 })

@@ -1,5 +1,5 @@
 const { Strategy, ExtractJwt } = require('passport-jwt')
-const FacebookStrategy = require('passport-facebook')
+const FacebookStrategy = require('passport-facebook').Strategy
 const config = require('../../config/config.json')
 const { User } = require('../models')
 
@@ -51,23 +51,30 @@ const applyPassportFacebookStrategy = passport => {
         token: accessToken
       }
       // Xu ly dang ky | dang nhap tai khoan facebook cho user nay
-      const existing_user = await User.getUser({email, name, roleId: 3})
+      const existing_user = await User.getUser({email})
                                     .then(data => data)
                                     .catch(err=>err)
-      // Thuc hien dang nhap
+      // Xem email nay dang ky chua
       if(existing_user){
+        // Day la email ma Admin hoac Editor da dang ky roi, khong cho phep vao lop ung dung nay
+        if(existing_user.roleId===1 || existing_user.roleId===2){
+          return done(null, false, {msg: "Uh! tài khoản này đã được đăng ký rồi"})
+        }
+        // Cho phep dang nhap vao
         return done(null, {
-          email: user.email,
-          _id: user[config.underscoreId]
+          email: existing_user.email,
+          _id: existing_user[config.underscoreId]
         })
       }
-      // Thuc hien dang ky tk cho user
+      // Neu email chua co nguoi dang ky thi thuc hien dang ky tk cho user
       const new_user = await User.createUser({provider, name, email, profile_picture, meta})
+      console.log(new_user)
       if(!new_user){
         // Tra ve loi
-        return done(null, false, {msg: "Uh! chỉ được dùng 1 email. Một tài khoản khác của bạn đang dùng email của facebook này"})
+        return done(null, false, {msg: "Uh! Đã xảy ra lỗi"})
       }
       // Tra ve user moi dang ky
+      console.log("Dang ky xong")
       return done(null, {
         email: new_user.email,
         _id: new_user[config.underscoreId]

@@ -11,8 +11,7 @@ const home = require("./default")
  * 
  *  Chu y: Ung dung nay chi cho dang nhap bang mang xa hoi nhu - facebook, google, twitter, linkedin thong qua OAuth
  */
-router.use('/auth', checkLimit(3, 7), passport.authenticate('facebook', { scope: ['email', 'public_profile', 'user_location'] }), auth)
-
+router.use('/auth', checkLimit(3, 7), auth)
 /**
  *  Route nay dung cho user muon thao tac - thong tin ca nhan, comment, like post...
  * 
@@ -20,7 +19,7 @@ router.use('/auth', checkLimit(3, 7), passport.authenticate('facebook', { scope:
  * 
  *  Yeu cau nay buoc user phai dang nhap thanh cong truoc khi vao lam viec
  */
- router.use('/u', checkLimit(3, 20), action)
+ router.use('/', checkLimit(3, 25), passport.authenticate('jwt', { session: false}), action)
 
 /**
  *  Route nay dung cho tat ca nguoi dung muon vao website xem thong tin
@@ -29,7 +28,7 @@ router.use('/auth', checkLimit(3, 7), passport.authenticate('facebook', { scope:
  * 
  *  Yeu cau nay khong can user phai xac minh danh tinh
  */
- router.use('/home', checkLimit(3, 25), home)
+ router.use('/home', checkLimit(3, 35), home)
 
 
 module.exports = router

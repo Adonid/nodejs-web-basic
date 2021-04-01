@@ -6,11 +6,16 @@ const config = require(__dirname+'/config/config.json')
 const controllers = require(__dirname + '/apps/controllers')
 // Use passport
 const passport = require('passport')
-const {Passport} = require('./apps/services')
+const {Passport} = require(__dirname+'/apps/services')
 // Use express
 const app = express()
 
+// Passport session setup.
+passport.serializeUser((user, done) => done(null, user))
+  
+passport.deserializeUser((obj, done) => done(null, obj))
 
+app.use(passport.initialize())
 // Dua passport vao su dung
 Passport.applyPassportStrategy(passport)
 // Dua passport-facebook vao login cho user cuoi
