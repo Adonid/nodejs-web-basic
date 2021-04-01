@@ -22,7 +22,7 @@ router.post('/', adminMiddleware.verifyEmailAdmin, async (req, res) => {
     const update = await User.updateUser({codeReset}, {email})
     if (update) {
         // Gui email chua codereset
-        const isSendMail = await Mailer.sendMail(email, `Xin chào ${update.name || update.fullName}! Mã xác minh thay đổi mật khẩu của bạn`, ResetPassword.contentMail({codeReset}))
+        const isSendMail = await Mailer.sendMail(email, `${codeReset} là mã xác minh thay đổi mật khẩu của bạn - Xin chào ${update.name || update.fullName}! một yêu cầu khôi phục mật khẩu được yêu cầu từ bạn`, ResetPassword.contentMail({codeReset}))
         if(isSendMail)
             return res.status(201).json(notices.resetCodeSuccess(email))
         else
