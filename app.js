@@ -20,6 +20,8 @@ app.use(passport.initialize())
 Passport.applyPassportStrategy(passport)
 // Dua passport-facebook vao login cho user cuoi
 Passport.applyPassportFacebookStrategy(passport)
+// Dua passport-google-oauth vao login cho user cuoi
+Passport.applyPassportGoogleStrategy(passport)
 // Dua req ve dang json va chi lam viec voi json
 app.use(express.json())
 // Cau hinh file static
