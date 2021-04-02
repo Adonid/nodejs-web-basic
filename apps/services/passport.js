@@ -34,9 +34,9 @@ const applyPassportStrategy = passport => {
  */
 const applyPassportFacebookStrategy = passport => {
   var options = {}
-  options.clientID = config.facebook.appId
-  options.clientSecret = config.facebook.appSecret
-  options.callbackURL = config.facebook.callbackUrl
+  options.clientID = config.facebook.clientID
+  options.clientSecret = config.facebook.clientSecret
+  options.callbackURL = config.facebook.callbackURL
   options.profileFields = ['id', 'displayName', 'photos', 'email'],
   options.passReqToCallback  = true
   
