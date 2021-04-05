@@ -1,4 +1,4 @@
-const {User} = require('../../models')
+const {User, Role, Province, District, Commune} = require('../../models')
 
 /** KIEM TRA SU TON TAI CUA TAI KHOAN THEO EMAIL 
  * 
@@ -9,8 +9,13 @@ const {User} = require('../../models')
 const getUser = obj => {
     return new Promise( async (resolve, reject) => {
         const data = await User.findOne({
-            where: obj
+            where: obj,
+            include: [Role, Province, District, Commune],
         })
+        console.log(data.dataValues.Role.dataValues)
+        console.log(data.dataValues.Province.dataValues)
+        console.log(data.dataValues.District.dataValues)
+        console.log(data.dataValues.Commune.dataValues)
         if(data)
             resolve(data.dataValues)
         else

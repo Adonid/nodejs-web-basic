@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'FavouritesReplyComment',
+    timestamps: false
   });
   return FavouritesReplyComment;
 };
