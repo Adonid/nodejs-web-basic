@@ -9,6 +9,7 @@ const {User, Role, Province, District, Commune} = require('../../models')
 const getUser = obj => {
     return new Promise( async (resolve, reject) => {
         const data = await User.findOne({
+            attributes: ['id', 'email', 'roleId'],
             where: obj,
             include: [Role, Province, District, Commune],
         })
@@ -131,10 +132,59 @@ const updateUser = async (value, index, indexPrimary=false) => {
     return false
 }
 
+/** ADMINISTRATORs
+ * 
+ * LAY DANH SACH USERS THEO THAM SO TRUY VAN
+ * 
+ * @param {*} offset - vi tri bat dau lay
+ * @param {*} limit  - gioi han toi da so users
+ * @returns array
+ */
+const paginationUser = async (offset=0, limit=5) => {
+    const users = await User.findAll({
+        attributes: ['id', 'name', 'email', 'active', 'provider', 'fullName', 'phoneNumber', 'avatarUrl', 'createdAt' ],
+        where: {roleId: 3},
+        offset,
+        limit
+    })
+    .then(u => {
+        return u
+    })
+    .catch(err => {
+        // console.log(err)
+        return false
+    })
+    return users
+}
+
+/** ADMINISTRATORs
+ * 
+ * LAY TAT CA EDITORs
+ * 
+ * @param {*} none
+ * @returns {*} editors
+ */
+const paginationEditor = async () => {
+    const editors = await User.findAll({
+        attributes: ['id', 'name', 'email', 'active', 'fullName', 'phoneNumber', 'avatarUrl', 'createdAt' ],
+        where: {roleId: 2}
+    })
+    .then(u => {
+        return u
+    })
+    .catch(err => {
+        // console.log(err)
+        return false
+    })
+    return editors
+}
+
 module.exports={
     getUser,
     createAdmin,
     createEditor,
     createUser,
-    updateUser
+    updateUser,
+    paginationUser,
+    paginationEditor
 }

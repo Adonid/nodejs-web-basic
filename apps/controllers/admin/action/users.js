@@ -1,5 +1,7 @@
 const express = require('express')
 const router = express.Router()
+const {User} = require('../../../models')
+const {notices} = require('../../../common')
 
 
 /**
@@ -10,11 +12,15 @@ const router = express.Router()
  * @returns {*} object JSON
  * 
  */
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
     const {offset, limit} = req.body
-    res.json({
-        msg: "Du lieu cho trang danh sach cac nguoi dung " + offset + " - " + limit,
-    })
+    const users = await User.paginationUser(offset, limit)
+    if(users){
+        const info = notices.reqSuccess(users)
+        return res.status(info.code).json(info)
+    }
+    const err = notices._500
+    return res.status(err.code).json(err)
 })
 
 module.exports = router

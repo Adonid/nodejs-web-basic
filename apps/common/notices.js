@@ -47,6 +47,14 @@ const resetCodeSuccess = email => {
     }
 }
 
+const reqSuccess = datas => {
+    return {
+        code: 200,
+        error: false,
+        datas
+    }
+}
+
 
 /** Lỗi máy khách 4 ×× */
 const _403 = {
@@ -172,6 +180,7 @@ module.exports={
     _202,
     loginSuccess,
     resetCodeSuccess,
+    reqSuccess,
     _403,
     _422,
     _500,
