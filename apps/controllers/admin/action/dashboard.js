@@ -1,5 +1,5 @@
-const express = require('express');
-const router = express.Router();
+const express = require('express')
+const router = express.Router()
 
 
 /**
@@ -9,7 +9,7 @@ const router = express.Router();
 router.get('/', (req, res) => {
     res.json({
         msg: "Du lieu cho trang DASHBOARD admin",
-    });
-});
+    })
+})
 
-module.exports = router;
+module.exports = router
