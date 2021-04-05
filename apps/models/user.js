@@ -12,10 +12,10 @@ const getUser = obj => {
             where: obj,
             include: [Role, Province, District, Commune],
         })
-        console.log(data.dataValues.Role.dataValues)
-        console.log(data.dataValues.Province.dataValues)
-        console.log(data.dataValues.District.dataValues)
-        console.log(data.dataValues.Commune.dataValues)
+        // console.log(data.dataValues.Role.dataValues)
+        // console.log(data.dataValues.Province.dataValues)
+        // console.log(data.dataValues.District.dataValues)
+        // console.log(data.dataValues.Commune.dataValues)
         if(data)
             resolve(data.dataValues)
         else
