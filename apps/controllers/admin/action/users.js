@@ -3,7 +3,11 @@ const router = express.Router();
 
 
 /**
- * Ly du lieu cho trang dashboard ADMIN
+ * Lay ra danh sach nguoi dung cua trang web. Phan ra cac dang nguoi dung la author hay user
+ * 
+ * @params {*} 
+ * 
+ * @returns {*} object JSON
  * 
  */
 router.get('/', (req, res) => {

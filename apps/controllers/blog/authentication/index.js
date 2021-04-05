@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const facebook = require("./facebook")
 const google = require("./google")
+// const twitter = require("./twitter")
 
 
 /**
@@ -18,6 +19,11 @@ router.use(checkLimit(3, 7))
  *  Route nay dung cho user dang nhap | dang ky bang GOOGLE
  */
  router.use('/google', google)
+
+/**
+ *  Route nay dung cho user dang nhap | dang ky bang TWITTER
+ */
+//  router.use('/twitter', twitter)
 
 
 module.exports = router
