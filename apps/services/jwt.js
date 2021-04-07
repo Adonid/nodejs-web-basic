@@ -4,6 +4,8 @@ const {User} = require('../models')
 
 /** Mac dinh xu ly nay cac du lieu da dung va co that. Ham nay lam viec trong suot
  * 
+ * Tao ma JWT
+ * 
  * @param {*} email 
  * @returns 
  */

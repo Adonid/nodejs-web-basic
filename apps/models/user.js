@@ -9,7 +9,7 @@ const {User, Role, Province, District, Commune} = require('../../models')
 const getUser = obj => {
     return new Promise( async (resolve, reject) => {
         const data = await User.findOne({
-            attributes: ['id', 'email', 'roleId'],
+            // attributes: ['id', 'roleId', 'name', 'fullName', 'avatarUrl'],
             where: obj,
             include: [Role, Province, District, Commune],
         })
