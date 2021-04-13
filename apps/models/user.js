@@ -1,4 +1,4 @@
-const {User, Role, Province, District, Commune} = require('../../models')
+const {User, Role, Province, District, Commune, Post, CommentsPost, FavouritesPost} = require('../../models')
 
 /** KIEM TRA SU TON TAI CUA TAI KHOAN THEO EMAIL 
  * 
@@ -178,6 +178,31 @@ const paginationEditor = async () => {
     })
     return editors
 }
+/** ADMINISTRATORs
+ * 
+ * LAY CHI TIET USER
+ * 
+ * @param {*} req
+ * @returns {*} user
+ */
+const getUserDetail = async (email, roleId) => {
+    // Khong lay admin
+    if(roleId===1)
+        return false
+    const user = await User.findOne({
+        attributes: ['id', 'name', 'email', 'active', 'fullName', 'phoneNumber', 'avatarUrl', 'createdAt' ],
+        where: {email, roleId},
+        include: [Role, Province, District, Commune, Post, CommentsPost, FavouritesPost],
+    })
+    .then(u => {
+        return u
+    })
+    .catch(err => {
+        // console.log(err)
+        return false
+    })
+    return user
+}
 
 module.exports={
     getUser,
@@ -186,5 +211,6 @@ module.exports={
     createUser,
     updateUser,
     paginationUser,
-    paginationEditor
+    paginationEditor,
+    getUserDetail
 }
