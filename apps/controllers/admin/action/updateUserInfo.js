@@ -16,26 +16,26 @@ const {DriverGoogle} = require('../../../services')
 router.post('/', async (req, res) => {
     
 
-    // const {imgBase64} = req.body
-    // const dataFile = await DriverGoogle.uploadFile(imgBase64)
+    const {imgBase64} = req.body
+    const dataFile = await DriverGoogle.uploadFile("16uiB4MYAYWzYQizZKShjErx7nGJq-DcF", "Heelo.jpg", imgBase64)
     
-    // if(dataFile){
-    //     return res.status(200).json({msg: dataFile})
-    // }
-    // return res.status(500).json({error: "Uh! Đã có lỗi xảy ra."})
-
-    const {fileId} = req.body
-    // const status = await DriverGoogle.deleteFile(fileId)
-    // if(status){
-    //     return res.status(200).json({msg: "Xóa file thành công!"})
-    // }
-    // return res.status(500).json({error: "Uh! Đã có lỗi xảy ra."})
-
-    const dataFile = await DriverGoogle.generatePublicUrl(fileId)
     if(dataFile){
         return res.status(200).json({msg: dataFile})
     }
     return res.status(500).json({error: "Uh! Đã có lỗi xảy ra."})
+
+    // const {fileId} = req.body
+    // // const status = await DriverGoogle.deleteFile(fileId)
+    // // if(status){
+    // //     return res.status(200).json({msg: "Xóa file thành công!"})
+    // // }
+    // // return res.status(500).json({error: "Uh! Đã có lỗi xảy ra."})
+
+    // const dataFile = await DriverGoogle.generatePublicUrl(fileId)
+    // if(dataFile){
+    //     return res.status(200).json({msg: dataFile})
+    // }
+    // return res.status(500).json({error: "Uh! Đã có lỗi xảy ra."})
 })
 
 module.exports = router

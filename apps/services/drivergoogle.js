@@ -9,8 +9,6 @@ required npm package: googleapis
 
 const {google} = require('googleapis')
 const config = require('../../config/config.json')
-const fs = require('fs')
-const path = require('path')
 const { Stream } = require('stream')
 
 const CLIENT_ID = config.googledriver.clientID
@@ -37,22 +35,23 @@ though this can be any filePath
 */
 /** Upload file len GOOGLE DRIVER
  * 
- * @params {imgBase64} file anh da ma hoa sang kieu base64
+ * @params {folderId, nameFile, imgBase64} file anh da ma hoa sang kieu base64
  * 
  * @returns {kind, id, name, mimeType} 
  * 
  */
-const uploadFile = async (imgBase64) => {
+const uploadFile = async (folderId, nameFile, imgBase64) => {
   try {
     // Xu ly File dung luong lon
-    // const imgUpload = imgBase64.split(/,(.+)/)[1];
+    // const imgUpload = imgBase64.split(/,(.+)/)[1]
     // Buffer & Stream la lam viec voi file lon va tu phan chia vung nho hieu qua
-    const buf = new Buffer.from(imgBase64, "base64");
-    const img = new Stream.PassThrough();
-    img.end(buf);
+    const buf = new Buffer.from(imgBase64, "base64")
+    const img = new Stream.PassThrough()
+    img.end(buf)
     const response = await drive.files.create({
       requestBody: {
-        name: 'example-1.jpg', //This can be name of your choice
+        name: nameFile,       //This can be name of your choice
+        parents: [folderId],  //This can be folder id of your choice
         mimeType: 'image/jpg',
       },
       media: {
@@ -103,20 +102,21 @@ const uploadFile = async (imgBase64) => {
           role: 'reader',
           type: 'anyone',
         },
-      });
+      })
   
       /* 
       webViewLink: View the file in browser
       webContentLink: Direct download link 
+      thumbnailLink : View the file thumbnail link - weight=220
       */
       const result = await drive.files.get({
         fileId: fileId,
-        fields: 'webViewLink, webContentLink',
-      });
-      console.log(result.data);
-      return result.data
+        fields: 'webViewLink, webContentLink, thumbnailLink',
+      })
+      console.log(result.data)
+      return {...result.data, fileId}
     } catch (error) {
-      console.log(error.message);
+      console.log(error.message)
       return false
     }
   }
