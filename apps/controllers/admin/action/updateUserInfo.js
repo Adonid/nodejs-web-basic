@@ -14,11 +14,17 @@ const {DriverGoogle} = require('../../../services')
  * 
  */
 router.post('/', async (req, res) => {
-    const {fileId} = req.body
     
-    // const dataFile = await DriverGoogle.uploadFile()
-    // return res.status(200).json({msg: dataFile})
 
+    // const {imgBase64} = req.body
+    // const dataFile = await DriverGoogle.uploadFile(imgBase64)
+    
+    // if(dataFile){
+    //     return res.status(200).json({msg: dataFile})
+    // }
+    // return res.status(500).json({error: "Uh! Đã có lỗi xảy ra."})
+
+    const {fileId} = req.body
     // const status = await DriverGoogle.deleteFile(fileId)
     // if(status){
     //     return res.status(200).json({msg: "Xóa file thành công!"})
@@ -26,7 +32,10 @@ router.post('/', async (req, res) => {
     // return res.status(500).json({error: "Uh! Đã có lỗi xảy ra."})
 
     const dataFile = await DriverGoogle.generatePublicUrl(fileId)
-    return res.status(200).json({msg: dataFile})
+    if(dataFile){
+        return res.status(200).json({msg: dataFile})
+    }
+    return res.status(500).json({error: "Uh! Đã có lỗi xảy ra."})
 })
 
 module.exports = router

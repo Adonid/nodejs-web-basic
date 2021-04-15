@@ -11,6 +11,7 @@ const {google} = require('googleapis')
 const config = require('../../config/config.json')
 const fs = require('fs')
 const path = require('path')
+const { Stream } = require('stream')
 
 const CLIENT_ID = config.googledriver.clientID
 const CLIENT_SECRET = config.googledriver.clientSecret
@@ -41,18 +42,22 @@ though this can be any filePath
  * @returns {kind, id, name, mimeType} 
  * 
  */
-const filePath = path.join(__dirname, 'olga-serjantu-tqkDGqPW8Vo-unsplash.jpg')
-
-const uploadFile = async () => {
+const uploadFile = async (imgBase64) => {
   try {
+    // Xu ly File dung luong lon
+    // const imgUpload = imgBase64.split(/,(.+)/)[1];
+    // Buffer & Stream la lam viec voi file lon va tu phan chia vung nho hieu qua
+    const buf = new Buffer.from(imgBase64, "base64");
+    const img = new Stream.PassThrough();
+    img.end(buf);
     const response = await drive.files.create({
       requestBody: {
-        name: 'example.jpg', //This can be name of your choice
+        name: 'example-1.jpg', //This can be name of your choice
         mimeType: 'image/jpg',
       },
       media: {
         mimeType: 'image/jpg',
-        body: fs.createReadStream(filePath),
+        body: img,
       },
     })
 
@@ -63,11 +68,11 @@ const uploadFile = async () => {
   }
 }
 
-/** Delate file tren GOOGLE DRIVER
+/** Delete file tren GOOGLE DRIVER
  * 
  * @params {fileId}
  * 
- * @returns {kind, id, name, mimeType} 
+ * @returns {status}
  * 
  */
  const deleteFile = async (fileId) => {

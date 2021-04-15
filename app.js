@@ -24,8 +24,8 @@ Passport.applyPassportFacebookStrategy(passport)
 Passport.applyPassportGoogleStrategy(passport)
 // Dua passport-twitter vao login cho user cuoi
 Passport.applyPassportTwitterStrategy(passport)
-// Dua req ve dang json va chi lam viec voi json
-app.use(express.json())
+// Dua req ve dang json va chi lam viec voi json - toi da cua request la 5Mb
+app.use(express.json({limit: '5mb'}))
 // Cau hinh file static
 app.use('/static', express.static(__dirname + "/public"))
 //
