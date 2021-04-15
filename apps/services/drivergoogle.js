@@ -37,7 +37,7 @@ though this can be any filePath
 */
 /** Upload file len GOOGLE DRIVER
  * 
- * @params {*} file
+ * @params {imgBase64} file anh da ma hoa sang kieu base64
  * 
  * @returns {kind, id, name, mimeType} 
  * 
@@ -90,9 +90,9 @@ const uploadFile = async (imgBase64) => {
 
 /** Lay thong tin file
  * 
- * @params {id}
+ * @params {fileId}
  * 
- * @return {}
+ * @return {webContentLink, webViewLink}
  * 
  */
   const generatePublicUrl = async (fileId) => {
