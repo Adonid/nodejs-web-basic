@@ -26,7 +26,7 @@ const updateUserInfo = require('./updateUserInfo')
 /**
  *  Route POST- cap nhat thong tin user
  */
- router.use('/update-user-info', updateUserInfo)
+ router.use('/update', updateUserInfo)
 
 
 module.exports = router

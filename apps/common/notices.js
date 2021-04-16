@@ -29,6 +29,24 @@ const _202 = (name, as=null) => {
     }
 }
 
+const _203 = (name, datas) => {
+    return {
+        code: 201,
+        error: false,
+        msg: `${name} đã được cập nhật!`,
+        datas
+    }
+}
+
+const _204 = datas => {
+    return {
+        code: 200,
+        error: false,
+        msg: "Đã xóa!",
+        datas
+    }
+}
+
 const loginSuccess = token => {
     return {
         code: 200,
@@ -178,6 +196,8 @@ module.exports={
     _200,
     _201,
     _202,
+    _203,
+    _204,
     loginSuccess,
     resetCodeSuccess,
     reqSuccess,

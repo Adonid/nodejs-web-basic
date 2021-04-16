@@ -86,7 +86,7 @@ const createUser = async (user) => {
         name        : user.name,
         email       : user.email,
         provider    : user.provider,
-        avatarUrl   : user.profile_picture,
+        avatar      : {webViewLink: user.profile_picture, webContentLink: "", thumbnailLink: "", fileId: ""},
         social      : user.meta,
         password    : "aa@A88",
         roleId      : 3,
@@ -124,8 +124,8 @@ const updateUser = async (value, index, indexPrimary=false) => {
                            .then(u => u)
                            .catch(err => false)
         if(data){
-            const {name, fullName} = data
-            return {name, fullName}
+            const {name, fullName, avatar} = data
+            return {name, fullName, avatar}
         }
         return false
     }
@@ -190,7 +190,7 @@ const getUserDetail = async (email, roleId) => {
     if(roleId===1)
         return false
     const user = await User.findOne({
-        attributes: ['id', 'name', 'email', 'active', 'fullName', 'phoneNumber', 'avatarUrl', 'createdAt' ],
+        attributes: ['id', 'name', 'email', 'active', 'fullName', 'phoneNumber', 'avatar', 'createdAt' ],
         where: {email, roleId},
         include: [Role, Province, District, Commune, Post, CommentsPost, FavouritesPost],
     })

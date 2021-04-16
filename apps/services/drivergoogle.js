@@ -55,7 +55,7 @@ const drive = google.drive({
         fileId: fileId,
         fields: 'webViewLink, webContentLink, thumbnailLink',
       })
-      console.log(result.data)
+      // console.log(result.data)
       return {...result.data, fileId}
     } catch (error) {
       console.log(error.message)
@@ -75,7 +75,7 @@ though this can be any filePath
  * @returns {kind, id, name, mimeType} 
  * 
  */
-const uploadFile = async (folderId, nameFile, imgBase64) => {
+const uploadFile = async (folderId, imgBase64, nameFile) => {
   try {
     // Xu ly File dung luong lon
     // const imgUpload = imgBase64.split(/,(.+)/)[1]
@@ -94,6 +94,7 @@ const uploadFile = async (folderId, nameFile, imgBase64) => {
         body: img,
       },
     })
+    // console.log(response.data)
     const fileId = response.data.id
     const dataFile = await generatePublicUrl(fileId)
     return dataFile
