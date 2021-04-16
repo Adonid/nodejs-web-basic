@@ -28,6 +28,41 @@ const drive = google.drive({
     auth: oauth2Client,
   })
 
+
+  /** Lay thong tin file
+ * 
+ * @params {fileId}
+ * 
+ * @return {webContentLink, webViewLink}
+ * 
+ */
+   const generatePublicUrl = async (fileId) => {
+    try {
+      await drive.permissions.create({
+        fileId: fileId,
+        requestBody: {
+          role: 'reader',
+          type: 'anyone',
+        },
+      })
+  
+      /* 
+      webViewLink: View the file in browser
+      webContentLink: Direct download link 
+      thumbnailLink : View the file thumbnail link - weight=220
+      */
+      const result = await drive.files.get({
+        fileId: fileId,
+        fields: 'webViewLink, webContentLink, thumbnailLink',
+      })
+      console.log(result.data)
+      return {...result.data, fileId}
+    } catch (error) {
+      console.log(error.message)
+      return false
+    }
+  }
+
 /* 
 filepath which needs to be uploaded
 Note: Assumes example.jpg file is in root directory, 
@@ -59,15 +94,16 @@ const uploadFile = async (folderId, nameFile, imgBase64) => {
         body: img,
       },
     })
-
-    return response.data
+    const fileId = response.data.id
+    const dataFile = await generatePublicUrl(fileId)
+    return dataFile
   } catch (error) {
     console.log(error.message)
     return false
   }
 }
 
-/** Delete file tren GOOGLE DRIVER
+/** Delete FOREVER file tren GOOGLE DRIVER
  * 
  * @params {fileId}
  * 
@@ -81,40 +117,6 @@ const uploadFile = async (folderId, nameFile, imgBase64) => {
       })
       console.log(response.data, response.status)
       return response.status
-    } catch (error) {
-      console.log(error.message)
-      return false
-    }
-  }
-
-/** Lay thong tin file
- * 
- * @params {fileId}
- * 
- * @return {webContentLink, webViewLink}
- * 
- */
-  const generatePublicUrl = async (fileId) => {
-    try {
-      await drive.permissions.create({
-        fileId: fileId,
-        requestBody: {
-          role: 'reader',
-          type: 'anyone',
-        },
-      })
-  
-      /* 
-      webViewLink: View the file in browser
-      webContentLink: Direct download link 
-      thumbnailLink : View the file thumbnail link - weight=220
-      */
-      const result = await drive.files.get({
-        fileId: fileId,
-        fields: 'webViewLink, webContentLink, thumbnailLink',
-      })
-      console.log(result.data)
-      return {...result.data, fileId}
     } catch (error) {
       console.log(error.message)
       return false
