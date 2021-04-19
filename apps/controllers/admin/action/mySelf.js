@@ -8,7 +8,7 @@ const config = require('../../../../config/config.json')
 /**
  * GET - Lay thong tin cua chinh toi
  * 
- * @params {cookie}
+ * @params {user} - nhu trong da Passport tra ve
  * 
  * @returns {} object JSON
  * 
