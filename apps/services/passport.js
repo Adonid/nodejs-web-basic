@@ -21,7 +21,8 @@ const applyPassportStrategy = passport => {
       if(user) {
         return done(null, {
           email: user.email,
-          _id: user[config.underscoreId]
+          _id: user[config.underscoreId],
+          roleId: user.roleId
         })
       }
       return done(null, false, {msg: "Uh, bạn đăng nhập trước đã nhé!"})

@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const dashboard = require('./dashboard')
+const myself = require('./mySelf')
 const users = require('./users')
 const editors = require('./editors')
 const userDetail = require('./userDetail')
@@ -15,6 +16,10 @@ const updateUserInfo = require('./updateUserInfo')
  *  Route GET- danh sach cac editors
  */
  router.use('/editors-list', editors)
+/**
+ *  Cac thao tac tai khoan cua chinh toi
+ */
+ router.use('/myself', myself)
 /**
  *  Route GET- danh sach cac users
  */
