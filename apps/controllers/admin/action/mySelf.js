@@ -14,15 +14,16 @@ const config = require('../../../../config/config.json')
  * 
  */
 router.get('/', async (req, res) => {
-    const {headers, user} = req
-    // console.log(req)
-    return res.status(200).json({msg: "Done!", authorization: headers.authorization, user})
-
-    // const dataFile = await DriverGoogle.generatePublicUrl(fileId)
-    // if(dataFile){
-    //     return res.status(200).json({msg: dataFile})
-    // }
-    // return res.status(500).json({error: "Uh! Đã có lỗi xảy ra."})
+    const {user} = req
+    const myself = await User.getUser(user)
+                             .then(user => user)
+                             .catch(err => err)
+    if(myself){
+        delete myself.password
+        const msg = notices.reqSuccess(myself)
+        return res.status(msg.code).json(msg)
+    }
+    return res.status(notices._500.code).json(notices._500)
 })
 
 module.exports = router
