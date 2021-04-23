@@ -30,6 +30,11 @@ const slugName =  str => {
     return str
  }
 
+ const slugNameImage = name => {
+     return slugName(name)+"jpg"
+ }
+
  module.exports = {
-     slugName
+     slugName,
+     slugNameImage
  }
