@@ -31,7 +31,7 @@ const slugName =  str => {
  }
 
  const slugNameImage = name => {
-     return slugName(name)+"jpg"
+     return slugName(name)+".jpg"
  }
 
  module.exports = {

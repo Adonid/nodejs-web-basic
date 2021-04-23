@@ -43,6 +43,7 @@ const register = async (req, res, next) => {
     const {email, roleId, name} = req.user
     const {imageBase64} = req.body
     // PHAI TON TAI USER NAY
+    console.log({email, roleId, name})
     const user = await User.getUser({email, roleId, name})
                             .then(data => data)
                             .catch(err => err)
@@ -87,6 +88,5 @@ const register = async (req, res, next) => {
 module.exports={
     login,
     register,
-
     updateAvatar
 }

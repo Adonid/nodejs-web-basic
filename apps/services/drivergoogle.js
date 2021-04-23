@@ -78,9 +78,9 @@ though this can be any filePath
 const uploadFile = async (folderId, imgBase64, nameFile) => {
   try {
     // Xu ly File dung luong lon
-    // const imgUpload = imgBase64.split(/,(.+)/)[1]
+    const imgUpload = imgBase64.split(/,(.+)/)[1]
     // Buffer & Stream la lam viec voi file lon va tu phan chia vung nho hieu qua
-    const buf = new Buffer.from(imgBase64, "base64")
+    const buf = new Buffer.from(imgUpload, "base64")
     const img = new Stream.PassThrough()
     img.end(buf)
     const response = await drive.files.create({
@@ -99,7 +99,7 @@ const uploadFile = async (folderId, imgBase64, nameFile) => {
     const dataFile = await generatePublicUrl(fileId)
     return dataFile
   } catch (error) {
-    console.log(error.message)
+    console.log(error)
     return false
   }
 }
@@ -116,7 +116,7 @@ const uploadFile = async (folderId, imgBase64, nameFile) => {
       const response = await drive.files.delete({
         fileId,
       })
-      console.log(response.data, response.status)
+      // console.log(response.data, response.status)
       return response.status
     } catch (error) {
       console.log(error.message)

@@ -82,18 +82,6 @@ router.post('/upload-avatar', async (req, res) => {
     }
     const error = notices._500
     return res.status(error.code).json(error)
-    // const {fileId} = req.body
-    // // const status = await DriverGoogle.deleteFile(fileId)
-    // // if(status){
-    // //     return res.status(200).json({msg: "Xóa file thành công!"})
-    // // }
-    // // return res.status(500).json({error: "Uh! Đã có lỗi xảy ra."})
-
-    // const dataFile = await DriverGoogle.generatePublicUrl(fileId)
-    // if(dataFile){
-    //     return res.status(200).json({msg: dataFile})
-    // }
-    // return res.status(500).json({error: "Uh! Đã có lỗi xảy ra."})
 })
 
 /**
