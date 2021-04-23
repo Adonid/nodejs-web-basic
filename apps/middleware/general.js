@@ -13,8 +13,8 @@ const config = require('../../config/config.json')
  * @return next('route') | next()
  */
 
-const login = async (req, res, next) => {
-    const errors = await generalValidation.login(req)
+const login = (req, res, next) => {
+    const errors = generalValidation.login(req)
     if(errors){
         res.status(errors.code).send(errors)
         return next('route')
@@ -22,8 +22,8 @@ const login = async (req, res, next) => {
     return next()
 }
 
-const register = async (req, res, next) => {
-    const errors = await generalValidation.register(req)
+const register = (req, res, next) => {
+    const errors = generalValidation.register(req)
     if(errors){
         res.status(errors.code).send(errors)
         return next('route')
@@ -43,7 +43,6 @@ const register = async (req, res, next) => {
     const {email, roleId, name} = req.user
     const {imageBase64} = req.body
     // PHAI TON TAI USER NAY
-    console.log({email, roleId, name})
     const user = await User.getUser({email, roleId, name})
                             .then(data => data)
                             .catch(err => err)
@@ -85,8 +84,23 @@ const register = async (req, res, next) => {
     return next('route')
 }
 
+/**
+ * xac thuc du lieu THONG TIN CO BAN
+ * @param {name, fullName, phoneNumber, address, provinceId, districtId, communeId} = req.body
+ * @return {next | next('route')}
+ */
+const verifyUserBasicInfo = (req, res, next) => {
+    const errors = generalValidation.checkUserDataBasic(req)
+    if(errors){
+        res.status(errors.code).send(errors)
+        return next('route')
+    }
+    return next()
+}
+
 module.exports={
     login,
     register,
-    updateAvatar
+    updateAvatar,
+    verifyUserBasicInfo
 }

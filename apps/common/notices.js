@@ -113,6 +113,15 @@ const fieldEmpty = (name, as=null) => {
     }
 }
 
+/** BAO LOI DINH DANG CUA TRUONG */
+const fieldNotFormat = (filed, fieldName) => {
+    return {
+        code: 411,
+        field: filed,
+        error: `${fieldName} không đúng định dạng!`
+    }
+}
+
 /** BAO LOI USERNAME */
 const usernamedNotFormat = {
     code: 411,
@@ -190,6 +199,7 @@ module.exports={
     userNotActive,
     registerFailed,
     duplicationAccount,
+    fieldNotFormat,
     notValidEmail,
     notDataResetPassword,
     notEmail,

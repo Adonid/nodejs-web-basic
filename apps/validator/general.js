@@ -4,6 +4,64 @@ const {User} = require('../models')
 
 /** CAC METHODS NAY DUNG DE SOI CHIEU VOI DU LIEU CUA REQUEST - ONLY SELECT */
 
+// KIEM TRA DANG TEN NGUOI DUNG - NAME
+const checkName = name => {
+    // Validate username
+    if(!name || !name.trim()){
+        return notices.fieldEmpty('name', 'tên người dùng')
+    }
+    if(regex.username(name)){
+        return notices.usernamedNotFormat
+    }
+    return false
+}
+
+// KIEM TRA DANG MAR KHAU - PASSWORD
+const checkPassword = password => {
+    // Validate pasword
+    if(!password || !password.trim()){
+        return notices.fieldEmpty('password')
+    }
+    if(regex.password(password)){
+        return notices.passwordNotFormat
+    }
+    return false
+}
+
+// KHONG CO THI XEM NHU KO CO - NEU CO THI PHAI DUNG
+// KIEM TRA DANG TEN NGUOI DUNG - FULLNAME
+const checkFullName = fullName => {
+    // Validate fullName
+    if(fullName || fullName.trim()){
+        if(regex.username(fullName)){
+            return notices.fieldNotFormat("fullName", "Tên đầy đủ")
+        }
+        return false
+    }
+    return false
+}
+
+// KIEM TRA DANG SO DIEN THOAI - PHONENUMBER
+const checkPhoneNumber = phoneNumber => {
+    // Validate phoneNumber
+    if(phoneNumber || phoneNumber.trim()){
+        if(regex.phoneNumber(phoneNumber)){
+            return notices.fieldNotFormat("phoneNumber", "Số điện thoại")
+        }
+    }
+    return false
+}
+// KIEM TRA DANG TEXT NORMAL - ADDRESS
+const checkAddress = address => {
+    // Validate fullName
+    if(address || address.trim()){
+        if(regex.textNormal(address)){
+            return notices.fieldNotFormat("address", "Địa chỉ")
+        }
+        return false
+    }
+    return false
+}
 
 /** KIEM TRA EMAIL CO BAN - khong rong - dung dinh dang
  * 
@@ -71,11 +129,9 @@ const register = req => {
         return notices.lengthNotIn('email', 9, 32, 'Địa chỉ email')
     }
     // Validate pasword
-    if(!password || !password.trim()){
-        return notices.fieldEmpty('password')
-    }
-    if(regex.password(password)){
-        return notices.passwordNotFormat
+    const isPassword = checkPassword(password)
+    if(isPassword){
+        return isPassword
     }
     if(password!==repassword){
         return notices.notDuplicate
@@ -102,11 +158,9 @@ const isResetPassword = req => {
         return notices.notDataResetPassword
     }
     // Validate pasword
-    if(!password || !password.trim()){
-        return notices.fieldEmpty('password')
-    }
-    if(regex.password(password)){
-        return notices.passwordNotFormat
+    const isPassword = checkPassword(password)
+    if(isPassword){
+        return isPassword
     }
     if(password!==repassword){
         return notices.notDuplicate
@@ -115,10 +169,36 @@ const isResetPassword = req => {
     return false
 }
 
+/** KIEM TRA DU LIEU CO BAN CUA NGUOI DUNG GUI LEN CAP NHAT THONG TIN
+ * @params req
+ * @returns errors
+ */
+const checkUserDataBasic = req => {
+    const {name, fullName, phoneNumber, address} = req.body
+    const nameCheck = checkName(name)
+    const fullNameCheck = checkFullName(fullName)
+    const numberCheck = checkPhoneNumber(phoneNumber)
+    const addressCheck = checkAddress(address)
+    if(nameCheck)
+        return nameCheck
+    
+    if(fullNameCheck)
+        return fullNameCheck
+    
+    if(numberCheck)
+        return numberCheck
+    
+    if(addressCheck)
+        return addressCheck
+    
+    return false
+    
+}
 
 module.exports={
     emailCheckBase,
     login,
     register,
-    isResetPassword
+    isResetPassword,
+    checkUserDataBasic
 }

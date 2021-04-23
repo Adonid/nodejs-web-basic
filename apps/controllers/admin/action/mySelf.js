@@ -35,6 +35,14 @@ router.get('/', async (req, res) => {
  */
  router.post('/update-avatar', generalMiddleware.updateAvatar, (req, res) => {})
 
-
+/**
+ *  POST - CAP NHAT THONG TIN CO BAN
+ * 
+ * @param {name, fullName, phoneNumber, address, provinceId, districtId, communeId}
+ * @return {user}
+ */
+ router.post('/update-basic-info', generalMiddleware.verifyUserBasicInfo, async (req, res) => {
+    return res.status(200).json({msg: "OK. Cap nhat di"})
+ })
 
 module.exports = router
