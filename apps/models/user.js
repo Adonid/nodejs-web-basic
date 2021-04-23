@@ -106,7 +106,10 @@ const createUser = async (user) => {
 
 /** CAP NHAT 1 FIELD TRONG BANG USER
  * 
- * @params email
+ * @params {value, index, indexPrimary=false}
+ * value: {nameField: value, ...}
+ * index: {nameField: valueField}
+ * indexPrimary: nameField - dung khi cap nhat luon ca truong index
  * @returns code
  */
 const updateUser = async (value, index, indexPrimary=false) => {
@@ -178,6 +181,7 @@ const paginationEditor = async () => {
     })
     return editors
 }
+
 /** ADMINISTRATORs
  * 
  * LAY CHI TIET USER
