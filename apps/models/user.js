@@ -104,7 +104,7 @@ const createUser = async (user) => {
     return resuft
 }
 
-/** CAP NHAT 1 FIELD TRONG BANG USER
+/** CAP NHAT FIELD(s) TRONG BANG USER
  * 
  * @params {value, index, indexPrimary=false}
  * value: {nameField: value, ...}
@@ -116,10 +116,12 @@ const updateUser = async (value, index, indexPrimary=false) => {
     const user = await User.update(value, {
         where: index    
     })
-    .then((data) => {
+    .then( data => {
+        // console.log(data)
         return data||false
     })
     .catch(err => {
+        // console.log(err)
         return false
     })
     if(user){

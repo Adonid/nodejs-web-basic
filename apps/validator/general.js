@@ -33,7 +33,7 @@ const checkPassword = password => {
 const checkFullName = fullName => {
     // Validate fullName
     if(fullName || fullName.trim()){
-        if(regex.username(fullName)){
+        if(regex.textNormal(fullName)){
             return notices.fieldNotFormat("fullName", "Tên đầy đủ")
         }
         return false

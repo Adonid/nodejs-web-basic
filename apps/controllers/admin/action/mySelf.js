@@ -42,7 +42,18 @@ router.get('/', async (req, res) => {
  * @return {user}
  */
  router.post('/update-basic-info', generalMiddleware.verifyUserBasicInfo, async (req, res) => {
-    return res.status(200).json({msg: "OK. Cap nhat di"})
+     const {id, email, roleId} = req.user
+    const {name, fullName, phoneNumber, address, provinceId, districtId, communeId} = req.body
+    const userUpdated = await User.updateUser(
+        {name, fullName, phoneNumber, address, provinceId, districtId, communeId},
+        {id, email, roleId}
+    )
+    if(userUpdated){
+        const message = notices._203("Thông tin cá nhân", userUpdated)
+        return res.status(message.code).json(message)
+    }
+    const error = notices._500
+    return res.status(error.code).json(error)
  })
 
 module.exports = router
