@@ -122,6 +122,35 @@ const fieldNotFormat = (filed, fieldName) => {
     }
 }
 
+/** BAO LOI TRUONG KHONG DUNG*/
+const fieldNotTrue = (filed, fieldName) => {
+    return {
+        code: 411,
+        field: filed,
+        error: `${fieldName} không đúng!`
+    }
+}
+
+/** BAO LOI TRUONG KHONG KHOP*/
+const fieldNotMatch = (filed, fieldName) => {
+    return {
+        code: 411,
+        field: filed,
+        error: `${fieldName} không khớp!`
+    }
+}
+
+/** TUY CHINH BAO LOI*/
+const fieldError = (filed, fieldName) => {
+    return {
+        code: 411,
+        field: filed,
+        error: fieldName
+    }
+}
+
+
+
 /** BAO LOI USERNAME */
 const usernamedNotFormat = {
     code: 411,
@@ -200,6 +229,9 @@ module.exports={
     registerFailed,
     duplicationAccount,
     fieldNotFormat,
+    fieldNotTrue,
+    fieldNotMatch,
+    fieldError,
     notValidEmail,
     notDataResetPassword,
     notEmail,

@@ -18,14 +18,35 @@ const checkName = name => {
 
 // KIEM TRA DANG MAR KHAU - PASSWORD
 const checkPassword = password => {
-    // Validate pasword
+    // Validate password
     if(!password || !password.trim()){
         return notices.fieldEmpty('password')
     }
     if(regex.password(password)){
-        return notices.passwordNotFormat
+        return notices.fieldError("password", "Uh! Mật khẩu không đúng rồi")
     }
     return false
+}
+
+// KIEM TRA DANG MAT KHAU MOI - NEWPASSWORD
+const checkNewPassword = password => {
+    // Validate password
+    if(!password || !password.trim()){
+        return notices.fieldEmpty('newPassword')
+    }
+    if(regex.password(password)){
+        return notices.fieldError("newPassword", "Uh! Mật khẩu là chuỗi chứ 6-32 ký tự và chứ ít nhất: 1 kí tự a-z, 1 ký tự A-Z, 1 chữ số 0-9 và 1 ký tự đặc biệt. VD: aq12AQ#")
+    }
+    return false
+}
+
+// KIEM TRA 2 TRUONG PHAI TRUNG KHOP - PASSWORD & REPASSWORD
+const checkMatch = (password, repassword) => {
+    // Validate password & password
+    if(password === repassword){
+        return false
+    }
+    return notices.fieldError("repassword", "Uh! Mật khẩu nhập lại không khớp")
 }
 
 // KHONG CO THI XEM NHU KO CO - NEU CO THI PHAI DUNG
@@ -35,6 +56,18 @@ const checkFullName = fullName => {
     if(fullName || fullName.trim()){
         if(regex.textNormal(fullName)){
             return notices.fieldNotFormat("fullName", "Tên đầy đủ")
+        }
+        return false
+    }
+    return false
+}
+
+// KIEM TRA DANG BIO - BIO
+const checkBio = bio => {
+    // Validate bio
+    if(bio || bio.trim()){
+        if(regex.textNormal(bio)){
+            return notices.fieldNotFormat("bio", " đoạn bio")
         }
         return false
     }
@@ -174,11 +207,12 @@ const isResetPassword = req => {
  * @returns errors
  */
 const checkUserDataBasic = req => {
-    const {name, fullName, phoneNumber, address} = req.body
+    const {name, fullName, phoneNumber, bio, address} = req.body
     const nameCheck = checkName(name)
     const fullNameCheck = checkFullName(fullName)
     const numberCheck = checkPhoneNumber(phoneNumber)
     const addressCheck = checkAddress(address)
+    const bioCheck = checkBio(bio)
     if(nameCheck)
         return nameCheck
     
@@ -191,6 +225,31 @@ const checkUserDataBasic = req => {
     if(addressCheck)
         return addressCheck
     
+    if(bioCheck)
+        return bioCheck
+    
+    return false
+    
+}
+
+/** KIEM TRA DU LIEU MAT KHAU TRUOC KHI UPDATE
+ * @params req
+ * @returns errors
+ */
+const checkUserPassword = req => {
+    const {password, newPassword, rePassword} = req.body
+    const passwordCheck = checkPassword(password)
+    const newPasswordCheck = checkNewPassword(newPassword)
+    const passwordMatchCheck = checkMatch(newPassword, rePassword)
+    if(passwordCheck)
+        return passwordCheck
+    
+    if(passwordMatchCheck)
+        return passwordMatchCheck
+    
+    if(newPasswordCheck)
+        return newPasswordCheck
+    
     return false
     
 }
@@ -200,5 +259,6 @@ module.exports={
     login,
     register,
     isResetPassword,
-    checkUserDataBasic
+    checkUserDataBasic,
+    checkUserPassword
 }

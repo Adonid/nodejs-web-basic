@@ -1,6 +1,6 @@
 const {generalValidation} = require('../validator')
 const {User} = require('../models')
-const {notices} = require('../common')
+const {notices, bcrypt} = require('../common')
 const {Slug} = require('..//helpers')
 const {DriverGoogle} = require('../services')
 const config = require('../../config/config.json')
@@ -89,10 +89,38 @@ const register = (req, res, next) => {
  * @param {name, fullName, phoneNumber, address, provinceId, districtId, communeId} = req.body
  * @return {next | next('route')}
  */
-const verifyUserBasicInfo = (req, res, next) => {
+const checkUserBasicInfo = (req, res, next) => {
     const errors = generalValidation.checkUserDataBasic(req)
     if(errors){
         res.status(errors.code).send(errors)
+        return next('route')
+    }
+    return next()
+}
+
+/**
+ * xac thuc PASSWORD TRUOC KHI UPDATE
+ * @param {password, newPassword, rePassword} = req.body
+ * @return {next | next('route')}
+ */
+const checkUpdatePassword = async (req, res, next) => {
+    const {id, email, roleId} = req.user
+    const {password} = req.body
+    const errors = generalValidation.checkUserPassword(req)
+    if(errors){
+        res.status(errors.code).send(errors)
+        return next('route')
+    }
+    const user = await User.getUser({id, email, roleId})
+                            .then(data => data)
+                            .catch(err => err)
+    if(!user){
+        res.status(notices._500.code).send(notices._500)
+        return next('route')
+    }
+    if(!bcrypt.comparePassword(password, user.password)){
+        const err = notices.fieldError("password", "Uh! Mật khẩu không đúng")
+        res.status(err.code).send(err)
         return next('route')
     }
     return next()
@@ -102,5 +130,6 @@ module.exports={
     login,
     register,
     updateAvatar,
-    verifyUserBasicInfo
+    checkUserBasicInfo,
+    checkUpdatePassword
 }
