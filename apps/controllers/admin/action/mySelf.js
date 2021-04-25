@@ -9,7 +9,7 @@ const {
 /**
  * GET - Lay thong tin cua chinh toi
  * 
- * @params {user} - nhu trong da Passport tra ve
+ * @param {user} - nhu trong da Passport tra ve
  * 
  * @returns {} object JSON
  * 
@@ -30,7 +30,7 @@ router.get('/', async (req, res) => {
 /** 
  * POST - Upload anh avatar cho Users
  * 
- * @params {email, roleId, name} auto in req. Rassport returned. { imageBase64 } in body
+ * @param {email, roleId, name} auto in req. Rassport returned. { imageBase64 } in body
  * 
  */
  router.post('/update-avatar', generalMiddleware.updateAvatar, (req, res) => {})

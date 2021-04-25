@@ -7,7 +7,7 @@ const {notices} = require('../../../common')
 /**
  * Lay ra danh sach nguoi dung cua trang web
  * 
- * @params {*} 
+ * @param {*} 
  * 
  * @returns {*} object JSON
  * 
