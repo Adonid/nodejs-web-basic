@@ -10,9 +10,9 @@ const {notices} = require('../../../common')
 /**
  *  CONTROLLER TAO TAI KHOAN ADMIN or EDITOR
  * 
- * @params {name, email, password}
+ * @param {name, email, password}
  * 
- * @returns msg
+ * @return {msg}
  */
 router.post('/', editorMiddleware.verifyRegisterEditor, async (req, res) => {
     const {name, email, password} = req.body
