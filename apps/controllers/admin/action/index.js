@@ -5,7 +5,7 @@ const myself = require('./mySelf')
 const users = require('./users')
 const editors = require('./editors')
 const userDetail = require('./userDetail')
-const updateUserInfo = require('./updateUserInfo')
+const manager = require('./manager')
 
 /**
  *  Route cho phep vao lay ra du lieu cho trang dashboard
@@ -31,7 +31,7 @@ const updateUserInfo = require('./updateUserInfo')
 /**
  *  Route POST- cap nhat thong tin user
  */
- router.use('/update', updateUserInfo)
+ router.use('/manager', manager)
 
 
 module.exports = router

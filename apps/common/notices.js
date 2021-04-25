@@ -149,6 +149,22 @@ const fieldError = (filed, fieldName) => {
     }
 }
 
+/** TUY CHINH BAO LOI REQ*/
+const requestError = err => {
+    return {
+        code: 403,
+        error: err
+    }
+}
+
+/** TUY CHINH BAO LOI REQ*/
+const formatError = err => {
+    return {
+        code: 401,
+        error: err
+    }
+}
+
 
 
 /** BAO LOI USERNAME */
@@ -243,6 +259,8 @@ module.exports={
     loginSuccess,
     resetCodeSuccess,
     reqSuccess,
+    requestError,
+    formatError,
     _403,
     _422,
     _500,

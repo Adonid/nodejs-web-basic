@@ -4,6 +4,14 @@ const {User} = require('../models')
 
 /** CAC METHODS NAY DUNG DE SOI CHIEU VOI DU LIEU CUA REQUEST - ONLY SELECT */
 
+// KIEM TRA DANG BOOLEAN
+const checkBoolean = (value, note) => {
+    if(typeof(value) === "boolean"){
+        return false
+    }
+    return notices.formatError(note)
+}
+
 // KIEM TRA DANG TEN NGUOI DUNG - NAME
 const checkName = name => {
     // Validate username
@@ -254,11 +262,26 @@ const checkUserPassword = req => {
     
 }
 
+/** KIEM TRA DU LIEU ACTIVE ỦE TRUOC KHI UPDATE
+ * @params req
+ * @returns errors
+ */
+const checkActiveUser = req => {
+    const {active} = req.body
+    const activeCheck = checkBoolean(active, "Dữ liệu active phải là boolean!")
+    if(activeCheck)
+        return activeCheck
+    
+    return false
+    
+}
+
 module.exports={
     emailCheckBase,
     login,
     register,
     isResetPassword,
     checkUserDataBasic,
-    checkUserPassword
+    checkUserPassword,
+    checkActiveUser
 }

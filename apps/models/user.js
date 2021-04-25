@@ -9,7 +9,7 @@ const {User, Role, Province, District, Commune, Post, CommentsPost, FavouritesPo
 const getUser = obj => {
     return new Promise( async (resolve, reject) => {
         const data = await User.findOne({
-            // attributes: ['id', 'roleId', 'name', 'fullName', 'avatarUrl'],
+            // attributes: ['id', 'roleId', 'name', 'fullName', 'avatar'],
             where: obj,
             include: [Role, Province, District, Commune],
         })
@@ -147,7 +147,7 @@ const updateUser = async (value, index, indexPrimary=false) => {
  */
 const paginationUser = async (offset=0, limit=5) => {
     const users = await User.findAll({
-        attributes: ['id', 'name', 'email', 'active', 'provider', 'fullName', 'phoneNumber', 'avatarUrl', 'createdAt' ],
+        attributes: ['id', 'name', 'email', 'active', 'provider', 'fullName', 'phoneNumber', 'avatar', 'createdAt' ],
         where: {roleId: 3},
         offset,
         limit
@@ -171,7 +171,7 @@ const paginationUser = async (offset=0, limit=5) => {
  */
 const paginationEditor = async () => {
     const editors = await User.findAll({
-        attributes: ['id', 'name', 'email', 'active', 'fullName', 'phoneNumber', 'avatarUrl', 'createdAt' ],
+        attributes: ['id', 'name', 'email', 'active', 'fullName', 'phoneNumber', 'avatar', 'createdAt' ],
         where: {roleId: 2}
     })
     .then(u => {

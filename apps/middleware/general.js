@@ -5,6 +5,10 @@ const {Slug} = require('..//helpers')
 const {DriverGoogle} = require('../services')
 const config = require('../../config/config.json')
 
+const ROLE_ADMIN  = 1
+const ROLE_AUTHOR = 2
+const ROLE_USER   = 3
+
 /**
  * 
  * @param {]} req 
@@ -126,10 +130,31 @@ const checkUpdatePassword = async (req, res, next) => {
     return next()
 }
 
+/**
+ * DOI THUONG THAO TAC KHONG PHAI LA ADMIN
+ * @param {roleId} = req.body
+ * @return {next | next('route')}
+ */
+const checkNotAdmin = async (req, res, next) => {
+    const {roleId} = req.body
+    const errorActive = generalValidation.checkActiveUser(req)
+    if(errorActive){
+        res.status(errorActive.code).send(errorActive)
+        return next('route')
+    }
+    if(roleId===ROLE_ADMIN){
+        const err = notices.requestError("Uh! Không được thay đổi Admin")
+        res.status(err.code).send(err)
+        return next('route')
+    }
+    return next()
+}
+
 module.exports={
     login,
     register,
     updateAvatar,
     checkUserBasicInfo,
-    checkUpdatePassword
+    checkUpdatePassword,
+    checkNotAdmin
 }
