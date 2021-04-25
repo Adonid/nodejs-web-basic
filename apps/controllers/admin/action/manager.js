@@ -8,7 +8,7 @@ const {generalMiddleware} = require('../../../middleware')
 /**
  * Cap nhat thong tin co ban cho user
  * 
- * @params {id, email, roleId, active}
+ * @param {id, email, roleId, active}
  * 
  * @returns {user} object JSON
  * 
