@@ -28,9 +28,6 @@ Passport.applyPassportTwitterStrategy(passport)
 app.use(express.json({limit: '5mb'}))
 // Cau hinh file static
 app.use('/static', express.static(__dirname + "/public"))
-//
-app.set("views", "./views");
-app.set("view engine", "pug");
 // them vao app cac route & controller
 app.use(controllers)
 
