@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const dashboard = require('./dashboard')
-const users = require('./users')
+const myself = require('./mySelf')
 
 /**
  *  Route cho phep vao lay ra du lieu cho trang dashboard
@@ -9,9 +9,9 @@ const users = require('./users')
  router.use('/', dashboard)
 
 /**
- *  Route - danh sach cac users
+ *  Route - Thong tin ca nhan
  */
- router.use('/user-list', users)
+ router.use('/myself', myself)
 
 
 module.exports = router

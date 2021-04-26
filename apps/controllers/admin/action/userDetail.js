@@ -7,7 +7,7 @@ const {notices} = require('../../../common')
 /**
  * Lay thong tin chi tiet nguoi dung
  * 
- * @params {*} email, roleId
+ * @param {*} email, roleId
  * 
  * @returns {*} object JSON
  * 
