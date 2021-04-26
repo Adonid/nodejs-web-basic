@@ -67,7 +67,9 @@ const applyPassportFacebookStrategy = passport => {
         // Cho phep dang nhap vao
         return done(null, {
           email: existing_user.email,
-          _id: existing_user[config.underscoreId]
+          name: existing_user.name,
+          id: existing_user[config.underscoreId],
+          roleId: existing_user.roleId
         })
       }
       // Neu email chua co nguoi dang ky thi thuc hien dang ky tk cho user
@@ -81,7 +83,9 @@ const applyPassportFacebookStrategy = passport => {
       console.log("Dang ky xong")
       return done(null, {
         email: new_user.email,
-        _id: new_user[config.underscoreId]
+        name: new_user.name,
+        id: new_user[config.underscoreId],
+        roleId: new_user.roleId
       })
     })
   )
@@ -121,7 +125,9 @@ const applyPassportGoogleStrategy = passport => {
         // Cho phep dang nhap vao
         return done(null, {
           email: existing_user.email,
-          _id: existing_user[config.underscoreId]
+          name: existing_user.name,
+          id: existing_user[config.underscoreId],
+          roleId: existing_user.roleId
         })
       }
       // Neu email chua co nguoi dang ky thi thuc hien dang ky tk cho user
@@ -133,7 +139,9 @@ const applyPassportGoogleStrategy = passport => {
       // Tra ve user moi dang ky
       return done(null, {
         email: new_user.email,
-        _id: new_user[config.underscoreId]
+        name: new_user.name,
+        id: new_user[config.underscoreId],
+        roleId: new_user.roleId
       })
     })
   )
@@ -174,7 +182,9 @@ const applyPassportTwitterStrategy = passport => {
         // Cho phep dang nhap vao
         return done(null, {
           email: existing_user.email,
-          _id: existing_user[config.underscoreId]
+          name: existing_user.name,
+          id: existing_user[config.underscoreId],
+          roleId: existing_user.roleId
         })
       }
       // Neu email chua co nguoi dang ky thi thuc hien dang ky tk cho user
@@ -186,7 +196,9 @@ const applyPassportTwitterStrategy = passport => {
       // Tra ve user moi dang ky
       return done(null, {
         email: new_user.email,
-        _id: new_user[config.underscoreId]
+        name: new_user.name,
+        id: new_user[config.underscoreId],
+        roleId: new_user.roleId
       })
     })
   )
