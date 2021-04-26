@@ -10,7 +10,7 @@ const {
 /**
  * Router dung cho test cac editor
  * 
- * @params in BODY: { email, password}
+ * @param  { email, password} in BODY:
  * 
  * @return json
  * 
