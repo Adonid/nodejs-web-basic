@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const {User} = require('../../../models')
-const {notices, bcrypt} = require('../../../common')
+const {notices} = require('../../../common')
 const {
     generalMiddleware
 } = require("../../../middleware")
