@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const updateInfo = require('./updateInfo')
+const myself = require('./mySelf')
 
 /**
  *  Route nay dung cho user muon thao tac - thong tin ca nhan, comment, like post...
@@ -9,7 +9,7 @@ const updateInfo = require('./updateInfo')
  * 
  *  Yeu cau nay buoc user phai dang nhap thanh cong truoc khi vao lam viec
  */
- router.use('/update-info', updateInfo)
+ router.use('/myself', myself)
 
 
 module.exports = router
