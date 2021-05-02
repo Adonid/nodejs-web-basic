@@ -12,9 +12,9 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
-      imgUrl: {
+      image: {
         allowNull: false,
-        type: Sequelize.TEXT
+        type: Sequelize.JSON
       },
       color: {
         allowNull: true,
