@@ -31,7 +31,7 @@ router.get('/', async (req, res) => {
  * @return {*} object JSON
  * 
  */
-router.post('/create', async (req, res) => {
+router.post('/create', adminMiddleware.checkNewCategory, async (req, res) => {
     const {name, imageBase64, color} = req.body
     
     const err = notices._500

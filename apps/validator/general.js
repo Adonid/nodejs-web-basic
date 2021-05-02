@@ -107,7 +107,8 @@ const checkAddress = address => {
 const checkBase64String = image => {
     // Validate image
     if(image || image.trim()){
-        if(regex.base64String(image)){
+        const convertBase64 = image.split(/,(.+)/)[1]
+        if(regex.base64String(convertBase64)){
             return notices.fieldNotFormat("image", "Ảnh")
         }
         return false
@@ -118,10 +119,22 @@ const checkBase64String = image => {
 const checkBase64StringRequire = image => {
     // Validate image
     if(!image || !image.trim()){
-        return notices.fieldEmpty('image')
+        return notices.fieldEmpty('ảnh')
     }
-    if(regex.base64String(image)){
+    const convertBase64 = image.split(/,(.+)/)[1]
+    if(regex.base64String(convertBase64)){
         return notices.fieldNotFormat("image", "Ảnh")
+    }
+    return false
+}
+// KIEM TRA DANG MA MAU - COLOR
+const checkHexColorCode = color => {
+    // Validate color
+    if(!color || !color.trim()){
+        return notices.fieldEmpty('color', 'mã màu')
+    }
+    if(regex.hexColorCode(color)){
+        return notices.fieldNotFormat("color", "Mã màu")
     }
     return false
 }
@@ -307,5 +320,6 @@ module.exports={
     checkUserPassword,
     checkActiveUser,
     checkBase64String,
-    checkBase64StringRequire
+    checkBase64StringRequire,
+    checkHexColorCode
 }

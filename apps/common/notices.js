@@ -109,7 +109,7 @@ const fieldEmpty = (name, as=null) => {
     return {
         code: 411,
         field: name,
-        error: `Uh ${as||name} không để trống nhé!`
+        error: `Uh! ${as||name} không để trống nhé!`
     }
 }
 
