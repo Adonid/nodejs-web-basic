@@ -16,6 +16,10 @@ const textNormal = str => {
     const slug = Slug.slugName(str)
     return /^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]{2,}$/g.test(slug) ? false : true
 }
+// La chuoi base64 string
+const base64String = str => (new RegExp("^[a-zA-Z0-9\+/]*={0,2}")).test(str) ? false : true
+
+
 
 module.exports={ 
     username,
