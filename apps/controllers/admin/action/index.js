@@ -6,6 +6,7 @@ const users = require('./users')
 const editors = require('./editors')
 const userDetail = require('./userDetail')
 const manager = require('./manager')
+const categories = require('./categories')
 
 /**
  *  Route cho phep vao lay ra du lieu cho trang dashboard
@@ -13,7 +14,7 @@ const manager = require('./manager')
  router.use('/', dashboard)
 
 /**
- *  Route GET- danh sach cac editors
+ *  Danh sach cac editors
  */
  router.use('/editors-list', editors)
 /**
@@ -21,17 +22,21 @@ const manager = require('./manager')
  */
  router.use('/myself', myself)
 /**
- *  Route GET- danh sach cac users
+ *  Cac thao tac danh sach cac users
  */
  router.use('/users-list', users)
 /**
- *  Route GET- chi tiet user
+ *  Cac thao tac chi tiet user
  */
  router.use('/user-detail', userDetail)
 /**
- *  Route POST- cap nhat thong tin user
+ *  Cac thao tac quan ly user
  */
  router.use('/manager', manager)
+/**
+ *  Cac thao tac quan ly danh muc
+ */
+ router.use('/categories', categories)
 
 
 module.exports = router
