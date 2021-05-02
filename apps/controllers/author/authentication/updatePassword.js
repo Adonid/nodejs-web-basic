@@ -9,9 +9,9 @@ const {User} = require('../../../models')
 /**
  * XAC MINH TAI KHOAN  & GUI EMAIL CHUA LINK DOI MAT KHAU
  * 
- * @params {email, codeReset, password, repassword}
+ * @param {email, codeReset, password, repassword}
  * 
- * @returns string notifies
+ * @return string notifies
  */
 router.post('/', editorMiddleware.updatePasswordEditor, async (req, res) => {
     // Du lieu CLEAR
