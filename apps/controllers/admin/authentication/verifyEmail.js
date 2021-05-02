@@ -12,9 +12,9 @@ const {ResetPassword} = require('../../../../views')
 /**
  * XAC MINH TAI KHOAN  & GUI EMAIL CHUA LINK DOI MAT KHAU
  * 
- * @params email
+ * @param {email}
  * 
- * @returns string notifies
+ * @return string notifies
  */
 router.post('/', adminMiddleware.verifyEmailAdmin, async (req, res) => {
     const {email} = req.body
