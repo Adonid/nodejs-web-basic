@@ -17,7 +17,9 @@ const textNormal = str => {
     return /^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]{2,}$/g.test(slug) ? false : true
 }
 // La chuoi base64 string
-const base64String = str => (new RegExp("^[a-zA-Z0-9\+/]*={0,2}")).test(str) ? false : true
+const base64String = str => (new RegExp("^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)?$")).test(str) ? false : true
+// La chuoi Ma mau HEX
+const hexColorCode = str => /^#([0-9A-Fa-f]{3}){1,2}$/i.test(str) ? false : true
 
 
 
@@ -25,5 +27,7 @@ module.exports={
     username,
     password,
     phoneNumber,
-    textNormal
+    textNormal,
+    base64String,
+    hexColorCode
 }

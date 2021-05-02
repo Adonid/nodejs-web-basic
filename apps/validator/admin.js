@@ -1,6 +1,13 @@
 const {notices, bcrypt} = require('../common')
 const {User} = require('../models')
-const {emailCheckBase, isResetPassword, login, register, checkBase64String} = require('./general')
+const {
+    emailCheckBase, 
+    isResetPassword, 
+    login, 
+    register, 
+    checkBase64String,
+    checkHexColorCode
+} = require('./general')
 
 const roleId = 1
 
@@ -109,14 +116,15 @@ const roleId = 1
     const {name, imageBase64, color} = req.body
     // Kiem tra so bo req
     if(!name || !name.trim()){
-        return notices.fieldEmpty('name')
+        return notices.fieldEmpty('tên danh mục')
     }
     const image64 = checkBase64String(imageBase64)
     if(image64){
         return image64
     }
-    if(!color || !color.trim()){
-        return notices.fieldEmpty('color')
+    const colorCode = checkHexColorCode(color)
+    if(colorCode){
+        return colorCode
     }
     return false
 }

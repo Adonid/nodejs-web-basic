@@ -28,8 +28,6 @@ const verifyRegisterAdmin = async (req, res, next) => {
     return next()
 }
 
-
-
 const updatePasswordAdmin = async (req, res, next) => {
     const errors = await adminValidation.isResetPasswordAdmin(req)
     if(errors){
