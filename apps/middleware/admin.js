@@ -39,9 +39,21 @@ const updatePasswordAdmin = async (req, res, next) => {
     return next()
 }
 
+const checkNewCategory = async (req, res, next) => {
+    const errors = adminValidation.checkNewCategory(req)
+    if(errors){
+        res.status(errors.code).send(errors)
+        return next('route')
+    }
+    return next()
+}
+
+
+
 module.exports={
     verifyEmailAdmin,
     verifyLoginAdmin,
     verifyRegisterAdmin,
     updatePasswordAdmin,
+    checkNewCategory
 }

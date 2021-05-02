@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
-const {User} = require('../../../models')
+const {adminMiddleware} = require('../../../middleware')
+const {Category} = require('../../../models')
 const {notices} = require('../../../common')
 
 
@@ -13,7 +14,13 @@ const {notices} = require('../../../common')
  * 
  */
 router.get('/', async (req, res) => {
-    
+    const categories = await Category.getCategories()
+    if(categories){
+        const info = notices.reqSuccess(categories)
+        return res.status(info.code).json(info)
+    }
+    const err = notices._500
+    return res.status(err.code).json(err)
 })
 
 /**

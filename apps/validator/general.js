@@ -94,12 +94,34 @@ const checkPhoneNumber = phoneNumber => {
 }
 // KIEM TRA DANG TEXT NORMAL - ADDRESS
 const checkAddress = address => {
-    // Validate fullName
+    // Validate address
     if(address || address.trim()){
         if(regex.textNormal(address)){
             return notices.fieldNotFormat("address", "Địa chỉ")
         }
         return false
+    }
+    return false
+}
+// KIEM TRA DANG BASE64 STRING - IMAGE
+const checkBase64String = image => {
+    // Validate image
+    if(image || image.trim()){
+        if(regex.base64String(image)){
+            return notices.fieldNotFormat("image", "Ảnh")
+        }
+        return false
+    }
+    return false
+}
+// KIEM TRA DANG BASE64 STRING - IMAGE
+const checkBase64StringRequire = image => {
+    // Validate image
+    if(!image || !image.trim()){
+        return notices.fieldEmpty('image')
+    }
+    if(regex.base64String(image)){
+        return notices.fieldNotFormat("image", "Ảnh")
     }
     return false
 }
@@ -283,5 +305,7 @@ module.exports={
     isResetPassword,
     checkUserDataBasic,
     checkUserPassword,
-    checkActiveUser
+    checkActiveUser,
+    checkBase64String,
+    checkBase64StringRequire
 }
