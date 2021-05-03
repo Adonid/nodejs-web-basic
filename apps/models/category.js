@@ -1,25 +1,43 @@
 const {Category, Post, CommentsPost, FavouritesPost} = require('../../models')
 
-/** KIEM TRA SU TON TAI CUA TAI KHOAN THEO EMAIL 
+/** LAY DANH SACH TAT CA CAC DANH MUC 
  * 
- * @param obj options - {email: "123hello@gmail.com"}...
+ * @param none
  * 
- * @return boolean or OBJECT
+ * @return array [{'id', 'name', 'image', 'color'}]
 */
 const getCategories = async () => {
     try {
         const categories = await Category.findAll({
             attributes: ['id', 'name', 'image', 'color']
         })
-        return categories
+        return categories.dataValues||[]
     } catch (error) {
         // console.log(error)
         return false
     }
 }
 
-
+/** LAY 1 DANH MUC THEO CAC TRUONG
+ * 
+ * @param obj options - {email: "Sức khỏe"}...
+ * 
+ * @return boolean or OBJECT
+*/
+const getCategory = async obj => {
+    try {
+        const data = await Category.findOne({
+            attributes: ['id', 'name', 'image', 'color', 'description'],
+            where: obj
+        })
+        return data.dataValues||[]
+    } catch (error) {
+        // console.log(error)
+        return false
+    }
+}
 
 module.exports={
     getCategories,
+    getCategory
 }
