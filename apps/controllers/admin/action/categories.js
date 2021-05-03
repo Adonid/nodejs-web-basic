@@ -26,13 +26,13 @@ router.get('/', async (req, res) => {
 /**
  * Tao moi 1 danh muc
  * 
- * @param {name, imageBase64, color} 
+ * @param {name, imageBase64, color, description} 
  * 
  * @return {*} object JSON
  * 
  */
 router.post('/create', adminMiddleware.checkNewCategory, async (req, res) => {
-    const {name, imageBase64, color} = req.body
+    const {name, imageBase64, color, description} = req.body
     
     const err = notices._500
     return res.status(err.code).json(err)

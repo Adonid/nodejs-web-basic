@@ -1,4 +1,4 @@
-const {notices, bcrypt} = require('../common')
+const {notices, regex, bcrypt} = require('../common')
 const {User} = require('../models')
 const {
     emailCheckBase, 
@@ -113,10 +113,10 @@ const roleId = 1
  * @returns errors
  */
  const checkNewCategory = req => {
-    const {name, imageBase64, color} = req.body
+    const {name, imageBase64, color, description} = req.body
     // Kiem tra so bo req
     if(!name || !name.trim()){
-        return notices.fieldEmpty('tên danh mục')
+        return notices.fieldEmpty('name', 'tên danh mục')
     }
     const image64 = checkBase64String(imageBase64)
     if(image64){
@@ -125,6 +125,12 @@ const roleId = 1
     const colorCode = checkHexColorCode(color)
     if(colorCode){
         return colorCode
+    }
+    if(description || description.trim()){
+        if(regex.textNormal(description)){
+            return notices.fieldNotFormat("description", "Mô tả danh mục")
+        }
+        return false
     }
     return false
 }
