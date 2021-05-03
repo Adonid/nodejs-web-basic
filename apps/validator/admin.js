@@ -5,8 +5,8 @@ const {
     isResetPassword, 
     login, 
     register, 
-    checkBase64String,
-    checkHexColorCode
+    checkHexColorCode,
+    checkBase64StringRequire
 } = require('./general')
 
 const roleId = 1
@@ -118,7 +118,7 @@ const roleId = 1
     if(!name || !name.trim()){
         return notices.fieldEmpty('name', 'tên danh mục')
     }
-    const image64 = checkBase64String(imageBase64)
+    const image64 = checkBase64StringRequire(imageBase64)
     if(image64){
         return image64
     }
