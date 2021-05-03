@@ -124,8 +124,33 @@ const uploadFile = async (folderId, imgBase64, nameFile) => {
     }
   }
 
+/** UPDATE file len GOOGLE DRIVER
+ * 
+ * @params {folderId, nameFile, imgBase64} file anh da ma hoa sang kieu base64
+ * 
+ * @returns {kind, id, name, mimeType} 
+ * 
+ */
+ const updateFile = async (folderId, imgBase64, nameFile, fileId) => {
+  const newFile = await uploadFile(folderId, imgBase64, nameFile)
+  // Upload khong thanh cong
+  if(!newFile){
+    return false
+  }
+  // Xoa file cu neu ton tai
+  if(fileId){
+    const status = await deleteFile(fileId)
+    // Loi ko xoa duoc
+    if(!status){
+        return false
+    }
+  }
+  return newFile
+}
+
 module.exports = {
     uploadFile,
     deleteFile,
-    generatePublicUrl
+    generatePublicUrl,
+    updateFile
 }

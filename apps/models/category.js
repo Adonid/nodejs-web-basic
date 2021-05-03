@@ -37,7 +37,32 @@ const getCategory = async obj => {
     }
 }
 
+/** TAO MOI DANH MUC
+ * 
+ * @param {*} name 
+ * @param {*} email 
+ * @param {*} password 
+ * 
+ * @returns boolean
+ */
+ const createCategory = async (name, image, color, description) => {
+    const user = await Category.create({
+        name,
+        image,
+        color,
+        description
+    })
+    .then(user => {
+        return user?true:false
+    })
+    .catch(err => {
+        return false
+    })
+    return user
+}
+
 module.exports={
     getCategories,
-    getCategory
+    getCategory,
+    createCategory
 }

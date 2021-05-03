@@ -11,7 +11,7 @@ const ROLE_USER   = 3
 
 /**
  * 
- * @param {]} req 
+ * @param {} req 
  * @param {*} res 
  * @param {*} next 
  * @return next('route') | next()
@@ -55,27 +55,18 @@ const register = (req, res, next) => {
         res.status(err.code).json(err)
         return next('route')
     }
+    const {fileId} = user.avatar
     // UPLOAD AVATAR MOI LEN
-    const dataFile = await DriverGoogle.uploadFile(config.googledriver.avatarFolder, imageBase64, Slug.slugNameImage(name))
-    if(!dataFile){
-        const error = notices._500
+    const newFile = await DriverGoogle.updateFile(config.googledriver.avatarFolder, imageBase64, Slug.slugNameImage(name), fileId)
+    // Thong bao neu loi
+    const error = notices._500
+    if(!newFile){
         res.status(error.code).json(error)
         return next('route')
     }
-    // XOA FILE CU NEU CO   
-    const {fileId} = user.avatar
-    if(fileId){
-        const status = await DriverGoogle.deleteFile(fileId)
-        // Loi ko xoa duoc
-        if(!status){
-            const error = notices._500
-            res.status(error.code).json(error)
-            return next('route')
-        }
-    }
     // CAP NHAT FILE CHO USER NAY
     const updated = await User.updateUser(
-        {avatar: {webViewLink: dataFile.webViewLink, webContentLink: dataFile.webContentLink, thumbnailLink: dataFile.thumbnailLink, fileId: dataFile.fileId}},
+        {avatar: newFile},
         {email}
     )
     if(updated){
@@ -83,7 +74,6 @@ const register = (req, res, next) => {
         res.status(message.code).json(message)
         return next()
     }
-    const error = notices._500
     res.status(error.code).json(error)
     return next('route')
 }
