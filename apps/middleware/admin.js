@@ -1,4 +1,6 @@
 const {adminValidation} = require('../validator')
+const {Category} = require('../models')
+const { notices } = require('../common')
 
 
 const verifyEmailAdmin = async (req, res, next) => {
@@ -38,9 +40,16 @@ const updatePasswordAdmin = async (req, res, next) => {
 }
 
 const checkNewCategory = async (req, res, next) => {
+    const {name} = req.body
     const errors = adminValidation.checkNewCategory(req)
     if(errors){
         res.status(errors.code).send(errors)
+        return next('route')
+    }
+    const category = await Category.getCategory({name})
+    if(category){
+        const err = notices.fieldNotDuplicate('name', name)
+        res.status(err.code).send(err)
         return next('route')
     }
     return next()

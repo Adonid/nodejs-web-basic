@@ -165,7 +165,14 @@ const formatError = err => {
     }
 }
 
-
+/** DU LIEU DA TON TAI - KHONG DUOC TAO RA TRUNG NHAU */
+const fieldNotDuplicate = (filed, fieldName) => {
+    return {
+        code: 411,
+        field: filed,
+        error: `Uh! "${fieldName||filed}" đã tồn tại rồi`
+    }
+}
 
 /** BAO LOI USERNAME */
 const usernamedNotFormat = {
@@ -248,6 +255,7 @@ module.exports={
     fieldNotTrue,
     fieldNotMatch,
     fieldError,
+    fieldNotDuplicate,
     notValidEmail,
     notDataResetPassword,
     notEmail,
