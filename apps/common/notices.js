@@ -240,6 +240,14 @@ const notDataResetPassword = {
     error: "Uh! Mã xác minh chưa đúng hoặc không phải dành cho email này"
 }
 
+/** KHONG TON TAI DOI TUONG MUON KIEM TRA HOAC THAO TAC */
+const notFound = name => {
+    return {
+        code: 404,
+        error: `Uh! Không tìm thấy ${name}`
+    }
+}
+
 
 module.exports={
     fieldEmpty,
@@ -269,6 +277,7 @@ module.exports={
     reqSuccess,
     requestError,
     formatError,
+    notFound,
     _403,
     _422,
     _500,

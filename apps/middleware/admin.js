@@ -62,6 +62,13 @@ const checkUpdateCategory = async (req, res, next) => {
         res.status(errors.code).send(errors)
         return next('route')
     }
+    // DANH MUC CO TON TAI KHONG
+    const category = await Category.getCategory({id})
+    if(!category){
+        const err = notices.notFound('danh mục này hoặc đã bị xóa!')
+        res.status(err.code).send(err)
+        return next('route')
+    }
     // CO TRUNG TEN KHONG
     const isDuplicate = await Category.isCategoryDuplicate(id, name)
     if(isDuplicate){
