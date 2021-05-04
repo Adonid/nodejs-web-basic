@@ -6,6 +6,7 @@ const {
     login, 
     register, 
     checkHexColorCode,
+    checkBase64String,
     checkBase64StringRequire
 } = require('./general')
 
@@ -108,7 +109,7 @@ const roleId = 1
     return false
 }
 
-/** KIEM TRA XEM req nay co du tieu chuan de update password CHO ADMIN khong
+/** KIEM TRA XEM req nay co du tieu chuan de create DANH MUC
  * @params req
  * @returns errors
  */
@@ -135,11 +136,39 @@ const roleId = 1
     return false
 }
 
+/** KIEM TRA XEM req nay co du tieu chuan de update DANH MUC
+ * @params req
+ * @returns errors
+ */
+ const checkUpdateCategory = req => {
+    const {name, imageBase64, color, description} = req.body
+    // Kiem tra so bo req
+    if(!name || !name.trim()){
+        return notices.fieldEmpty('name', 'tên danh mục')
+    }
+    const image64 = checkBase64String(imageBase64)
+    if(image64){
+        return image64
+    }
+    const colorCode = checkHexColorCode(color)
+    if(colorCode){
+        return colorCode
+    }
+    if(description || description.trim()){
+        if(regex.textNormal(description)){
+            return notices.fieldNotFormat("description", "Mô tả danh mục")
+        }
+        return false
+    }
+    return false
+}
+
 
 module.exports={
     isValidEmailAdmin,
     isRegisterAdmin,
     isLoginAdmin,
     isResetPasswordAdmin,
-    checkNewCategory
+    checkNewCategory,
+    checkUpdateCategory
 }
