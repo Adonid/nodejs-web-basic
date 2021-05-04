@@ -34,7 +34,7 @@ const drive = google.drive({
  * 
  * @params {fileId}
  * 
- * @return {webContentLink, webViewLink}
+ * @return {webViewLink, webContentLink, thumbnailLink}
  * 
  */
    const generatePublicUrl = async (fileId) => {
@@ -133,20 +133,21 @@ const uploadFile = async (folderId, imgBase64, nameFile) => {
  * 
  */
  const updateFile = async (folderId, imgBase64, nameFile, fileId) => {
-  const newFile = await uploadFile(folderId, imgBase64, nameFile)
+   // Chi tien hanh UPLOAD FILE MOI KHI imgBase64 khong rong
+  const dataFile = imgBase64 ? await uploadFile(folderId, imgBase64, nameFile) : await generatePublicUrl(fileId)
   // Upload khong thanh cong
-  if(!newFile){
+  if(!dataFile){
     return false
   }
-  // Xoa file cu neu ton tai
-  if(fileId){
+  // Xoa file cu neu ton tai va co file moi upload len
+  if(fileId && imgBase64){
     const status = await deleteFile(fileId)
     // Loi ko xoa duoc
     if(!status){
         return false
     }
   }
-  return newFile
+  return dataFile
 }
 
 module.exports = {
