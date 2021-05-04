@@ -57,7 +57,7 @@ const checkNewCategory = async (req, res, next) => {
 
 const checkUpdateCategory = async (req, res, next) => {
     const {id, name} = req.body
-    const errors = adminValidation.checkNewCategory(req)
+    const errors = adminValidation.checkUpdateCategory(req)
     if(errors){
         res.status(errors.code).send(errors)
         return next('route')
