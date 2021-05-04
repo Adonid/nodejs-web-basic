@@ -10,6 +10,7 @@ required npm package: googleapis
 const {google} = require('googleapis')
 const config = require('../../config/config.json')
 const { Stream } = require('stream')
+const {Slug} = require('../helpers')
 
 const CLIENT_ID = config.googledriver.clientID
 const CLIENT_SECRET = config.googledriver.clientSecret
@@ -85,7 +86,7 @@ const uploadFile = async (folderId, imgBase64, nameFile) => {
     img.end(buf)
     const response = await drive.files.create({
       requestBody: {
-        name: nameFile,       //This can be name of your choice
+        name: Slug.slugNameImage(nameFile),       //This can be name of your choice
         parents: [folderId],  //This can be folder id of your choice
         mimeType: 'image/jpg',
       },

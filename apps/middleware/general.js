@@ -1,7 +1,6 @@
 const {generalValidation} = require('../validator')
 const {User} = require('../models')
 const {notices, bcrypt} = require('../common')
-const {Slug} = require('..//helpers')
 const {DriverGoogle} = require('../services')
 const config = require('../../config/config.json')
 
@@ -57,7 +56,7 @@ const register = (req, res, next) => {
     }
     const {fileId} = user.avatar
     // UPLOAD AVATAR MOI LEN
-    const newFile = await DriverGoogle.updateFile(config.googledriver.avatarFolder, imageBase64, Slug.slugNameImage(name), fileId)
+    const newFile = await DriverGoogle.updateFile(config.googledriver.avatarFolder, imageBase64, name, fileId)
     // Thong bao neu loi
     const error = notices._500
     if(!newFile){
