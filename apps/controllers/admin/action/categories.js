@@ -36,7 +36,7 @@ router.get('/', async (req, res) => {
 router.post('/create', adminMiddleware.checkNewCategory, async (req, res) => {
     const {name, imageBase64, color, description} = req.body
     const err = notices._500
-    const dataFile = await DriverGoogle.uploadFile(config.googledriver.categoryFolder, imageBase64, Slug.slugNameImage(name))
+    const dataFile = await DriverGoogle.uploadFile(config.googledriver.categoryFolder, imageBase64, name)
     // TEST UPLOAD FILE
     if(!dataFile){
         return res.status(err.code).json(err)
