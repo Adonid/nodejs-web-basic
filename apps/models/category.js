@@ -32,7 +32,7 @@ const getCategory = async obj => {
         })
         return data.dataValues||[]
     } catch (error) {
-        // console.log(error)
+        console.log(error)
         return false
     }
 }
@@ -56,6 +56,7 @@ const getCategory = async obj => {
         return user?true:false
     })
     .catch(err => {
+        console.log(err)
         return false
     })
     return user
