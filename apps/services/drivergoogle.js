@@ -32,7 +32,7 @@ const drive = google.drive({
 
   /** Lay thong tin file
  * 
- * @params {fileId}
+ * @param {fileId}
  * 
  * @return {webViewLink, webContentLink, thumbnailLink}
  * 
@@ -71,9 +71,9 @@ though this can be any filePath
 */
 /** Upload file len GOOGLE DRIVER
  * 
- * @params {folderId, nameFile, imgBase64} file anh da ma hoa sang kieu base64
+ * @param {folderId, nameFile, imgBase64} file anh da ma hoa sang kieu base64
  * 
- * @returns {kind, id, name, mimeType} 
+ * @return {kind, id, name, mimeType} 
  * 
  */
 const uploadFile = async (folderId, imgBase64, nameFile) => {
@@ -107,9 +107,9 @@ const uploadFile = async (folderId, imgBase64, nameFile) => {
 
 /** Delete FOREVER file tren GOOGLE DRIVER
  * 
- * @params {fileId}
+ * @param {fileId}
  * 
- * @returns {status}
+ * @return {status}
  * 
  */
  const deleteFile = async (fileId) => {
@@ -127,9 +127,9 @@ const uploadFile = async (folderId, imgBase64, nameFile) => {
 
 /** UPDATE file len GOOGLE DRIVER
  * 
- * @params {folderId, nameFile, imgBase64} file anh da ma hoa sang kieu base64
+ * @param {folderId, nameFile, imgBase64} file anh da ma hoa sang kieu base64
  * 
- * @returns {kind, id, name, mimeType} 
+ * @return {kind, id, name, mimeType} 
  * 
  */
  const updateFile = async (folderId, imgBase64, nameFile, fileId) => {

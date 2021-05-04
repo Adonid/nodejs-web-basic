@@ -74,7 +74,7 @@ const getCategory = async obj => {
         where: index    
     })
     .then( data => {
-        // console.log(data)
+        console.log(data)
         return data||false
     })
     .catch(err => {
@@ -83,7 +83,7 @@ const getCategory = async obj => {
     })
     if(category){
         const data = await getCategories()
-        return data ? data : false
+        return data
     }
     return false
 }
