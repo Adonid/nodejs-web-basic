@@ -61,18 +61,18 @@ router.post('/create', adminMiddleware.checkNewCategory, async (req, res) => {
 router.post('/update', adminMiddleware.checkUpdateCategory, async (req, res) => {
     const {id, fileId, name, imageBase64, color, description} = req.body
     const err = notices._500
-    // const dataFile = await DriverGoogle.updateFile(config.googledriver.categoryFolder, imageBase64, name, fileId)
-    // // TEST UPDATE FILE
-    // if(!dataFile){
-    //     return res.status(err.code).json(err)
-    // }
-    // // CAP NHAT FILE CHO USER NAY
-    // const newCategory = await Category.createCategory(name, dataFile, color, description)
-    // if(newCategory){
-    //     const message = notices._200
-    //     return res.status(message.code).json(message)
-    // }
-    return res.status(err.code).json(err)
+    const image = await DriverGoogle.updateFile(config.googledriver.categoryFolder, imageBase64, name, fileId)
+    // TEST UPDATE FILE
+    if(!image){
+        return res.status(err.code).send(err)
+    }
+    // CAP NHAT FILE CHO USER NAY
+    const updateCategory = await Category.updateCategory({name, image, color, description}, {id})
+    if(updateCategory){
+        const info = notices.reqSuccess(updateCategory)
+        return res.status(info.code).send(info)
+    }
+    return res.status(err.code).send(err)
 })
 
 
