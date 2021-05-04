@@ -18,8 +18,8 @@ const config = require('../../../../config/config.json')
 router.get('/', async (req, res) => {
     const categories = await Category.getCategories()
     if(categories){
-        const info = notices.reqSuccess(categories)
-        return res.status(info.code).json(info)
+        const data = notices.reqSuccess(categories)
+        return res.status(data.code).json(data)
     }
     const err = notices._500
     return res.status(err.code).json(err)
@@ -45,8 +45,7 @@ router.post('/create', adminMiddleware.checkNewCategory, async (req, res) => {
     const newCategory = await Category.createCategory(name, dataFile, color, description)
     if(newCategory){
         const message = notices._200
-        res.status(message.code).json(message)
-        return next()
+        return res.status(message.code).json(message)
     }
     return res.status(err.code).json(err)
 })

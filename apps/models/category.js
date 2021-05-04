@@ -9,9 +9,9 @@ const {Category, Post, CommentsPost, FavouritesPost} = require('../../models')
 const getCategories = async () => {
     try {
         const categories = await Category.findAll({
-            attributes: ['id', 'name', 'image', 'color']
+            attributes: ['id', 'name', 'image', 'color', 'description']
         })
-        return categories.dataValues||[]
+        return categories
     } catch (error) {
         // console.log(error)
         return false
@@ -30,7 +30,8 @@ const getCategory = async obj => {
             attributes: ['id', 'name', 'image', 'color', 'description'],
             where: obj
         })
-        return data ? data.dataValues : []
+        console.log(data)
+        return data ? data.dataValues : false
     } catch (error) {
         console.log(error)
         return false
