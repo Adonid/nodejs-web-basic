@@ -30,7 +30,7 @@ const getCategory = async obj => {
             attributes: ['id', 'name', 'image', 'color', 'description'],
             where: obj
         })
-        return data.dataValues||[]
+        return data ? data.dataValues : []
     } catch (error) {
         console.log(error)
         return false
