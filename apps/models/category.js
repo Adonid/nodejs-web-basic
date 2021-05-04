@@ -110,7 +110,7 @@ const isCategoryDuplicate = async (id, name) => {
             }
         })
         // console.log(data)
-        return data ? true : false
+        return data.length ? true : false
     } catch (error) {
         console.log(error)
         return true
