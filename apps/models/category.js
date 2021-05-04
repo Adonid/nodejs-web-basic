@@ -1,4 +1,5 @@
 const {Category, Post, CommentsPost, FavouritesPost} = require('../../models')
+const { Op } = require("sequelize");
 
 /** LAY DANH SACH TAT CA CAC DANH MUC 
  * 
@@ -30,7 +31,7 @@ const getCategory = async obj => {
             attributes: ['id', 'name', 'image', 'color', 'description'],
             where: obj
         })
-        console.log(data)
+        // console.log(data)
         return data ? data.dataValues : false
     } catch (error) {
         console.log(error)
@@ -60,11 +61,66 @@ const getCategory = async obj => {
         console.log(err)
         return false
     })
-    return user
+    return user ? await getCategories() : false
+}
+
+/** CAP NHAT FIELD(s) TRONG BANG USER
+ * 
+ * @param {value, index}
+ * @return {array | false}
+ */
+ const updateCategory = async (value, index) => {
+    const category = await Category.update(value, {
+        where: index    
+    })
+    .then( data => {
+        // console.log(data)
+        return data||false
+    })
+    .catch(err => {
+        console.log(err)
+        return false
+    })
+    if(category){
+        const data = await getCategories()
+        return data ? data : false
+    }
+    return false
+}
+
+/** CATEGORY IS DUPLICATE?
+ * 
+ * CO DANH MUC NAO TRUNG TEN KHONG (NGOAI TRU CHINH DANH MUC DANG KIEM TRA)
+ * 
+ * @param {}
+ * 
+ * @return boolean or OBJECT
+*/
+const isCategoryDuplicate = async (id, name) => {
+    try {
+        const data = await Category.findAll({
+            attributes: ['id', 'name'],
+            where: {
+                id: {
+                    [Op.not]: id
+                },
+                name: {
+                    [Op.eq]: name,
+                }
+            }
+        })
+        // console.log(data)
+        return data ? true : false
+    } catch (error) {
+        console.log(error)
+        return true
+    }
 }
 
 module.exports={
     getCategories,
     getCategory,
-    createCategory
+    createCategory,
+    updateCategory,
+    isCategoryDuplicate
 }
