@@ -55,6 +55,23 @@ const checkNewCategory = async (req, res, next) => {
     return next()
 }
 
+const checkUpdateCategory = async (req, res, next) => {
+    const {id, name} = req.body
+    const errors = adminValidation.checkNewCategory(req)
+    if(errors){
+        res.status(errors.code).send(errors)
+        return next('route')
+    }
+    // CO TRUNG TEN KHONG
+    const isDuplicate = await Category.isCategoryDuplicate(id, name)
+    if(isDuplicate){
+        const err = notices.fieldNotDuplicate('name', name)
+        res.status(err.code).send(err)
+        return next('route')
+    }
+    return next()
+}
+
 
 
 module.exports={
@@ -62,5 +79,6 @@ module.exports={
     verifyLoginAdmin,
     verifyRegisterAdmin,
     updatePasswordAdmin,
-    checkNewCategory
+    checkNewCategory,
+    checkUpdateCategory
 }
