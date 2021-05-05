@@ -46,12 +46,10 @@ const getPosts = async (offset=0, limit=8) => {
                 },
                 {
                     model: CommentsPost,
-                    as: 'comments',
                     attributes: ['id', 'userId']
                 },
                 {
                     model: FavouritesPost,
-                    as: 'favourites',
                     attributes: ['id', 'userId']
                 },
             ],
