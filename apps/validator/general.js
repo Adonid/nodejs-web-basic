@@ -297,7 +297,7 @@ const checkUserPassword = req => {
     
 }
 
-/** KIEM TRA DU LIEU ACTIVE ỦE TRUOC KHI UPDATE
+/** KIEM TRA DU LIEU ACTIVE USER TRUOC KHI UPDATE
  * @params req
  * @returns errors
  */
@@ -306,6 +306,17 @@ const checkActiveUser = req => {
     const activeCheck = checkBoolean(active, "Dữ liệu active phải là boolean!")
     if(activeCheck)
         return activeCheck
+    
+    return false
+    
+}
+
+/** KIEM TRA DU LIEU POST TRUOC KHI TAO MOI
+ * @params req
+ * @returns errors
+ */
+const checkNewPost = req => {
+    const {title, imageBase64, desc, readTime, content} = req.body
     
     return false
     
@@ -321,5 +332,6 @@ module.exports={
     checkActiveUser,
     checkBase64String,
     checkBase64StringRequire,
-    checkHexColorCode
+    checkHexColorCode,
+    checkNewPost
 }
