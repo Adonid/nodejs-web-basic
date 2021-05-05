@@ -139,11 +139,33 @@ const checkNotAdmin = async (req, res, next) => {
     return next()
 }
 
+/**
+ * MIDDLEWARE DU LIEU TAO MOI POST
+ * @param {'title', 'imageBase64', 'desc', 'readTime', 'content', 'authorId', 'categoryId'} = req.body
+ * @return {next | next('route')}
+ */
+const checkNewPost = async (req, res, next) => {
+    const {roleId} = req.body
+    const error = generalValidation.checkNewPost(req)
+    if(error){
+        res.status(error.code).send(error)
+        return next('route')
+    }
+    if(roleId===ROLE_ADMIN){
+        const err = notices.requestError("Uh! Không được thay đổi Admin")
+        res.status(err.code).send(err)
+        return next('route')
+    }
+    return next()
+}
+
+
 module.exports={
     login,
     register,
     updateAvatar,
     checkUserBasicInfo,
     checkUpdatePassword,
-    checkNotAdmin
+    checkNotAdmin,
+    checkNewPost
 }
