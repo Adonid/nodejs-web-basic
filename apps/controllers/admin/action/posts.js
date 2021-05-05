@@ -26,6 +26,22 @@ router.get('/', async (req, res) => {
     return res.status(err.code).json(err)
 })
 
+/**
+ * TAO MOI 1 BAI VIET
+ * 
+ * @param {title, image, desc, readTime, content, authorId, categoryId}
+ * @param {id, name, roleId}
+ * 
+ * @return {*} object JSON
+ * 
+ */
+router.post('/create', async (req, res) => {
+    const {title, image, desc, readTime, content, authorId, categoryId} = req.body
+    const {id, email, roleId} = req.user
+    const err = notices._500
+   
+    return res.status(err.code).json(err)
+})
 
 
 
