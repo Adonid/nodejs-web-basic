@@ -141,7 +141,7 @@ const createNewContent = async dataContent => {
  * @return {true | false}
  */
 const createNewPost = async dataPost => {
-    const {title, image, desc, readTime, content, authorId, categoryId} = dataPost
+    const {title, image, desc, readTime, content, authorId, categoryId, active} = dataPost
     const postId = await Post.create({
         title,
         image,
@@ -149,6 +149,7 @@ const createNewPost = async dataPost => {
         readTime,
         authorId,
         categoryId,
+        active
     })
     .then(post => {
         // console.log(post)
