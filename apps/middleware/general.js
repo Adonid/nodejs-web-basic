@@ -1,5 +1,5 @@
 const {generalValidation} = require('../validator')
-const {User, Post} = require('../models')
+const {User, Post, Category} = require('../models')
 const {notices, bcrypt} = require('../common')
 const {DriverGoogle} = require('../services')
 const config = require('../../config/config.json')
@@ -145,7 +145,7 @@ const checkNotAdmin = async (req, res, next) => {
  * @return {next | next('route')}
  */
 const checkNewPost = async (req, res, next) => {
-    const {title} = req.body
+    const {title, categoryId} = req.body
     // Kiem tra dinh dang du lieu
     const error = generalValidation.checkNewPost(req)
     if(error){
@@ -156,6 +156,13 @@ const checkNewPost = async (req, res, next) => {
     const post = await Post.getOnePost({title})
     if(post){
         const duplicate = notices.fieldNotDuplicate('title', 'Tiêu đề bài viết')
+        res.status(duplicate.code).send(duplicate)
+        return next('route')
+    }
+    // Co ton tai danh muc nay khong
+    const category = await Category.getCategory({id: categoryId})
+    if(!category){
+        const duplicate = notices.notFound('danh mục này')
         res.status(duplicate.code).send(duplicate)
         return next('route')
     }
