@@ -24,6 +24,18 @@ const checkName = name => {
     return false
 }
 
+// KIEM TRA DANG TIEU DE BAI VIET - TITLE
+const checkTitleOrNormal = title => {
+    // Validate title
+    if(!title || !title.trim()){
+        return notices.fieldEmpty('title', 'Tiêu đề bài viết')
+    }
+    if(regex.textNormal(title)){
+        return notices.fieldNotFormat('title', 'Tiêu đề bài viết')
+    }
+    return false
+}
+
 // KIEM TRA DANG MAR KHAU - PASSWORD
 const checkPassword = password => {
     // Validate password
@@ -317,7 +329,26 @@ const checkActiveUser = req => {
  */
 const checkNewPost = req => {
     const {title, imageBase64, desc, readTime, content} = req.body
-    
+    // Validate title
+    const checkTitle = checkTitleOrNormal(title)
+    if(checkTitle){
+        return checkTitle
+    }
+    const checkDesc = checkTitleOrNormal(desc)
+    if(checkDesc){
+        return checkDesc
+    }
+    const checkReadTime = checkTitleOrNormal(readTime)
+    if(checkReadTime){
+        return checkReadTime
+    }
+    const checkImage64 = checkBase64StringRequire(imageBase64)
+    if(checkImage64){
+        return checkImage64
+    }
+    if(!content || !content.trim()){
+        return notices.fieldEmpty('content', 'Nội dung bài viết')
+    }
     return false
     
 }

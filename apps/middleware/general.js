@@ -1,5 +1,5 @@
 const {generalValidation} = require('../validator')
-const {User} = require('../models')
+const {User, Post} = require('../models')
 const {notices, bcrypt} = require('../common')
 const {DriverGoogle} = require('../services')
 const config = require('../../config/config.json')
@@ -145,15 +145,18 @@ const checkNotAdmin = async (req, res, next) => {
  * @return {next | next('route')}
  */
 const checkNewPost = async (req, res, next) => {
-    const {roleId} = req.body
+    const {title} = req.body
+    // Kiem tra dinh dang du lieu
     const error = generalValidation.checkNewPost(req)
     if(error){
         res.status(error.code).send(error)
         return next('route')
     }
-    if(roleId===ROLE_ADMIN){
-        const err = notices.requestError("Uh! Không được thay đổi Admin")
-        res.status(err.code).send(err)
+    // Tieu de bai viet khong trung nhau
+    const post = await Post.getOnePost({title})
+    if(!post){
+        const duplicate = notices.fieldNotDuplicate('title', 'Tiêu đề bài viết')
+        res.status(duplicate.code).send(duplicate)
         return next('route')
     }
     return next()
