@@ -37,9 +37,20 @@ router.get('/', async (req, res) => {
  */
 router.post('/create', generalMiddleware.checkNewPost, async (req, res) => {
     const {title, imageBase64, desc, readTime, content, categoryId} = req.body
-    const {id, email, roleId} = req.user
+    const {id} = req.user
     const err = notices._500
-   
+    // Upload anh bai viet
+    const image = await DriverGoogle.uploadFile(config.googledriver.postFolder, imageBase64, title)
+    // Check upload anh
+    if(!image){
+        return res.status(err.code).json(err)
+    }
+    // TAO BAI VIET - active khi nay mac dinh = true
+    const newPost = await Post.createNewPost({title, image, desc, readTime, content, authorId: id, categoryId, active: true})
+    if(newPost){
+        const message = notices._200
+        return res.status(message.code).json(message)
+    }
     return res.status(err.code).json(err)
 })
 
