@@ -154,7 +154,7 @@ const checkNewPost = async (req, res, next) => {
     }
     // Tieu de bai viet khong trung nhau
     const post = await Post.getOnePost({title})
-    if(!post){
+    if(post){
         const duplicate = notices.fieldNotDuplicate('title', 'Tiêu đề bài viết')
         res.status(duplicate.code).send(duplicate)
         return next('route')
