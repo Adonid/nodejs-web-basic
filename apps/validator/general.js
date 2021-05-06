@@ -25,13 +25,13 @@ const checkName = name => {
 }
 
 // KIEM TRA DANG TIEU DE BAI VIET - TITLE
-const checkTitleOrNormal = title => {
+const checkTitleOrNormal = (title, field, note) => {
     // Validate title
     if(!title || !title.trim()){
-        return notices.fieldEmpty('title', 'Tiêu đề bài viết')
+        return notices.fieldEmpty(field, note)
     }
     if(regex.textNormal(title)){
-        return notices.fieldNotFormat('title', 'Tiêu đề bài viết')
+        return notices.fieldNotFormat(field, note)
     }
     return false
 }
@@ -330,15 +330,15 @@ const checkActiveUser = req => {
 const checkNewPost = req => {
     const {title, imageBase64, desc, readTime, content} = req.body
     // Validate title
-    const checkTitle = checkTitleOrNormal(title)
+    const checkTitle = checkTitleOrNormal(title, 'title', 'Tiêu đề bài viết')
     if(checkTitle){
         return checkTitle
     }
-    const checkDesc = checkTitleOrNormal(desc)
+    const checkDesc = checkTitleOrNormal(desc, 'desc', 'Mô tả bài viết')
     if(checkDesc){
         return checkDesc
     }
-    const checkReadTime = checkTitleOrNormal(readTime)
+    const checkReadTime = checkTitleOrNormal(readTime, 'readTime', 'Thời gian đọc bài')
     if(checkReadTime){
         return checkReadTime
     }
