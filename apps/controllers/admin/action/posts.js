@@ -27,6 +27,25 @@ router.get('/', async (req, res) => {
 })
 
 /**
+ * LAY CHI TIET BAI VIET DE DOC
+ * 
+ * @param {obj} = req.body
+ * 
+ * @return {obj} object JSON
+ * 
+ */
+router.get('/detailed', async (req, res) => {
+    const {id} = req.body
+    const post = await Post.getDetailedPost({id})
+    if(post){
+        const data = notices.reqSuccess(posts)
+        return res.status(data.code).json(data)
+    }
+    const err = notices._500
+    return res.status(err.code).json(err)
+})
+
+/**
  * TAO MOI 1 BAI VIET
  * 
  * @param {title, imageBase64, desc, readTime, content, categoryId}
