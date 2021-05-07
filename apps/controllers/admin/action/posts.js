@@ -18,11 +18,11 @@ const config = require('../../../../config/config.json')
 router.get('/', async (req, res) => {
     const {offset, limit} = req.body
     const posts = await Post.getPosts(offset, limit)
-    const err = notices._500
     if(posts){
         const data = notices.reqSuccess(posts)
         return res.status(data.code).json(data)
     }
+    const err = notices._500
     return res.status(err.code).json(err)
 })
 
