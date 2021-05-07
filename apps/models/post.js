@@ -57,7 +57,7 @@ const getPosts = async (offset=0, limit=8) => {
             limit
         })
         // console.log(data)
-        return data.length ? data.dataValues : false
+        return data.length ? data : false
     } catch (error) {
         console.log(error)
         return false
