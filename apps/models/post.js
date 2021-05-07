@@ -87,17 +87,14 @@ const getDetailedPost = async obj => {
                 },
                 {
                     model: CommentsPost,
-                    as: 'comments',
                     attributes: ['id', 'userId']
                 },
                 {
                     model: FavouritesPost,
-                    as: 'favourites',
                     attributes: ['id', 'userId']
                 },
                 {
                     model: PostsContent,
-                    as: 'content',
                     attributes: ['content']
                 },
             ],
