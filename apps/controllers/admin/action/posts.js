@@ -38,7 +38,7 @@ router.get('/detailed', async (req, res) => {
     const {id} = req.body
     const post = await Post.getDetailedPost({id})
     if(post){
-        const data = notices.reqSuccess(posts)
+        const data = notices.reqSuccess(post)
         return res.status(data.code).json(data)
     }
     const err = notices._500
