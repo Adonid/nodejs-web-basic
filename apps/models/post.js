@@ -157,9 +157,32 @@ const createNewPost = async dataPost => {
     return postId ? await createNewContent({postId, content}) : false
 }
 
+/** UPDATE POST
+ * 
+ * Cap nhat bai viet
+ * 
+ * @param {value, index}
+ * @return {array || false}
+ */
+ const updatePost = async (value, index) => {
+    const post = await Post.update(value, {
+        where: index
+    })
+    .then( data => {
+        console.log(data)
+        return data||false
+    })
+    .catch(err => {
+        console.log(err)
+        return false
+    })
+    return post || false
+}
+
 module.exports = {
     getOnePost,
     getPosts,
     getDetailedPost,
-    createNewPost
+    createNewPost,
+    updatePost
 }
