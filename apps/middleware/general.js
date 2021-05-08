@@ -169,6 +169,28 @@ const checkNewPost = async (req, res, next) => {
     return next()
 }
 
+/**
+ * MIDDLEWARE DU LIEU KICH HOAT POST
+ * @param {id, active} = req.body
+ * @return {next | next('route')}
+ */
+const checkActivePost = async (req, res, next) => {
+    const {id, active} = req.body
+    // Kiem tra dinh dang du lieu
+    if(typeof(active) !== 'boolean'){
+        const error = notices.fieldNotFormat("active", "Dữ liệu active(true or false)")
+        res.status(error.code).send(error)
+        return next('route')
+    }
+    // Co ton tai bai viet nay khong
+    const post = await Post.getOnePost({id})
+    if(!post){
+        const duplicate = notices.notFound('Bài viết này')
+        res.status(duplicate.code).send(duplicate)
+        return next('route')
+    }
+    return next()
+}
 
 module.exports={
     login,
@@ -177,5 +199,6 @@ module.exports={
     checkUserBasicInfo,
     checkUpdatePassword,
     checkNotAdmin,
-    checkNewPost
+    checkNewPost,
+    checkActivePost
 }
