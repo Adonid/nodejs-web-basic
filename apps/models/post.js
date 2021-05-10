@@ -221,7 +221,7 @@ const isPostDuplicate = async (id, title) => {
                 id: {
                     [Op.not]: id
                 },
-                name: {
+                title: {
                     [Op.eq]: title,
                 }
             }
