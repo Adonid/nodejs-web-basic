@@ -127,6 +127,28 @@ const createNewContent = async dataContent => {
     return content
 }
 
+/** CAP NHAT NOI DUNG BAI VIET
+ * 
+ * 
+ * @param {value, index} = dataContent
+ * 
+ * @return {true | false}
+ */
+const updateContent = async (value, index) => {
+    const content = await PostsContent.update(value, {
+        where: index
+    })
+    .then( data => {
+        console.log(data)
+        return data||false
+    })
+    .catch(err => {
+        console.log(err)
+        return false
+    })
+    return content
+}
+
 /** CREATE NEW POST
  * 
  * Tao moi bai viet
@@ -165,6 +187,10 @@ const createNewPost = async dataPost => {
  * @return {array || false}
  */
  const updatePost = async (value, index) => {
+    const content = value.content
+    delete value.content
+    const isContent = typeof(content)!=="undefined" ? true : false
+
     const post = await Post.update(value, {
         where: index
     })
@@ -176,7 +202,7 @@ const createNewPost = async dataPost => {
         console.log(err)
         return false
     })
-    return post || false
+    return post && isContent ? updateContent({content}, index) : post||false
 }
 
 /** POST IS DUPLICATE (title)?
