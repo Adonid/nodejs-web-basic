@@ -192,6 +192,36 @@ const checkActivePost = async (req, res, next) => {
     return next()
 }
 
+/**
+ * MIDDLEWARE DU LIEU UPDATE POST
+ * @param {id, title, imageBase64, desc, readTime, content, categoryId} = req.body
+ * @return {next | next('route')}
+ */
+const checkUpdatePost = async (req, res, next) => {
+    const {id, title, categoryId} = req.body
+    // Kiem tra dinh dang du lieu
+    const error = generalValidation.checkUpdatePost(req)
+    if(error){
+        res.status(error.code).send(error)
+        return next('route')
+    }
+    // Tieu de bai viet khong trung nhau
+    const post = await Post.isPostDuplicate(id, title)
+    if(post){
+        const duplicate = notices.fieldNotDuplicate('title', title)
+        res.status(duplicate.code).send(duplicate)
+        return next('route')
+    }
+    // Co ton tai danh muc nay khong
+    const category = await Category.getCategory({id: categoryId})
+    if(!category){
+        const duplicate = notices.notFound('danh mục này')
+        res.status(duplicate.code).send(duplicate)
+        return next('route')
+    }
+    return next()
+}
+
 module.exports={
     login,
     register,
@@ -200,5 +230,6 @@ module.exports={
     checkUpdatePassword,
     checkNotAdmin,
     checkNewPost,
-    checkActivePost
+    checkActivePost,
+    checkUpdatePost
 }
