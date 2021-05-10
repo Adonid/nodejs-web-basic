@@ -93,6 +93,40 @@ router.post('/active', generalMiddleware.checkActivePost, async (req, res) => {
     return res.status(err.code).json(err)
 })
 
+/**
+ * TAO MOI 1 BAI VIET
+ * 
+ * @param {title, imageBase64, desc, readTime, content, categoryId}
+ * @param {id, name, roleId}
+ * 
+ * @return {*} object JSON
+ * 
+ */
+ router.post('/update', generalMiddleware.checkUpdatePost, async (req, res) => {
+    const {id, title, imageBase64, desc, readTime, content, categoryId} = req.body
+    const err = notices._500
+    // Lay bai viet nay
+    const post = await Post.getOnePost({id})
+    if(!post){
+        const notFound = notices.notFound('bài viết này')
+        return res.status(notFound.code).json(notFound)
+    }
+    const fileId = post.image.fileId
+    // Upload anh bai viet
+    const image = await DriverGoogle.updateFile(config.googledriver.postFolder, imageBase64, title, fileId)
+    // Check update anh
+    if(!image){
+        return res.status(err.code).json(err)
+    }
+    // CAP NHAT POST
+    const updatePost = await Post.updatePost({title, image, desc, readTime, content, categoryId, active: true}, {id})
+    if(updatePost){
+        const message = notices._200
+        return res.status(message.code).json(message)
+    }
+    return res.status(err.code).json(err)
+})
+
 
 
 module.exports = router
