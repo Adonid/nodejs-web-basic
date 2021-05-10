@@ -353,6 +353,37 @@ const checkNewPost = req => {
     
 }
 
+/** KIEM TRA DU LIEU POST TRUOC KHI CAP NHAT
+ * @params req
+ * @returns errors
+ */
+const checkUpdatePost = req => {
+    const {title, imageBase64, desc, readTime, content} = req.body
+    // Validate title
+    const checkTitle = checkTitleOrNormal(title, 'title', 'Tiêu đề bài viết')
+    if(checkTitle){
+        return checkTitle
+    }
+    const checkDesc = checkTitleOrNormal(desc, 'desc', 'Mô tả bài viết')
+    if(checkDesc){
+        return checkDesc
+    }
+    const checkReadTime = checkTitleOrNormal(readTime, 'readTime', 'Thời gian đọc bài')
+    if(checkReadTime){
+        return checkReadTime
+    }
+    const checkImage64 = checkBase64String(imageBase64)
+    if(checkImage64){
+        return checkImage64
+    }
+    if(!content || !content.trim()){
+        return notices.fieldEmpty('content', 'Nội dung bài viết')
+    }
+    return false
+    
+}
+
+
 module.exports={
     emailCheckBase,
     login,
@@ -364,5 +395,6 @@ module.exports={
     checkBase64String,
     checkBase64StringRequire,
     checkHexColorCode,
-    checkNewPost
+    checkNewPost,
+    checkUpdatePost
 }
