@@ -179,10 +179,40 @@ const createNewPost = async dataPost => {
     return post || false
 }
 
+/** POST IS DUPLICATE (title)?
+ * 
+ * CO POST NAO TRUNG TEN KHONG (NGOAI TRU CHINH POST DANG KIEM TRA)
+ * 
+ * @param {id, title}
+ * 
+ * @return boolean or OBJECT
+*/
+const isPostDuplicate = async (id, title) => {
+    try {
+        const data = await Post.findAll({
+            attributes: ['id', 'title'],
+            where: {
+                id: {
+                    [Op.not]: id
+                },
+                name: {
+                    [Op.eq]: title,
+                }
+            }
+        })
+        // console.log(data)
+        return data.length ? true : false
+    } catch (error) {
+        console.log(error)
+        return true
+    }
+}
+
 module.exports = {
     getOnePost,
     getPosts,
     getDetailedPost,
     createNewPost,
-    updatePost
+    updatePost,
+    isPostDuplicate
 }
