@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const {generalMiddleware} = require('../../../middleware')
+const {generalMiddleware, editorMiddleware} = require('../../../middleware')
 const {DriverGoogle} = require('../../../services')
 const {Category, Post} = require('../../../models')
 const {notices} = require('../../../common')
@@ -82,7 +82,7 @@ router.post('/create', generalMiddleware.checkNewPost, async (req, res) => {
  * @return {*} object JSON
  * 
  */
- router.post('/update', generalMiddleware.checkUpdatePost, async (req, res) => {
+ router.post('/update', generalMiddleware.checkUpdatePost, editorMiddleware.checkIsMyPost, async (req, res) => {
     const {id, title, imageBase64, desc, readTime, content, categoryId} = req.body
     const err = notices._500
     // Lay bai viet nay
