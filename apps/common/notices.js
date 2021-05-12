@@ -252,7 +252,7 @@ const notFound = name => {
 const notHavePermission = name => {
     return {
         code: 403,
-        error: `Uh! Không có quyền ${name}`
+        error: `Uh! Bạn không có quyền ${name}`
     }
 }
 
