@@ -248,6 +248,14 @@ const notFound = name => {
     }
 }
 
+/** KHONG CO QUYEN THAO TAC NAY */
+const notHavePermission = name => {
+    return {
+        code: 403,
+        error: `Uh! Không có quyền ${name}`
+    }
+}
+
 
 module.exports={
     fieldEmpty,
@@ -282,4 +290,5 @@ module.exports={
     _422,
     _500,
     _599,
+    notHavePermission
 }
