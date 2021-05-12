@@ -1,5 +1,6 @@
 const {editorValidation} = require('../validator')
 const {notices} = require('../common')
+const {Post} = require('../models')
 
 const verifyEmailEditor = async (req, res, next) => {
     const errors = await editorValidation.isValidEmailEditor(req)
@@ -42,7 +43,7 @@ const checkIsMyPost = async (req, res, next) => {
     const {id} = req.body
     const user = req.user
     // Lay thong tin bai viet
-    const post = await getOnePost({id})
+    const post = await Post.getOnePost({id})
     if(post && post.authorId === user.id){
         return next()
     }
