@@ -74,26 +74,6 @@ router.post('/create', generalMiddleware.checkNewPost, async (req, res) => {
 })
 
 /**
- * KICH HOAT | NGUNG KICH HOAT BAI VIET
- * 
- * @param {id, active} = req.body
- * 
- * @return {*} object JSON
- * 
- */
-router.post('/active', generalMiddleware.checkActivePost, async (req, res) => {
-    const {id, active} = req.body
-    const err = notices._500
-    // CAP NHAT VIEC ACTIVE POST
-    const newPost = await Post.updatePost({active}, {id})
-    if(newPost){
-        const message = notices._200
-        return res.status(message.code).json(message)
-    }
-    return res.status(err.code).json(err)
-})
-
-/**
  * TAO MOI 1 BAI VIET
  * 
  * @param {title, imageBase64, desc, readTime, content, categoryId}
