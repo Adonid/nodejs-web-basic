@@ -64,8 +64,8 @@ router.post('/create', generalMiddleware.checkNewPost, async (req, res) => {
     if(!image){
         return res.status(err.code).json(err)
     }
-    // TAO BAI VIET - active khi nay mac dinh = true
-    const newPost = await Post.createNewPost({title, image, desc, readTime, content, authorId: id, categoryId, active: true})
+    // TAO BAI VIET - active khi nay mac dinh = false
+    const newPost = await Post.createNewPost({title, image, desc, readTime, content, authorId: id, categoryId, active: false})
     if(newPost){
         const message = notices._200
         return res.status(message.code).json(message)
