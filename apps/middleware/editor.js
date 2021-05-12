@@ -1,4 +1,5 @@
 const {editorValidation} = require('../validator')
+const {notices} = require('../common')
 
 const verifyEmailEditor = async (req, res, next) => {
     const errors = await editorValidation.isValidEmailEditor(req)
@@ -37,9 +38,25 @@ const updatePasswordEditor = async (req, res, next) => {
     return next()
 }
 
+const checkIsMyPost = async (req, res, next) => {
+    const {id} = req.body
+    const user = req.user
+    // Lay thong tin bai viet
+    const post = await getOnePost({id})
+    if(post && post.authorId === user.id){
+        return next()
+    }
+    const errors = notices.notHavePermission('thao tác bài viết này!')
+    res.status(errors.code).send(errors)
+    return next('route')
+}
+
+
+
 module.exports={
     verifyEmailEditor,
     verifyLoginEditor,
     verifyRegisterEditor,
-    updatePasswordEditor
+    updatePasswordEditor,
+    checkIsMyPost
 }
