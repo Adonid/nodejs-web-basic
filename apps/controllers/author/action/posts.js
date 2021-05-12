@@ -99,7 +99,7 @@ router.post('/create', generalMiddleware.checkNewPost, async (req, res) => {
         return res.status(err.code).json(err)
     }
     // CAP NHAT POST
-    const updatePost = await Post.updatePost({title, image, desc, readTime, content, categoryId, active: true}, {id})
+    const updatePost = await Post.updatePost({title, image, desc, readTime, content, categoryId}, {id})
     if(updatePost){
         const message = notices._200
         return res.status(message.code).json(message)
