@@ -1,6 +1,10 @@
 const express = require('express')
 const router = express.Router()
 const home = require('./home')
+const archivePosts = require('./archivePosts')
+const singlePost = require('./singlePost')
+const authorPost = require('./authorPost')
+const aboutUs = require('./aboutUs')
 
 /**
  *  CAC ROUTER DUOC PHEP TRUY CAP MAC DINH TU USER CHUA DUOC DANG NHAP | DA DANG NHAP ROI
