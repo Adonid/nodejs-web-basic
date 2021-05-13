@@ -21,6 +21,8 @@ const {
                              .catch(err => err)
     if(myself){
         delete myself.password
+        delete myself.social
+        delete myself.codeReset
         const msg = notices.reqSuccess(myself)
         return res.status(msg.code).json(msg)
     }
