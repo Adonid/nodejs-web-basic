@@ -9,6 +9,13 @@ const passport = require('passport')
 const {Passport} = require(__dirname+'/apps/services')
 // Use express
 const app = express()
+// Use cors
+const cors = require('cors')
+
+// Cho phep CORS - tat ca cac domain - Chi danh cho DEV, SAU KHI DEV XONG PHAI XOA DONG NAY
+app.use(cors({
+    origin: true,
+}))
 
 // Passport session setup.
 passport.serializeUser((user, done) => done(null, user))
