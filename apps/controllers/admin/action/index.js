@@ -8,6 +8,7 @@ const userDetail = require('./userDetail')
 const manager = require('./manager')
 const categories = require('./categories')
 const posts = require('./posts')
+const address = require('./address')
 
 /**
  *  Route cho phep vao lay ra du lieu cho trang dashboard
@@ -42,6 +43,10 @@ const posts = require('./posts')
  *  Cac thao tac quan ly bai viet
  */
  router.use('/posts', posts)
+/**
+ *  Cac thao tac quan ly bai viet
+ */
+ router.use('/address', address)
 
 
 module.exports = router
