@@ -8,7 +8,6 @@ const userDetail = require('./userDetail')
 const manager = require('./manager')
 const categories = require('./categories')
 const posts = require('./posts')
-const address = require('./address')
 
 /**
  *  Route cho phep vao lay ra du lieu cho trang dashboard
