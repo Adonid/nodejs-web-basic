@@ -47,12 +47,14 @@ const _204 = datas => {
     }
 }
 
-const loginSuccess = token => {
+const loginSuccess = (token, myself, provinces) => {
     return {
         code: 200,
         error: false,
         msg: "Đăng nhập thành công!",
-        token
+        token,
+        myself, 
+        provinces
     }
 }
 

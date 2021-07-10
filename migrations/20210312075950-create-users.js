@@ -58,6 +58,18 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: true,
       },
+      age: {
+        type: Sequelize.TEXT,
+        allowNull: true,
+      },
+      genre: {
+        type: Sequelize.TEXT,
+        allowNull: true,
+      },
+      work: {
+        type: Sequelize.TEXT,
+        allowNull: true,
+      },
       linkSocials:{
         type: Sequelize.JSON,
         allowNull: true,

@@ -6,6 +6,7 @@ const {JwtStrategy} = require('../../../services')
 const {
     adminMiddleware
 } = require("../../../middleware")
+const { User, Address } = require('../../../models')
 
 /**
  * Router dung cho test cac admin
@@ -19,8 +20,19 @@ router.post('/', adminMiddleware.verifyLoginAdmin, async (req, res) => {
     const {email} = req.body
     // Tra ve MA JWT cho ADMIN
     const token = await JwtStrategy.generateToken(email)
-    const info = notices.loginSuccess(token)
-    return res.status(info.code).json(info)
+    // Lay thong tin chi tiet user nay
+    const myself = await User.getUser({email})
+                             .then(user => user)
+                             .catch(err => err)
+    // Lay toan bo cac tinh/thanh pho
+    const provinces = await Address.getProvinces()
+    if(myself)
+        delete myself.password
+    if(token && myself && provinces){
+        const info = notices.loginSuccess(token, myself, provinces)
+        return res.status(info.code).json(info) 
+    }
+    return res.status(notices._500.code).json(notices._500) 
 });
 
 module.exports = router
