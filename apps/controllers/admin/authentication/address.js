@@ -13,7 +13,7 @@ const {notices} = require('../../../common')
  * 
  */
 router.get('/districts', async (req, res) => {
-    const {provinceId} = req.body
+    const {provinceId} = req.query
     const districts = await Address.getDistricts(provinceId)
     if(districts){
         const info = notices.reqSuccess(districts)
@@ -32,7 +32,7 @@ router.get('/districts', async (req, res) => {
  * 
  */
 router.get('/communes', async (req, res) => {
-    const {districtId} = req.body
+    const {districtId} = req.query
     const communes = await Address.getCommunes(districtId)
     if(communes){
         const info = notices.reqSuccess(communes)
