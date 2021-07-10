@@ -30,7 +30,7 @@ const getProvinces = async () => {
 const getDistricts = async (provinceId) => {
     try {
         const data = await District.findAll({
-            attributes: ['id', 'name', 'provinceId'],
+            attributes: ['id', 'name'],
             where: {
                 provinceId: {
                     [Op.eq]: provinceId
@@ -54,7 +54,7 @@ const getDistricts = async (provinceId) => {
 const getCommunes = async (districtId) => {
     try {
         const data = await Commune.findAll({
-            attributes: ['id', 'name', 'districtId'],
+            attributes: ['id', 'name'],
             where: {
                 districtId: {
                     [Op.eq]: districtId
