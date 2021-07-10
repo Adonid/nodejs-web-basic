@@ -43,10 +43,6 @@ const address = require('./address')
  *  Cac thao tac quan ly bai viet
  */
  router.use('/posts', posts)
-/**
- *  Cac thao tac quan ly bai viet
- */
- router.use('/address', address)
 
 
 module.exports = router
