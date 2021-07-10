@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const {User, Address} = require('../../../models')
+const {Address} = require('../../../models')
 const {notices} = require('../../../common')
 
 
