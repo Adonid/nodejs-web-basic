@@ -262,12 +262,18 @@ const isResetPassword = req => {
  * @returns errors
  */
 const checkUserDataBasic = req => {
-    const {name, fullName, phoneNumber, bio, address} = req.body
-    const nameCheck = checkName(name)
-    const fullNameCheck = checkFullName(fullName)
-    const numberCheck = checkPhoneNumber(phoneNumber)
-    const addressCheck = checkAddress(address)
-    const bioCheck = checkBio(bio)
+    const {name, fullName, phoneNumber, bio, address, age, genre, work, provinceId, districtId, communeId} = req.body
+    const nameCheck = name?checkName(name):false
+    const fullNameCheck = fullName?checkFullName(fullName):false
+    const numberCheck = phoneNumber?checkPhoneNumber(phoneNumber):false
+    const addressCheck = address?checkAddress(address):false
+    const bioCheck = bio?checkBio(bio):false
+    const ageCheck = age?checkAe(age):false
+    const genreCheck = genre?checkGenre(genre):false
+    const workCheck = work?checkWork(work):false
+    const provinceIdCheck = provinceId?checkProvinceId(provinceId):false
+    const districtIdCheck = districtId?checkDistrictId(districtId):false
+    const communeIdCheck = communeId?checkCommuneId(communeId):false
     if(nameCheck)
         return nameCheck
     
@@ -282,6 +288,24 @@ const checkUserDataBasic = req => {
     
     if(bioCheck)
         return bioCheck
+    
+    if(ageCheck)
+        return ageCheck
+    
+    if(genreCheck)
+        return genreCheck
+    
+    if(workCheck)
+        return workCheck
+    
+    if(provinceIdCheck)
+        return provinceIdCheck
+    
+    if(districtIdCheck)
+        return districtIdCheck
+    
+    if(communeIdCheck)
+        return communeIdCheck
     
     return false
     
