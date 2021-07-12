@@ -1,6 +1,5 @@
 const validator = require('validator')
-const {notices, regex, bcrypt} = require('../common')
-const {User} = require('../models')
+const {notices, regex} = require('../common')
 
 /** CAC METHODS NAY DUNG DE SOI CHIEU VOI DU LIEU CUA REQUEST - ONLY SELECT */
 
@@ -262,51 +261,137 @@ const isResetPassword = req => {
  * @returns errors
  */
 const checkUserDataBasic = req => {
-    const {name, fullName, phoneNumber, bio, address, age, genre, work, provinceId, districtId, communeId} = req.body
-    const nameCheck = name?checkName(name):false
-    const fullNameCheck = fullName?checkFullName(fullName):false
-    const numberCheck = phoneNumber?checkPhoneNumber(phoneNumber):false
-    const addressCheck = address?checkAddress(address):false
-    const bioCheck = bio?checkBio(bio):false
-    const ageCheck = age?checkAe(age):false
-    const genreCheck = genre?checkGenre(genre):false
-    const workCheck = work?checkWork(work):false
-    const provinceIdCheck = provinceId?checkProvinceId(provinceId):false
-    const districtIdCheck = districtId?checkDistrictId(districtId):false
-    const communeIdCheck = communeId?checkCommuneId(communeId):false
-    if(nameCheck)
-        return nameCheck
+    const {name, fullName, phoneNumber, provinceId, districtId, communeId, address, bio, age, genre, work} = req.body
+    // Kiem tra NAME
+    if(name){
+        const nameNotEmpty = regex.requireField('name', name)
+        if(nameNotEmpty){
+            return notices.errorField('name', nameNotEmpty)
+        }
+        const nameRequire = regex.requireUserName('name', name)
+        if(nameRequire){
+            return notices.errorField('name', nameRequire)
+        }
+        const isName = regex.notSpecialChar('name', name)
+        if(isName){
+            return notices.errorField('name', isName)
+        }
+    }
+    // Kiem tra fullName
+    if(fullName){
+        const isRequireFullName = regex.requireField('fullName', fullName)
+        if(isRequireFullName){
+            return notices.errorField('fullName', isRequireFullName)
+        }
+        const isFullName = regex.notSpecialChar('fullName', fullName)
+        if(isFullName){
+            return notices.errorField('fullName', isFullName)
+        }
+        const isLimitedFullName = regex.limitedName('fullName', fullName)
+        if(isLimitedFullName){
+            return notices.errorField('fullName', isLimitedFullName)
+        }
+    }
+    // Kiem tra so dien thoai
+    if(phoneNumber){
+        const phoneNumberRequire = regex.requireField('phoneNumber', phoneNumber)
+        if(phoneNumberRequire){
+            return notices.errorField('phoneNumber', phoneNumberRequire)
+        }
+        const numberRequire = regex.isNumber('phoneNumber', phoneNumber)
+        if(numberRequire){
+            return notices.errorField('phoneNumber', numberRequire)
+        }
+        const isFormatPhone = regex.isPhoneNumber('phoneNumber', phoneNumber)
+        if(isFormatPhone){
+            return notices.errorField('phoneNumber', isFormatPhone)
+        }
+    }
+
+    // Kiem tra dia chi noi o -address
+    if(address){
+        const isRequireAddress = regex.requireField('address', address)
+        if(isRequireAddress){
+            return notices.errorField('address', isRequireAddress)
+        }
+        const formatAddress = regex.notSpecialChar('address', address)
+        if(formatAddress){
+            return notices.errorField('address', formatAddress)
+        }
+        const LimitAddress = regex.limitedName('address', address)
+        if(LimitAddress){
+            return notices.errorField('address', LimitAddress)
+        }
+    }
+    // Kiem tra Tinh/tp - Quan/H - Xa/P
+    if(provinceId){
+        const isRequireProvinceId = regex.requireField('provinceId', provinceId)
+        if(isRequireProvinceId || Number(provinceId) < 0 || Number(provinceId) > 63){
+            return notices.errorField('provinceId', "Tỉnh/Thành phố không đúng định dạng!")
+        }
+    }
+    if(districtId){
+        const isRequireDistrictId = regex.requireField('districtId', districtId)
+        if(isRequireDistrictId || Number(districtId) < 0 || Number(districtId) > 973){
+            return notices.errorField('districtId', "Quận/Huyện không đúng định dạng!")
+        }
+    }
+    if(communeId){
+        const isRequireCommuneId = regex.requireField('communeId', communeId)
+        if(isRequireCommuneId || Number(communeId) < 1 || Number(communeId) > 10615){
+            return notices.errorField('communeId', "Xã/Phường không đúng định dạng!")
+        }
+    }
+
+    // Kiem tra do tuoi
+    if(age){
+        const isRequireAge = regex.requireField('age', age)
+        if(isRequireAge){
+            return notices.errorField('age', isRequireAge)
+        }
+        const formatAge = regex.isNumber('age', age)
+        if(formatAge){
+            return notices.errorField('age', formatAge)
+        }
+        const limitAge = regex.limitedAge('age', age)
+        if(limitAge){
+            return notices.errorField('age', limitAge)
+        }
+    }
     
-    if(fullNameCheck)
-        return fullNameCheck
     
-    if(numberCheck)
-        return numberCheck
-    
-    if(addressCheck)
-        return addressCheck
-    
-    if(bioCheck)
-        return bioCheck
-    
-    if(ageCheck)
-        return ageCheck
-    
-    if(genreCheck)
-        return genreCheck
-    
-    if(workCheck)
-        return workCheck
-    
-    if(provinceIdCheck)
-        return provinceIdCheck
-    
-    if(districtIdCheck)
-        return districtIdCheck
-    
-    if(communeIdCheck)
-        return communeIdCheck
-    
+    // Kiem tra BIO
+    if(bio){
+        const isRequireBio = regex.requireField('bio', bio)
+        if(isRequireBio){
+            return notices.errorField('bio', isRequireBio)
+        }
+        const formatBio = regex.notSpecialChar('bio', bio)
+        if(formatBio){
+            return notices.errorField('bio', formatBio)
+        }
+        const limitBio = regex.limitedDescription('bio', bio)
+        if(limitBio){
+            return notices.errorField('bio', limitBio)
+        }
+    }
+
+    // Kiem tra gioi tinh
+    if(genre){
+        const isRequireGenre = requireField('genre', genre)
+        if(isRequireGenre){
+            return notices.errorField('genre', isRequireGenre)
+        }
+    }
+
+    // Kiem tra nghe nghiep
+    if(work){
+        const isRequireWork = requireField('work', work)
+        if(isRequireWork){
+            return notices.errorField('work', isRequireWork)
+        }
+    }
+
     return false
     
 }

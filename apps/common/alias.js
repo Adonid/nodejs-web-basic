@@ -95,4 +95,4 @@ const alias = [
     },
 ]
 
-export default alias
+module.exports=alias
