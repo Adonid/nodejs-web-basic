@@ -326,7 +326,7 @@ const checkUserDataBasic = req => {
     // Kiem tra Tinh/tp - Quan/H - Xa/P
     if(provinceId){
         const isRequireProvinceId = regex.requireField('provinceId', provinceId)
-        if(isRequireProvinceId || Number(provinceId) < 0 || Number(provinceId) > 63){
+        if(isRequireProvinceId || Number(provinceId) < 0 || Number(provinceId) > 96){
             return notices.errorField('provinceId', "Tỉnh/Thành phố không đúng định dạng!")
         }
     }
