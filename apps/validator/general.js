@@ -378,7 +378,7 @@ const checkUserDataBasic = req => {
 
     // Kiem tra gioi tinh
     if(genre){
-        const isRequireGenre = requireField('genre', genre)
+        const isRequireGenre = regex.requireField('genre', genre)
         if(isRequireGenre){
             return notices.errorField('genre', isRequireGenre)
         }
@@ -386,7 +386,7 @@ const checkUserDataBasic = req => {
 
     // Kiem tra nghe nghiep
     if(work){
-        const isRequireWork = requireField('work', work)
+        const isRequireWork = regex.requireField('work', work)
         if(isRequireWork){
             return notices.errorField('work', isRequireWork)
         }
