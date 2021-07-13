@@ -116,7 +116,7 @@ const fieldEmpty = (name, as=null) => {
 }
 
 /** BAO LOI DINH DANG CUA TRUONG */
-const fieldNotFormat = (filed, fieldName) => {
+const fieldNotFormat = (filed, fieldName='') => {
     return {
         code: 411,
         field: filed,
@@ -258,6 +258,14 @@ const notHavePermission = name => {
     }
 }
 
+/** THONG BAO CHUNG CHO LOI DINH DANG VALIDATE CAC FIELDs */
+const errorField = (filed, err) => {
+    return {
+        code: 422,
+        field: filed,
+        error: err
+    }
+}
 
 module.exports={
     fieldEmpty,
@@ -292,5 +300,7 @@ module.exports={
     _422,
     _500,
     _599,
-    notHavePermission
+    notHavePermission,
+
+    errorField
 }

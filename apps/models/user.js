@@ -9,14 +9,9 @@ const {User, Role, Province, District, Commune, Post, CommentsPost, FavouritesPo
 const getUser = obj => {
     return new Promise( async (resolve, reject) => {
         const data = await User.findOne({
-            // attributes: ['id', 'roleId', 'name', 'fullName', 'avatar'],
             where: obj,
             include: [Role, Province, District, Commune],
         })
-        // console.log(data.dataValues.Role.dataValues)
-        // console.log(data.dataValues.Province.dataValues)
-        // console.log(data.dataValues.District.dataValues)
-        // console.log(data.dataValues.Commune.dataValues)
         if(data)
             resolve(data.dataValues)
         else

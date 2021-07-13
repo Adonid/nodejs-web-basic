@@ -43,13 +43,19 @@ router.get('/', async (req, res) => {
  */
  router.post('/update-basic-info', generalMiddleware.checkUserBasicInfo, async (req, res) => {
      const {id, email, roleId} = req.user
-    const {name, fullName, phoneNumber, bio, address, provinceId, districtId, communeId} = req.body
+    const payload = req.body
     const userUpdated = await User.updateUser(
-        {name, fullName, phoneNumber, bio, address, provinceId, districtId, communeId},
+        payload,
         {id, email, roleId}
     )
     if(userUpdated){
-        const message = notices._203("Thông tin cá nhân", userUpdated)
+        // Lay thong tin chi tiet user nay
+        const myself = await User.getUser({email})
+                                .then(user => user)
+                                .catch(err => err)
+        delete myself.password
+
+        const message = notices._203("Thông tin cá nhân", myself)
         return res.status(message.code).json(message)
     }
     const error = notices._500
