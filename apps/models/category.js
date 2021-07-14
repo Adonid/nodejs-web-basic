@@ -1,4 +1,4 @@
-const {Category, Post, CommentsPost, FavouritesPost} = require('../../models')
+const {Category, PostImage, CommentsPost, FavouritesPost} = require('../../models')
 const { Op } = require("sequelize");
 
 /** LAY DANH SACH TAT CA CAC DANH MUC 
@@ -10,7 +10,13 @@ const { Op } = require("sequelize");
 const getCategories = async () => {
     try {
         const categories = await Category.findAll({
-            attributes: ['id', 'name', 'image', 'color', 'description']
+            attributes: ['id', 'name', 'color', 'description'],
+            include: [
+                {
+                    model: PostImage,
+                    attributes: ['id', 'type', 'name', 'original', 'thumbnail', 'userId']
+                },
+            ]
         })
         return categories
     } catch (error) {
@@ -28,11 +34,18 @@ const getCategories = async () => {
 const getCategory = async obj => {
     try {
         const data = await Category.findOne({
-            attributes: ['id', 'name', 'image', 'color', 'description'],
+            attributes: ['id', 'name','color', 'description'],
+            include: [
+                {
+                    model: PostImage,
+                    attributes: ['id', 'type', 'name', 'original', 'thumbnail', 'userId']
+                },
+            ],
             where: obj
         })
         // console.log(data)
-        return data ? data.dataValues : false
+        // return data ? data.dataValues : false
+        return data.dataValues
     } catch (error) {
         console.log(error)
         return false
@@ -47,10 +60,10 @@ const getCategory = async obj => {
  * 
  * @returns boolean
  */
- const createCategory = async (name, image, color, description) => {
+ const createCategory = async (name, imageId, color, description) => {
     const user = await Category.create({
         name,
-        image,
+        imageId,
         color,
         description
     })
@@ -64,7 +77,7 @@ const getCategory = async obj => {
     return user ? await getCategories() : false
 }
 
-/** CAP NHAT FIELD(s) TRONG BANG USER
+/** CAP NHAT FIELD(s) TRONG BANG CATEGORY
  * 
  * @param {value, index}
  * @return {array | false}
@@ -74,7 +87,7 @@ const getCategory = async obj => {
         where: index    
     })
     .then( data => {
-        console.log(data)
+        // console.log(data)
         return data||false
     })
     .catch(err => {
