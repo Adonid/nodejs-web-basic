@@ -21,6 +21,8 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.FavouritesComment, {foreignKey: 'userId'})
       User.hasMany(models.ReplysComment, {foreignKey: 'userId'})
       User.hasMany(models.FavouritesReplyComment, {foreignKey: 'userId'})
+      User.hasMany(models.UserImage, {foreignKey: 'userId'})
+      User.hasMany(models.PostImage, {foreignKey: 'userId'})
     }
   };
   User.init({
