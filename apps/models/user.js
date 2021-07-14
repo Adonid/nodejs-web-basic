@@ -1,4 +1,4 @@
-const {User, Role, Province, District, Commune, Post, CommentsPost, FavouritesPost} = require('../../models')
+const {User, Role, Province, District, Commune, Post, CommentsPost, FavouritesPost, UserImage} = require('../../models')
 
 /** KIEM TRA SU TON TAI CUA TAI KHOAN THEO EMAIL 
  * 
@@ -10,7 +10,7 @@ const getUser = obj => {
     return new Promise( async (resolve, reject) => {
         const data = await User.findOne({
             where: obj,
-            include: [Role, Province, District, Commune],
+            include: [Role, Province, District, Commune, UserImage],
         })
         if(data)
             resolve(data.dataValues)
@@ -81,7 +81,7 @@ const createUser = async (user) => {
         name        : user.name,
         email       : user.email,
         provider    : user.provider,
-        avatar      : {webViewLink: user.profile_picture, webContentLink: "", thumbnailLink: "", fileId: ""},
+        // avatar      : {webViewLink: user.profile_picture, webContentLink: "", thumbnailLink: "", fileId: ""},
         social      : user.meta,
         password    : "aa@A88",
         roleId      : 3,
@@ -119,17 +119,7 @@ const updateUser = async (value, index, indexPrimary=false) => {
         // console.log(err)
         return false
     })
-    if(user){
-        const data = await getUser(indexPrimary||index)
-                           .then(u => u)
-                           .catch(err => false)
-        if(data){
-            const {name, fullName, avatar} = data
-            return {name, fullName, avatar}
-        }
-        return false
-    }
-    return false
+    return user
 }
 
 /** ADMINISTRATORs
@@ -142,7 +132,8 @@ const updateUser = async (value, index, indexPrimary=false) => {
  */
 const paginationUser = async (offset=0, limit=5) => {
     const users = await User.findAll({
-        attributes: ['id', 'name', 'email', 'active', 'provider', 'fullName', 'phoneNumber', 'avatar', 'createdAt' ],
+        attributes: ['id', 'name', 'email', 'active', 'provider', 'fullName', 'phoneNumber', 'createdAt' ],
+        include: [UserImage],
         where: {roleId: 3},
         offset,
         limit
@@ -166,7 +157,8 @@ const paginationUser = async (offset=0, limit=5) => {
  */
 const paginationEditor = async () => {
     const editors = await User.findAll({
-        attributes: ['id', 'name', 'email', 'active', 'fullName', 'phoneNumber', 'avatar', 'createdAt' ],
+        attributes: ['id', 'name', 'email', 'active', 'fullName', 'phoneNumber', 'createdAt' ],
+        include: [UserImage],
         where: {roleId: 2}
     })
     .then(u => {
@@ -191,9 +183,9 @@ const getUserDetail = async (email, roleId) => {
     if(roleId===1)
         return false
     const user = await User.findOne({
-        attributes: ['id', 'name', 'email', 'active', 'fullName', 'phoneNumber', 'avatar', 'createdAt' ],
+        attributes: ['id', 'name', 'email', 'active', 'fullName', 'phoneNumber', 'createdAt' ],
         where: {email, roleId},
-        include: [Role, Province, District, Commune, Post, CommentsPost, FavouritesPost],
+        include: [Role, Province, District, Commune, Post, CommentsPost, FavouritesPost, UserImage],
     })
     .then(u => {
         return u
