@@ -1,4 +1,4 @@
-const {Post, User, Category, PostsContent, CommentsPost, FavouritesPost} = require('../../models')
+const {Post, User, Category, PostsContent, CommentsPost, FavouritesPost, PostImage} = require('../../models')
 const { Op } = require("sequelize")
 
 /** LAY 1 BAI VIET THEO CAC TRUONG
@@ -12,7 +12,8 @@ const { Op } = require("sequelize")
 const getOnePost = async obj => {
     try {
         const data = await Post.findOne({
-            attributes: ['id', 'title', 'image', 'desc', 'readTime', 'active', 'authorId', 'categoryId'],
+            attributes: ['id', 'title', 'desc', 'readTime', 'active', 'authorId', 'categoryId'],
+            include: [PostImage],
             where: obj
         })
         // console.log(data)
@@ -34,7 +35,7 @@ const getOnePost = async obj => {
 const getPosts = async (offset=0, limit=8) => {
     try {
         const data = await Post.findAll({
-            attributes: ['id', 'title', 'image', 'desc', 'readTime', 'active'],
+            attributes: ['id', 'title', 'desc', 'readTime', 'active'],
             include: [
                 {
                     model: User,
@@ -42,7 +43,7 @@ const getPosts = async (offset=0, limit=8) => {
                 },
                 {
                     model: Category,
-                    attributes: ['id', 'name', 'image', 'color']
+                    attributes: ['id', 'name', 'imageId', 'color']
                 },
                 {
                     model: CommentsPost,
@@ -51,6 +52,10 @@ const getPosts = async (offset=0, limit=8) => {
                 {
                     model: FavouritesPost,
                     attributes: ['id', 'userId']
+                },
+                {
+                    model: PostImage,
+                    attributes: ['id', 'type', 'name', 'original', 'thumbnail', 'userId']
                 },
             ],
             offset,
@@ -75,7 +80,7 @@ const getPosts = async (offset=0, limit=8) => {
 const getDetailedPost = async obj => {
     try {
         const data = await Post.findOne({
-            attributes: ['id', 'title', 'image', 'desc', 'readTime', 'active'],
+            attributes: ['id', 'title', 'desc', 'readTime', 'active'],
             include: [
                 {
                     model: User,
@@ -83,7 +88,7 @@ const getDetailedPost = async obj => {
                 },
                 {
                     model: Category,
-                    attributes: ['id', 'name', 'image', 'color']
+                    attributes: ['id', 'name', 'imageId', 'color']
                 },
                 {
                     model: CommentsPost,
@@ -96,6 +101,10 @@ const getDetailedPost = async obj => {
                 {
                     model: PostsContent,
                     attributes: ['content']
+                },
+                {
+                    model: PostImage,
+                    attributes: ['id', 'type', 'name', 'original', 'thumbnail', 'userId']
                 },
             ],
             where: obj
@@ -121,7 +130,7 @@ const createNewContent = async dataContent => {
         return content ? true : false
     })
     .catch(err => {
-        console.log(err)
+        // console.log(err)
         return false
     })
     return content
@@ -139,11 +148,11 @@ const updateContent = async (value, index) => {
         where: index
     })
     .then( data => {
-        console.log(data)
+        // console.log(data)
         return data||false
     })
     .catch(err => {
-        console.log(err)
+        // console.log(err)
         return false
     })
     return content
@@ -158,10 +167,10 @@ const updateContent = async (value, index) => {
  * @return {true | false}
  */
 const createNewPost = async dataPost => {
-    const {title, image, desc, readTime, content, authorId, categoryId, active} = dataPost
+    const {title, imageId, desc, readTime, content, authorId, categoryId, active} = dataPost
     const postId = await Post.create({
         title,
-        image,
+        imageId,
         desc,
         readTime,
         authorId,
@@ -173,10 +182,10 @@ const createNewPost = async dataPost => {
         return post ? post.dataValues.id : false
     })
     .catch(err => {
-        console.log(err)
+        // console.log(err)
         return false
     })
-    return postId ? await createNewContent({postId, content}) : false
+    return postId ? createNewContent({postId, content}) : false
 }
 
 /** UPDATE POST
@@ -195,11 +204,11 @@ const createNewPost = async dataPost => {
         where: index
     })
     .then( data => {
-        console.log(data)
+        // console.log(data)
         return data||false
     })
     .catch(err => {
-        console.log(err)
+        // console.log(err)
         return false
     })
     return post && isContent ? updateContent({content}, index) : post||false
@@ -229,7 +238,7 @@ const isPostDuplicate = async (id, title) => {
         // console.log(data)
         return data.length ? true : false
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return true
     }
 }
