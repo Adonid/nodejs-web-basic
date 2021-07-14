@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       User.belongsTo(models.Province, {foreignKey: 'provinceId'})
       User.belongsTo(models.District, {foreignKey: 'districtId'})
       User.belongsTo(models.Commune, {foreignKey: 'communeId'})
+      User.belongsTo(models.PostImage, {foreignKey: 'userId'})
 
       User.hasMany(models.Post, {foreignKey: 'authorId'})
       User.hasMany(models.FavouritesPost, {foreignKey: 'userId'})
@@ -22,7 +23,6 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.ReplysComment, {foreignKey: 'userId'})
       User.hasMany(models.FavouritesReplyComment, {foreignKey: 'userId'})
       User.hasMany(models.UserImage, {foreignKey: 'userId'})
-      User.hasMany(models.PostImage, {foreignKey: 'userId'})
     }
   };
   User.init({
@@ -41,7 +41,6 @@ module.exports = (sequelize, DataTypes) => {
     fullName: DataTypes.STRING,
     codeReset: DataTypes.STRING,
     phoneNumber: DataTypes.STRING,
-    avatar: DataTypes.JSON,
     bio: DataTypes.TEXT,
     age: DataTypes.STRING,
     genre: DataTypes.STRING,

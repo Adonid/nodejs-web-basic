@@ -50,10 +50,6 @@ module.exports = {
         allowNull: true,
         len: [10,12],               // Ex: 0987654321 or 84987654321 or +84987654321
       },
-      avatar: {
-        type: Sequelize.JSON,
-        allowNull: true,
-      },
       bio: {
         type: Sequelize.TEXT,
         allowNull: true,

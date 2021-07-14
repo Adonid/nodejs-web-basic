@@ -10,12 +10,21 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
+      Category.belongsTo(models.PostImage, {foreignKey: 'imageId'})
+
       Category.hasMany(models.Post, {foreignKey: 'categoryId'})
     }
   };
   Category.init({
     name: DataTypes.STRING,
-    image: DataTypes.JSON,
+    imageId: {
+      allowNull: false,
+      type: Sequelize.INTEGER,
+      references: {
+        model: 'PostImage',
+        key: 'id',
+      }
+    },
     color: DataTypes.STRING,
     description: DataTypes.STRING,
   }, {
