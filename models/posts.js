@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Post.belongsTo(models.Category, {foreignKey: 'categoryId'})
       Post.belongsTo(models.User, {foreignKey: 'authorId'})
+      Post.belongsTo(models.PostImage, {foreignKey: 'imageId'})
 
       Post.hasMany(models.PostsContent, {foreignKey: 'postId'})
       Post.hasMany(models.FavouritesPost, {foreignKey: 'postId'})
@@ -20,9 +21,9 @@ module.exports = (sequelize, DataTypes) => {
   };
   Post.init({
     title: DataTypes.STRING,
-    image: DataTypes.JSON,
     desc: DataTypes.TEXT,
     readTime: DataTypes.TEXT,
+    imageId: DataTypes.INTEGER,
     authorId: DataTypes.INTEGER,
     categoryId: DataTypes.INTEGER,
     active: DataTypes.BOOLEAN,

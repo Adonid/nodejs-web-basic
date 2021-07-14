@@ -12,10 +12,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
-      image: {
-        allowNull: false,
-        type: Sequelize.JSON
-      },
       desc: {
         allowNull: false,
         type: Sequelize.TEXT
@@ -27,6 +23,14 @@ module.exports = {
       active: {
         type: Sequelize.BOOLEAN,
         defaultValue: false
+      },
+      imageId: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'postImages',
+          key: 'id',
+        }
       },
       authorId: {
         allowNull: false,
