@@ -12,7 +12,7 @@ const existsUser = index => {
             where: index
         })
         .then(u => {
-            console.log(u)
+            // console.log(u)
             return u.dataValues.id||false
         })
         .catch(err => {
