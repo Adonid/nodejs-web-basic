@@ -41,8 +41,8 @@ router.get('/', async (req, res) => {
      const {type, name, imageBase64} = req.body
      const user = req.user
      try {
-        // const fileName = await ImageMannager.saveOriginal("/LEARNING NODEJS/P4. ExpressJS/public/images/users/avatars/original/", Slug.slugNameImage(user.name), imageBase64)
-        // console.log(fileName)
+        const fileName = await ImageMannager.saveImageBase64("/LEARNING NODEJS/P4. ExpressJS/public/images/users/avatars/original/", Slug.slugNameImage(user.name), imageBase64)
+        console.log(fileName)
      } catch (error) {
          console.log(error)
      }
