@@ -36,7 +36,7 @@ const {
  * @return {user} object JSON
  * 
  */
- router.post('/update-avatar', generalMiddleware.updateAvatar, (req, res) => {})
+//  router.post('/update-avatar', generalMiddleware.updateAvatar, (req, res) => {})
 
  /**
  *  POST - CAP NHAT THONG TIN CO BAN
