@@ -1,4 +1,28 @@
-const {User, UserImage} = require('../../models')
+const {UserImage} = require('../../models')
+
+/** LAY VE 1 DOI TUONG ANH
+ * 
+ * @param {type, userId} = index
+ * 
+ * type - STRING & unnullable
+ * 
+ * userId - INTERGER & unnullable
+ * 
+ * @returns boolean
+ */
+const getImage = async (index) => {
+    const image = await UserImage.findOne({
+        attributes: ['id', 'name','original', 'thumbnail'],
+        where: index
+    })
+    .then(img => {
+        return img||false
+    })
+    .catch(err => {
+        return false
+    })
+    return image
+}
 
 /** TAO MOI 1 ANH CHO USER
  * 
@@ -54,6 +78,7 @@ const updateImage = async (value, index) => {
 }
 
 module.exports={
+    getImage,
     createImage,
     updateImage
 }
