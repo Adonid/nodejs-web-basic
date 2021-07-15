@@ -1,5 +1,28 @@
 const {User, Role, Province, District, Commune, Post, CommentsPost, FavouritesPost, UserImage} = require('../../models')
 
+/** KIEM TRA DAY CO DUNG LA 1 TAI KHOAN KHONG
+ * 
+ * @param obj options - {email: "123hello@gmail.com"}...
+ * 
+ * @return boolean
+*/
+const existsUser = obj => {
+    const user = User.findOne({
+            attributes: ['id'],
+            where: index
+        })
+        .then(u => {
+            console.log(u)
+            return u||false
+        })
+        .catch(err => {
+            console.log(err)
+            return false
+        })
+
+    return user
+}
+
 /** KIEM TRA SU TON TAI CUA TAI KHOAN THEO EMAIL 
  * 
  * @param obj options - {email: "123hello@gmail.com"}...
@@ -198,6 +221,7 @@ const getUserDetail = async (email, roleId) => {
 }
 
 module.exports={
+    existsUser,
     getUser,
     createAdmin,
     createEditor,
