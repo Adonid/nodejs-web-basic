@@ -1,7 +1,11 @@
 const express = require('express')
 const router = express.Router()
+const path = require('path')
+const config = require('../../../../config/config.json')
 const {User} = require('../../../models')
+const {ImageMannager} = require('../../../services')
 const {notices, bcrypt} = require('../../../common')
+const {Slug} = require('../../../helpers')
 const {
     generalMiddleware
 } = require("../../../middleware")
@@ -33,7 +37,15 @@ router.get('/', async (req, res) => {
  * @param {email, roleId, name} auto in req. Rassport returned. { imageBase64 } in body
  * 
  */
- router.post('/upload-image', generalMiddleware.checkUpdateImage, (req, res) => {
+ router.post('/upload-image', generalMiddleware.checkUpdateImage, async (req, res) => {
+     const {type, name, imageBase64} = req.body
+     const user = req.user
+     try {
+        // const fileName = await ImageMannager.saveOriginal("/LEARNING NODEJS/P4. ExpressJS/public/images/users/avatars/original/", Slug.slugNameImage(user.name), imageBase64)
+        // console.log(fileName)
+     } catch (error) {
+         console.log(error)
+     }
      const msg = notices.reqSuccess("Middleware thanh cong anh updload!")
      return res.status(msg.code).json(msg)
  })
