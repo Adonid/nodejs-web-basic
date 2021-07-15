@@ -33,7 +33,11 @@ router.get('/', async (req, res) => {
  * @param {email, roleId, name} auto in req. Rassport returned. { imageBase64 } in body
  * 
  */
- router.post('/update-avatar', generalMiddleware.updateAvatar, (req, res) => {})
+ router.post('/upload-image', generalMiddleware.updateImage, (req, res) => {
+     const msg = notices.reqSuccess("Middleware thanh cong anh updload!")
+     return res.status(msg.code).json(msg)
+ })
+
 
 /**
  *  POST - CAP NHAT THONG TIN CO BAN
