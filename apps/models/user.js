@@ -2,11 +2,11 @@ const {User, Role, Province, District, Commune, Post, CommentsPost, FavouritesPo
 
 /** KIEM TRA DAY CO DUNG LA 1 TAI KHOAN KHONG
  * 
- * @param obj options - {email: "123hello@gmail.com"}...
+ * @param index options - {email: "123hello@gmail.com"}...
  * 
  * @return boolean
 */
-const existsUser = obj => {
+const existsUser = index => {
     const user = User.findOne({
             attributes: ['id'],
             where: index
