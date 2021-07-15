@@ -33,7 +33,7 @@ router.get('/', async (req, res) => {
  * @param {email, roleId, name} auto in req. Rassport returned. { imageBase64 } in body
  * 
  */
- router.post('/upload-image', generalMiddleware.updateImage, (req, res) => {
+ router.post('/upload-image', generalMiddleware.checkUpdateImage, (req, res) => {
      const msg = notices.reqSuccess("Middleware thanh cong anh updload!")
      return res.status(msg.code).json(msg)
  })
