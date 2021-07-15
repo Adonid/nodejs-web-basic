@@ -42,7 +42,7 @@ const register = (req, res, next) => {
  * @return next('route') | next()
  * 
  */
- const updateImage = async (req, res, next) => {
+ const checkUpdateImage = async (req, res, next) => {
     const {email, roleId, name} = req.user
     const {imageBase64} = req.body
     // DUNG DINH DANG IMAGE64 KHONG
@@ -210,7 +210,7 @@ const checkUpdatePost = async (req, res, next) => {
 module.exports={
     login,
     register,
-    updateImage,
+    checkUpdateImage,
     checkUserBasicInfo,
     checkUpdatePassword,
     checkNotAdmin,
