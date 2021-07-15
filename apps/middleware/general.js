@@ -1,6 +1,6 @@
 const {generalValidation} = require('../validator')
 const {User, Post, Category} = require('../models')
-const {notices, bcrypt} = require('../common')
+const {notices, bcrypt, regex} = require('../common')
 const {DriverGoogle} = require('../services')
 const config = require('../../config/config.json')
 
@@ -42,39 +42,24 @@ const register = (req, res, next) => {
  * @return next('route') | next()
  * 
  */
- const updateAvatar = async (req, res, next) => {
+ const updateImage = async (req, res, next) => {
     const {email, roleId, name} = req.user
     const {imageBase64} = req.body
+    // DUNG DINH DANG IMAGE64 KHONG
+    const isImage = regex.imageBase64(imageBase64)
+    if(isImage){
+        const err = notices.errorField('image', "Uh! Không phải định dạng ảnh.")
+        res.status(err.code).json(err)
+        return next('route')
+    }
     // PHAI TON TAI USER NAY
-    const user = await User.getUser({email, roleId, name})
-                            .then(data => data)
-                            .catch(err => err)
-    if(!user || !imageBase64){
+    const user = await User.existsUser({email, roleId, name})
+    if(!user){
         const err = notices._500
         res.status(err.code).json(err)
         return next('route')
     }
-    const {fileId} = user.avatar
-    // UPLOAD AVATAR MOI LEN
-    const newFile = await DriverGoogle.updateFile(config.googledriver.avatarFolder, imageBase64, name, fileId)
-    // Thong bao neu loi
-    const error = notices._500
-    if(!newFile){
-        res.status(error.code).json(error)
-        return next('route')
-    }
-    // CAP NHAT FILE CHO USER NAY
-    const updated = await User.updateUser(
-        {avatar: newFile},
-        {email}
-    )
-    if(updated){
-        const message = notices._203("Ảnh đại diện", updated)
-        res.status(message.code).json(message)
-        return next()
-    }
-    res.status(error.code).json(error)
-    return next('route')
+    return next()
 }
 
 /**
@@ -225,7 +210,7 @@ const checkUpdatePost = async (req, res, next) => {
 module.exports={
     login,
     register,
-    updateAvatar,
+    updateImage,
     checkUserBasicInfo,
     checkUpdatePassword,
     checkNotAdmin,
