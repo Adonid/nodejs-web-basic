@@ -46,7 +46,7 @@ const register = (req, res, next) => {
     const {email, roleId, name} = req.user
     const {imageBase64} = req.body
     // DUNG DINH DANG IMAGE64 KHONG
-    const isImage = regex.imageBase64(imageBase64)
+    const isImage = regex.base64String(imageBase64)
     if(isImage){
         const err = notices.errorField('image', "Uh! Không phải định dạng ảnh.")
         res.status(err.code).json(err)
