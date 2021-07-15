@@ -38,7 +38,7 @@ router.get('/', async (req, res) => {
 /**
  *  POST - CAP NHAT THONG TIN CO BAN
  * 
- * @param {name, fullName, phoneNumber, address, provinceId, districtId, communeId}
+ * @param {payload}
  * @return {user}
  */
  router.post('/update-basic-info', generalMiddleware.checkUserBasicInfo, async (req, res) => {
