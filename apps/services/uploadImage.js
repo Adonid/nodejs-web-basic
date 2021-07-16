@@ -99,7 +99,6 @@ module.exports = {
     createFolder,
     fileExists,
     removeFileIfExists,
-    saveImageBase64,
     saveOriginal,
     saveThumbnail,
 }
