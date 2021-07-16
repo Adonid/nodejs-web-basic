@@ -42,18 +42,14 @@ router.get('/', async (req, res) => {
      const user = req.user
      const folderOriginal = config.image.avatarOriginal
      const folderThumbnail = config.image.avatarThumbnail
-     const fileName = Slug.slugNameImage(user.name)
+     const nameFile = Slug.slugNameImage(user.name)
      // Lay anh avatar da luu
-     try {
-         const avatarUser = await ImageUser.getImage({userId: user.id})
-         console.log(avatarUser)
-     } catch (error) {
-         console.log(error)
-     }
+     const {original, thumbnail} = await ImageUser.getImage({userId: user.id, type: "avatar"})
+     // Tai len anh avatar
      try {
         // ImageMannager.removeFileIfExists("public/images/users/avatars/original/"+Slug.slugNameImage(user.name))
-        // const fileName = await ImageMannager.saveOriginal("public/images/users/avatars/original/", Slug.slugNameImage(user.name), imageBase64)
-        // console.log(avatarUser)
+        const fileName = await ImageMannager.saveOriginal(folderOriginal, nameFile, imageBase64)
+        console.log(fileName)
         // ImageMannager.removeFileIfExists(fileName)
      } catch (error) {
          console.log(error)
