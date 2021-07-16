@@ -38,32 +38,35 @@ router.get('/', async (req, res) => {
  * 
  */
  router.post('/upload-avatar-image', generalMiddleware.checkUpdateImage, async (req, res) => {
-     const {type, name, imageBase64} = req.body
+     const {imageBase64} = req.body
      const user = req.user
+     const indexImage = {userId: user.id, type: config.image.typeAvatar}
      const folderOriginal = config.image.avatarOriginal
      const folderThumbnail = config.image.avatarThumbnail
      const fileName = Slug.slugNameImage(user.name+"-"+Random.makeCodeReset(2))
-    //  try {
-    //     // Lay anh avatar da luu
-    //     const {original, thumbnail} = await ImageUser.getImage({userId: user.id, type: "avatar"})
-    //     // Xoa het file neu da ton tai
-    //     if(original)
-    //         ImageMannager.removeFileIfExists(original)
-    //     if(thumbnail)
-    //         ImageMannager.removeFileIfExists(thumbnail)
-    //  } catch (error) {
-    //      console.log(error)
-    //  }
+     const values = {original: folderOriginal+fileName, thumbnail: folderThumbnail+fileName}
+     const newImage = {...values, ...indexImage, name: user.name }
      try {
-         // Tai len anh goc
-        
-        ImageMannager.saveOriginal(folderOriginal, fileName, imageBase64)
-        const values = {original: folderOriginal+fileName}
-        console.log(values)
-        // Luu vao DB 
-        // await ImageUser.updateImage({original:})
-        // Tai len anh avatar
-        // ImageMannager.removeFileIfExists(fileName)
+        // Lay anh avatar da luu
+        const {original, thumbnail} = await ImageUser.getImage(indexImage)
+        // Xoa het file neu da ton tai
+        if(original)
+            ImageMannager.removeFileIfExists(original)
+        if(thumbnail)
+            ImageMannager.removeFileIfExists(thumbnail)
+        // Tai len anh goc original
+        await ImageMannager.saveOriginal(folderOriginal, fileName, imageBase64)
+        // Convert anh nay qua thumbnail
+        await ImageMannager.saveThumbnail(folderThumbnail, fileName, folderOriginal+fileName)
+        // Lua vao DB thoi
+        if(original){
+            // CAP NHAT
+            await ImageUser.updateImage(values, indexImage)
+        }
+        else{
+            // TAO MOI
+            await ImageUser.createImage(newImage)
+        }
      } catch (error) {
          console.log(error)
      }
