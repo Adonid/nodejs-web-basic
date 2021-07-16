@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const path = require('path')
 const config = require('../../../../config/config.json')
-const {User} = require('../../../models')
+const {User, ImageUser} = require('../../../models')
 const {ImageMannager} = require('../../../services')
 const {notices, bcrypt} = require('../../../common')
 const {Slug} = require('../../../helpers')
@@ -37,12 +37,24 @@ router.get('/', async (req, res) => {
  * @param {email, roleId, name} auto in req. Rassport returned. { imageBase64 } in body
  * 
  */
- router.post('/upload-image', generalMiddleware.checkUpdateImage, async (req, res) => {
+ router.post('/upload-avatar-image', generalMiddleware.checkUpdateImage, async (req, res) => {
      const {type, name, imageBase64} = req.body
      const user = req.user
+     const folderOriginal = config.image.avatarOriginal
+     const folderThumbnail = config.image.avatarThumbnail
+     const fileName = Slug.slugNameImage(user.name)
+     // Lay anh avatar da luu
      try {
-        const fileName = await ImageMannager.saveOriginal("public/images/users/avatars/thumbnail/", Slug.slugNameImage(user.name), imageBase64)
-        console.log(fileName)
+         const avatarUser = await ImageUser.getImage({userId: user.id})
+         console.log(avatarUser)
+     } catch (error) {
+         console.log(error)
+     }
+     try {
+        // ImageMannager.removeFileIfExists("public/images/users/avatars/original/"+Slug.slugNameImage(user.name))
+        // const fileName = await ImageMannager.saveOriginal("public/images/users/avatars/original/", Slug.slugNameImage(user.name), imageBase64)
+        // console.log(avatarUser)
+        // ImageMannager.removeFileIfExists(fileName)
      } catch (error) {
          console.log(error)
      }

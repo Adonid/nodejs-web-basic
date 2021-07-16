@@ -19,6 +19,7 @@ const getImage = async (index) => {
         return img||false
     })
     .catch(err => {
+        // console.log(err)
         return false
     })
     return image
@@ -48,6 +49,7 @@ const createImage = async ({type, name, userId, original, thumbnail}) => {
         return img?true:false
     })
     .catch(err => {
+        // console.log(err)
         return false
     })
     return image
