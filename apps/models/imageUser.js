@@ -16,7 +16,7 @@ const getImage = async (index) => {
         where: index
     })
     .then(img => {
-        return img||false
+        return img.dataValues||false
     })
     .catch(err => {
         // console.log(err)
