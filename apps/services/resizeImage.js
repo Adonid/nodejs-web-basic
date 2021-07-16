@@ -4,11 +4,8 @@ const config = require('../../config/config.json')
 
 class ResizeImage {
   constructor(folder, nameFile) {
-    this.folder = folder
-    this.nameFile = nameFile
     // Tao duong dan tuyet doi chua anh
-    const fileName = path.resolve(`${folder}/${nameFile}`)
-    this.fileName = fileName
+    this.fileName = path.resolve(folder+nameFile)
   }
   // Luu anh goc
   async saveOriginalImage(imgBase64) {
@@ -24,6 +21,7 @@ class ResizeImage {
                 mozjpeg: config.image.mozjpeg
            })
           .toFile(this.fileName)
+          .catch(err => console.log(err))
     
     return this.fileName
   }
@@ -42,6 +40,7 @@ class ResizeImage {
                 mozjpeg: config.image.mozjpeg
            })
           .toFile(this.fileName)
+          .catch(err => console.log(err))
     
     return this.fileName
   }

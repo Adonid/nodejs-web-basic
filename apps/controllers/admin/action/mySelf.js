@@ -5,7 +5,7 @@ const config = require('../../../../config/config.json')
 const {User, ImageUser} = require('../../../models')
 const {ImageMannager} = require('../../../services')
 const {notices, bcrypt} = require('../../../common')
-const {Slug} = require('../../../helpers')
+const {Slug, Random} = require('../../../helpers')
 const {
     generalMiddleware
 } = require("../../../middleware")
@@ -42,14 +42,23 @@ router.get('/', async (req, res) => {
      const user = req.user
      const folderOriginal = config.image.avatarOriginal
      const folderThumbnail = config.image.avatarThumbnail
-     const nameFile = Slug.slugNameImage(user.name)
-     // Lay anh avatar da luu
-     const {original, thumbnail} = await ImageUser.getImage({userId: user.id, type: "avatar"})
-     // Tai len anh avatar
+     const fileName = Slug.slugNameImage(user.name+"-"+Random.makeCodeReset(2))
      try {
-        // ImageMannager.removeFileIfExists("public/images/users/avatars/original/"+Slug.slugNameImage(user.name))
-        const fileName = await ImageMannager.saveOriginal(folderOriginal, nameFile, imageBase64)
-        console.log(fileName)
+        // Lay anh avatar da luu
+        const {original, thumbnail} = await ImageUser.getImage({userId: user.id, type: "avatar"})
+        // Xoa het file neu da ton tai
+        if(original)
+            ImageMannager.removeFileIfExists(original)
+        if(thumbnail)
+            ImageMannager.removeFileIfExists(thumbnail)
+        // Tai len anh goc
+        
+        const pathFile = await ImageMannager.saveOriginal(folderOriginal, fileName, imageBase64)
+        const values = {original: folderOriginal+fileName}
+        console.log(values)
+        // Luu vao DB 
+        // await ImageUser.updateImage({original:})
+        // Tai len anh avatar
         // ImageMannager.removeFileIfExists(fileName)
      } catch (error) {
          console.log(error)

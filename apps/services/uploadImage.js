@@ -64,14 +64,9 @@ const ResizeImage = require('./resizeImage')
  * 
  */
    const saveOriginal = async (folder, nameFile, buffer) => {
-    try {
-      const OriginalImage = new ResizeImage(folder, nameFile)
-      const pathFile = OriginalImage.saveOriginalImage(buffer)
-      return pathFile
-    } catch(err) {
-      console.error(err)
-      return false
-    }
+    const OriginalImage = new ResizeImage(folder, nameFile)
+    const pathFile = OriginalImage.saveOriginalImage(buffer)
+    return pathFile
   }
 
   /** LUU FILE ANH THANH FILE THUMBNAIL
