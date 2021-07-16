@@ -3,7 +3,6 @@
 */
 const fs = require('fs')
 const ResizeImage = require('./resizeImage')
-const { Stream } = require('stream')
 
   /** TAO MOI 1 FOLDER
  * 
@@ -54,26 +53,6 @@ const { Stream } = require('stream')
     } catch(err) {
       console.error(err)
     }
-  }
-
-/**
- * LUU FILE ANH TU DINH DANG BASE64
- * 
- *  @param {folder, nameFile, base64} 
- * 
- *  @return {} boolean|pathFile
- */
-  const saveImageBase64 = (folder, nameFile, base64) => {
-    // Buffer & Stream la lam viec voi file lon va tu phan chia vung nho hieu qua
-    const pathFile = folder + nameFile
-    const buffer = new Buffer.from(base64, "base64")
-    const img = new Stream.PassThrough()
-    img.end(buffer)
-    fs.writeFile(pathFile, img, (err) => {
-      if (err) return console.error(err)
-      console.log('file saved to ', pathFile)
-      return pathFile
-    })
   }
 
 

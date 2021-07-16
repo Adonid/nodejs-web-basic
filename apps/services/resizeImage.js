@@ -1,6 +1,5 @@
 const sharp = require('sharp')
 const path = require('path')
-const { Stream } = require('stream')
 const config = require('../../config/config.json')
 
 class ResizeImage {
@@ -15,12 +14,10 @@ class ResizeImage {
   async saveOriginalImage(imgBase64) {
     // Xu ly File dung luong lon
     const base64 = imgBase64.split(/,(.+)/)[1]
-    // Buffer & Stream la lam viec voi file lon va tu phan chia vung nho hieu qua
+    // Buffer la lam viec voi file lon va tu phan chia vung nho hieu qua
     const buffer = new Buffer.from(base64, "base64")
-    const img = new Stream.PassThrough()
-    img.end(buffer)
     // Resize anh & luu anh
-    await sharp(img)
+    await sharp(buffer)
           .jpeg({
                 quality: config.image.quality,
                 chromaSubsampling: config.image.chromaSubsampling,
@@ -34,12 +31,10 @@ class ResizeImage {
   async saveThumbnailImage(imgBase64) {
     // Xu ly File dung luong lon
     const base64 = imgBase64.split(/,(.+)/)[1]
-    // Buffer & Stream la lam viec voi file lon va tu phan chia vung nho hieu qua
+    // Buffer la lam viec voi file lon va tu phan chia vung nho hieu qua
     const buffer = new Buffer.from(base64, "base64")
-    const img = new Stream.PassThrough()
-    img.end(buffer)
     // Resize anh & luu anh
-    await sharp(img)
+    await sharp(buffer)
           .resize(config.image.thumbnail.width, config.image.thumbnail.height, {fit: sharp.fit.inside, withoutEnlargement: true})
           .jpeg({
                 quality: config.image.quality,
