@@ -70,7 +70,48 @@ router.get('/', async (req, res) => {
      } catch (error) {
          console.log(error)
      }
-     const msg = notices.reqSuccess("Middleware thanh cong anh updload!")
+     const msg = notices._203("Ảnh avatar", values)
+     return res.status(msg.code).json(msg)
+ })
+
+
+/** 
+ * POST - Upload anh background cho Users. 
+ * 
+ * Anh background chi co origin ko co thumbnail vi no la anh lon
+ * 
+ * @param {email, roleId, name} auto in req. Rassport returned. { imageBase64 } in body
+ * 
+ */
+ router.post('/upload-background-image', generalMiddleware.checkUpdateImage, async (req, res) => {
+     const {imageBase64} = req.body
+     const user = req.user
+     const indexImage = {userId: user.id, type: config.image.typeBackground}
+     const folderOriginal = config.image.bgOriginal
+     const fileName = Slug.slugNameImage(user.name+"-"+Random.makeCodeReset(2))
+     const values = {original: folderOriginal+fileName}
+     const newImage = {...values, ...indexImage, name: user.name }
+     try {
+        // Lay anh background da luu
+        const {original} = await ImageUser.getImage(indexImage)
+        // Xoa file neu da ton tai
+        if(original)
+            ImageMannager.removeFileIfExists(original)
+        // Tai len anh goc original
+        await ImageMannager.saveOriginal(folderOriginal, fileName, imageBase64)
+        // Lua vao DB thoi
+        if(original){
+            // CAP NHAT
+            await ImageUser.updateImage(values, indexImage)
+        }
+        else{
+            // TAO MOI
+            await ImageUser.createImage(newImage)
+        }
+     } catch (error) {
+         console.log(error)
+     }
+     const msg = notices._203("Ảnh background", values)
      return res.status(msg.code).json(msg)
  })
 
