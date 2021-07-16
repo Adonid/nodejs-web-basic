@@ -21,7 +21,6 @@ class ResizeImage {
                 mozjpeg: config.image.mozjpeg
            })
           .toFile(this.fileName)
-          .catch(err => console.log(err))
     
     return this.fileName
   }
@@ -40,7 +39,6 @@ class ResizeImage {
                 mozjpeg: config.image.mozjpeg
            })
           .toFile(this.fileName)
-          .catch(err => console.log(err))
     
     return this.fileName
   }

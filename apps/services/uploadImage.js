@@ -55,7 +55,6 @@ const ResizeImage = require('./resizeImage')
     }
   }
 
-
   /** LUU FILE ANH GOC(80%)
  * 
  * @param {folder, nameFile, buffer} 
@@ -63,7 +62,7 @@ const ResizeImage = require('./resizeImage')
  * @return {} boolean|pathFile
  * 
  */
-   const saveOriginal = async (folder, nameFile, buffer) => {
+   const saveOriginal = (folder, nameFile, buffer) => {
     const OriginalImage = new ResizeImage(folder, nameFile)
     const pathFile = OriginalImage.saveOriginalImage(buffer)
     return pathFile
@@ -76,7 +75,7 @@ const ResizeImage = require('./resizeImage')
  * @return {} boolean|pathFile
  * 
  */
-   const saveThumbnail = async (folder, nameFile, buffer) => {
+   const saveThumbnail = (folder, nameFile, buffer) => {
     try {
       const ThumbnailImage = new ResizeImage(folder, nameFile)
       const pathFile = ThumbnailImage.saveThumbnailImage(buffer)
