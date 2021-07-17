@@ -13,10 +13,10 @@ const existsUser = index => {
         })
         .then(u => {
             // console.log(u)
-            return u.dataValues.id||false
+            return u?u.dataValues.id:false
         })
         .catch(err => {
-            console.log(err)
+            // console.log(err)
             return false
         })
 
