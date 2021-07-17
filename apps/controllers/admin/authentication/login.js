@@ -21,7 +21,7 @@ router.post('/', adminMiddleware.verifyLoginAdmin, async (req, res) => {
     // Tra ve MA JWT cho ADMIN
     const token = await JwtStrategy.generateToken(email)
     // Lay thong tin chi tiet user nay
-    const myself = await User.getUserBasic({email})
+    const myself = await User.getUser({email})
                              .then(user => user)
                              .catch(err => err)
     // Lay toan bo cac tinh/thanh pho

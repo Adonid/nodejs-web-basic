@@ -41,7 +41,7 @@ const getUserBasic = obj => {
             reject(false)
     })
 }
-/** KIEM TRA SU TON TAI CUA TAI KHOAN THEO EMAIL 
+/** LAY THONG TIN CHI TIET CUA 1 USER BAT KY
  * 
  * @param obj options - {email: "123hello@gmail.com"}...
  * 
@@ -51,6 +51,9 @@ const getUser = obj => {
     return new Promise( async (resolve, reject) => {
         const data = await User.findOne({
             where: obj,
+            attributes:{
+                exclude: ['password', 'codeReset', 'provinceId', 'districtId', 'communeId', 'roleId']
+            },
             include: [
                 {
                     model: Role,
