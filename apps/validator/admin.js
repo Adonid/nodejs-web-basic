@@ -28,7 +28,7 @@ const roleId = 1
         return notices.notEmail
     }
     // Check email is valid in database 
-    const user = await User.getUserBasic({email, roleId: 1})
+    const user = await User.existsUser({email, roleId: 1})
                         .then(data => data)
                         .catch(err=>err)
     if(!user)
@@ -49,7 +49,7 @@ const roleId = 1
         return isPreRegister
 
     //  email nay phai CHUA dang ky
-    const user = await User.getUserBasic({email, roleId})
+    const user = await User.existsUser({email, roleId})
                         .then(data => data)
                         .catch(err=>err)
     if(user)
@@ -100,7 +100,7 @@ const roleId = 1
         return isReset
 
     // Du lieu yeu cau reset password phai khop voi du lieu da luu tru CUA ADMIN
-    const user = await User.getUserBasic({email, codeReset, roleId})
+    const user = await User.existsUser({email, codeReset})
                         .then(data => data)
                         .catch(err=>err)
     if(!user)
