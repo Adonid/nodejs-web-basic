@@ -44,8 +44,8 @@ router.get('/', async (req, res) => {
      const folderOriginal = config.image.avatarOriginal
      const folderThumbnail = config.image.avatarThumbnail
      const fileName = Slug.slugNameImage(user.name+"-"+Random.makeCodeReset(2))
-     const values = {original: folderOriginal+fileName, thumbnail: folderThumbnail+fileName}
-     const newImage = {...values, ...indexImage, name: user.name }
+     const values = {original: folderOriginal+fileName, thumbnail: folderThumbnail+fileName, name: user.name}
+     const newImage = {...values, ...indexImage }
      try {
         // Lay anh avatar da luu
         const {original, thumbnail} = await ImageUser.getImage(indexImage)
@@ -96,8 +96,8 @@ router.get('/', async (req, res) => {
      const indexImage = {userId: user.id, type: config.image.typeBackground}
      const folderOriginal = config.image.bgOriginal
      const fileName = Slug.slugNameImage(user.name+"-"+Random.makeCodeReset(2))
-     const values = {original: folderOriginal+fileName}
-     const newImage = {...values, ...indexImage, name: user.name }
+     const values = {original: folderOriginal+fileName, name: user.name}
+     const newImage = {...values, ...indexImage }
      try {
         // Lay anh background da luu
         const {original} = await ImageUser.getImage(indexImage)
