@@ -15,7 +15,7 @@ const applyPassportStrategy = passport => {
   options.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken()
   options.secretOrKey = config.passport.secret
   passport.use( new Strategy(options, async (payload, done) => {
-      const user = await User.getUser({email: payload.email, id: payload.id, roleId: payload.roleId})
+      const user = await User.getUserBasic({email: payload.email, id: payload.id, roleId: payload.roleId})
                       .then(data => data)
                       .catch(err=>err)
       if(user) {
@@ -55,7 +55,7 @@ const applyPassportFacebookStrategy = passport => {
         token: accessToken
       }
       // Xu ly dang ky | dang nhap tai khoan facebook cho user nay
-      const existing_user = await User.getUser({email})
+      const existing_user = await User.getUserBasic({email})
                                     .then(data => data)
                                     .catch(err=>err)
       // Xem email nay dang ky chua
@@ -113,7 +113,7 @@ const applyPassportGoogleStrategy = passport => {
         token: accessToken
       }
       // Xu ly dang ky | dang nhap tai khoan facebook cho user nay
-      const existing_user = await User.getUser({email})
+      const existing_user = await User.getUserBasic({email})
                                     .then(data => data)
                                     .catch(err=>err)
       // Xem email nay dang ky chua
