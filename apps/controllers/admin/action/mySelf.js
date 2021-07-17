@@ -67,11 +67,18 @@ router.get('/', async (req, res) => {
             // TAO MOI
             await ImageUser.createImage(newImage)
         }
+        // Tra ve thong tin user
+        // Lay thong tin chi tiet user nay
+        const myself = await User.getUser(user)
+                                .then(user => user)
+                                .catch(err => err)
+
+        const message = notices._203("Ảnh avatar đã", myself)
+        return res.status(message.code).json(message)
      } catch (error) {
-         console.log(error)
+        console.log(error)
+        return res.status(notices._500.code).json(notices._500)
      }
-     const msg = notices._203("Ảnh avatar", values)
-     return res.status(msg.code).json(msg)
  })
 
 
@@ -108,11 +115,18 @@ router.get('/', async (req, res) => {
             // TAO MOI
             await ImageUser.createImage(newImage)
         }
+        // Tra ve thong tin user
+        // Lay thong tin chi tiet user nay
+        const myself = await User.getUser(user)
+                                .then(user => user)
+                                .catch(err => err)
+
+        const message = notices._203("Ảnh nền đã", myself)
+        return res.status(message.code).json(message)
      } catch (error) {
-         console.log(error)
+        console.log(error)
+        return res.status(notices._500.code).json(notices._500)
      }
-     const msg = notices._203("Ảnh background", values)
-     return res.status(msg.code).json(msg)
  })
 
 
