@@ -33,7 +33,28 @@ const getUser = obj => {
     return new Promise( async (resolve, reject) => {
         const data = await User.findOne({
             where: obj,
-            include: [Role, Province, District, Commune, UserImage],
+            include: [
+                {
+                    model: Role,
+                    attributes: ['id', 'roleName']
+                }, 
+                {
+                    model: Province,
+                    attributes: ['id', 'name']
+                }, 
+                {
+                    model: District,
+                    attributes: ['id', 'name']
+                }, 
+                {
+                    model: Commune,
+                    attributes: ['id', 'name']
+                },  
+                {
+                    model: UserImage,
+                    attributes: ['type', 'name', 'original', 'thumbnail']
+                },  
+            ],
         })
         if(data)
             resolve(data.dataValues)
