@@ -1,4 +1,6 @@
 const {User, Role, Province, District, Commune, Post, CommentsPost, FavouritesPost, UserImage} = require('../../models')
+const {ImageUser} = require('../models')
+const config = require('../../config/config.json')
 
 /** KIEM TRA DAY CO DUNG LA 1 TAI KHOAN KHONG
  * 
@@ -141,13 +143,12 @@ const createEditor = async (name, email, password) => {
  * 
  * @returns boolean
  */
-const createUser = async (user) => {
+const createUser = async ({provider, name, email, profile_picture, meta}) => {
     const resuft = await User.create({
-        name        : user.name,
-        email       : user.email,
-        provider    : user.provider,
-        // avatar      : {webViewLink: user.profile_picture, webContentLink: "", thumbnailLink: "", fileId: ""},
-        social      : user.meta,
+        name,
+        email,
+        provider,
+        social      : meta,
         password    : "aa@A88",
         roleId      : 3,
         active      : true
@@ -161,7 +162,15 @@ const createUser = async (user) => {
         return false
     })
     // console.log(resuft)
-    return resuft
+    // Anh avatar cho user
+    const newAvatar = {type: config.image.typeAvatar, name, userId: resuft.id, original: profile_picture}
+    try {
+        await ImageUser.createImage(newAvatar)
+        return true
+    } catch (error) {
+        // console.log(err)
+        return false
+    }
 }
 
 /** CAP NHAT FIELD(s) TRONG BANG USER
