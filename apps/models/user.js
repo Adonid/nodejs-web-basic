@@ -53,7 +53,7 @@ const getUser = obj => {
                 {
                     model: UserImage,
                     attributes: ['type', 'name', 'original', 'thumbnail']
-                },  
+                }
             ],
         })
         if(data)
@@ -177,7 +177,12 @@ const updateUser = async (value, index, indexPrimary=false) => {
 const paginationUser = async (offset=0, limit=5) => {
     const users = await User.findAll({
         attributes: ['id', 'name', 'email', 'active', 'provider', 'fullName', 'phoneNumber', 'createdAt' ],
-        include: [UserImage],
+        include: [
+            {
+                model: UserImage,
+                attributes: ['type', 'name', 'original', 'thumbnail']
+            }
+        ],
         where: {roleId: 3},
         offset,
         limit
@@ -202,7 +207,12 @@ const paginationUser = async (offset=0, limit=5) => {
 const paginationEditor = async () => {
     const editors = await User.findAll({
         attributes: ['id', 'name', 'email', 'active', 'fullName', 'phoneNumber', 'createdAt' ],
-        include: [UserImage],
+        include: [
+            {
+                model: UserImage,
+                attributes: ['type', 'name', 'original', 'thumbnail']
+            }
+        ],
         where: {roleId: 2}
     })
     .then(u => {
@@ -229,7 +239,28 @@ const getUserDetail = async (email, roleId) => {
     const user = await User.findOne({
         attributes: ['id', 'name', 'email', 'active', 'fullName', 'phoneNumber', 'createdAt' ],
         where: {email, roleId},
-        include: [Role, Province, District, Commune, Post, CommentsPost, FavouritesPost, UserImage],
+        include: [
+            {
+                model: Role,
+                attributes: ['id', 'roleName']
+            }, 
+            {
+                model: Province,
+                attributes: ['id', 'name']
+            }, 
+            {
+                model: District,
+                attributes: ['id', 'name']
+            }, 
+            {
+                model: Commune,
+                attributes: ['id', 'name']
+            },  
+            {
+                model: UserImage,
+                attributes: ['type', 'name', 'original', 'thumbnail']
+            },
+            Post, CommentsPost, FavouritesPost],
     })
     .then(u => {
         return u
