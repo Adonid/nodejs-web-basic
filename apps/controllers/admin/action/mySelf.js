@@ -134,7 +134,6 @@ router.get('/', async (req, res) => {
         const myself = await User.getUser({email})
                                 .then(user => user)
                                 .catch(err => err)
-        delete myself.password
 
         const message = notices._203("Thông tin cá nhân", myself)
         return res.status(message.code).json(message)

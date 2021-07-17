@@ -10,11 +10,11 @@ const {User} = require('../models')
  * @returns 
  */
 const generateToken = async email => {
-    const {id, roleId, name, fullName, avatarUrl} = await User.getUser({email})
+    const {id, roleId, name} = await User.getUser({email})
                             .then(data => data)
                             .catch(err=>err)
     const token = jwt.sign(
-        { id, roleId, email, name, fullName, avatarUrl },
+        { id, roleId, email, name },
         config.passport.secret,
         { expiresIn: config.passport.expiresIn }
     )
