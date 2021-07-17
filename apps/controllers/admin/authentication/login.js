@@ -21,13 +21,12 @@ router.post('/', adminMiddleware.verifyLoginAdmin, async (req, res) => {
     // Tra ve MA JWT cho ADMIN
     const token = await JwtStrategy.generateToken(email)
     // Lay thong tin chi tiet user nay
-    const myself = await User.getUser({email})
+    const myself = await User.getUserBasic({email})
                              .then(user => user)
                              .catch(err => err)
     // Lay toan bo cac tinh/thanh pho
     const provinces = await Address.getProvinces()
-    if(myself)
-        delete myself.password
+    // Tra ve cho user
     if(token && myself && provinces){
         const info = notices.loginSuccess(token, myself, provinces)
         return res.status(info.code).json(info) 

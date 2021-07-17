@@ -23,6 +23,24 @@ const existsUser = index => {
     return user
 }
 
+/** LAY THONG TIN CO BAN CUA USER KHI DOI CHIEU THONG TIN DANG NHAP
+ * 
+ * @param obj options - {email: "123hello@gmail.com"}...
+ * 
+ * @return boolean or OBJECT = {id, password,}
+*/
+const getUserBasic = obj => {
+    return new Promise( async (resolve, reject) => {
+        const data = await User.findOne({
+            where: obj,
+            attributes:  ['password', 'codeReset', 'active', 'updatedAt']
+        })
+        if(data)
+            resolve(data.dataValues)
+        else
+            reject(false)
+    })
+}
 /** KIEM TRA SU TON TAI CUA TAI KHOAN THEO EMAIL 
  * 
  * @param obj options - {email: "123hello@gmail.com"}...
@@ -273,6 +291,7 @@ const getUserDetail = async (email, roleId) => {
 }
 
 module.exports={
+    getUserBasic,
     existsUser,
     getUser,
     createAdmin,
