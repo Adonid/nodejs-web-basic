@@ -10,7 +10,7 @@ const {User} = require('../models')
  * @returns 
  */
 const generateToken = async email => {
-    const {id, roleId, name} = await User.getUser({email})
+    const {id, roleId, name} = await User.getUserBasic({email})
                             .then(data => data)
                             .catch(err=>err)
     const token = jwt.sign(
