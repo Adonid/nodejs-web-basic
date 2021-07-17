@@ -35,7 +35,7 @@ const getUserBasic = obj => {
     return new Promise( async (resolve, reject) => {
         const data = await User.findOne({
             where: obj,
-            attributes:  ['id', 'name', 'password', 'codeReset', 'active', 'roleId', 'updatedAt']
+            attributes:  ['id', 'name', 'email', 'password', 'codeReset', 'active', 'roleId', 'updatedAt']
         })
         if(data)
             resolve(data.dataValues)
@@ -190,7 +190,7 @@ const updateUser = async (value, index, indexPrimary=false) => {
         return data||false
     })
     .catch(err => {
-        // console.log(err)
+        console.log(err)
         return false
     })
     return user
