@@ -1,6 +1,7 @@
 const {User, Role, Province, District, Commune, Post, CommentsPost, FavouritesPost, UserImage} = require('../../models')
 const {ImageUser} = require('../models')
 const config = require('../../config/config.json')
+const { Op } = require('sequelize')
 
 /** KIEM TRA DAY CO DUNG LA 1 TAI KHOAN KHONG
  * 
@@ -206,11 +207,16 @@ const updateUser = async (value, index, indexPrimary=false) => {
  */
 const paginationUser = async (offset=0, limit=5) => {
     const users = await User.findAll({
-        attributes: ['id', 'name', 'email', 'active', 'provider', 'fullName', 'phoneNumber', 'createdAt' ],
+        attributes: ['name', 'email', 'active', 'provider', 'fullName', 'phoneNumber', 'createdAt' ],
         include: [
             {
                 model: UserImage,
-                attributes: ['type', 'name', 'original', 'thumbnail']
+                attributes: ['name', 'original', 'thumbnail'],
+                where: {
+                    type: {
+                        [Op.eq]: config.image.typeAvatar
+                    }
+                }
             }
         ],
         where: {roleId: 3},
@@ -236,11 +242,16 @@ const paginationUser = async (offset=0, limit=5) => {
  */
 const paginationEditor = async () => {
     const editors = await User.findAll({
-        attributes: ['id', 'name', 'email', 'active', 'fullName', 'phoneNumber', 'createdAt' ],
+        attributes: ['name', 'email', 'active', 'fullName', 'phoneNumber', 'createdAt' ],
         include: [
             {
                 model: UserImage,
-                attributes: ['type', 'name', 'original', 'thumbnail']
+                attributes: ['name', 'original', 'thumbnail'],
+                where: {
+                    type: {
+                        [Op.eq]: config.image.typeAvatar
+                    }
+                }
             }
         ],
         where: {roleId: 2}
