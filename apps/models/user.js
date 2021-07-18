@@ -211,12 +211,7 @@ const paginationUser = async (offset=0, limit=5) => {
         include: [
             {
                 model: UserImage,
-                attributes: ['name', 'original', 'thumbnail'],
-                where: {
-                    type: {
-                        [Op.eq]: config.image.typeAvatar
-                    }
-                }
+                attributes: ['name', 'original', 'thumbnail']
             }
         ],
         where: {roleId: 3},
@@ -246,17 +241,13 @@ const paginationEditor = async () => {
         include: [
             {
                 model: UserImage,
-                attributes: ['name', 'original', 'thumbnail'],
-                where: {
-                    type: {
-                        [Op.eq]: config.image.typeAvatar
-                    }
-                }
+                attributes: ['name', 'original', 'thumbnail']
             }
         ],
         where: {roleId: 2}
     })
     .then(u => {
+        console.log(u)
         return u
     })
     .catch(err => {
