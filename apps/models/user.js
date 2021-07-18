@@ -238,7 +238,7 @@ const paginationUser = async (offset=0, limit=5) => {
  * LAY TAT CA EDITORs
  * 
  * @param {*} none
- * @returns {*} editors
+ * @returns {*} array
  */
 const paginationEditor = async () => {
     const editors = await User.findAll({
