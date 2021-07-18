@@ -37,15 +37,16 @@ router.get('/', async (req, res) => {
  * @returns {*} object JSON
  * 
  */
-router.get('/', async (req, res) => {
+router.get('/users', async (req, res) => {
     const {offset, limit} = req.body
-    const users = await User.paginationUser(offset, limit)
-    if(users){
-        const info = notices.reqSuccess(users)
-        return res.status(info.code).json(info)
+    try {
+        const users = await User.paginationUser(offset, limit)
+        const resuft = notices.reqSuccess(users)
+        return res.status(resuft.code).json(resuft)
+    } catch (error) {
+        // console.log(error)
+        return res.status(notices._500.code).json(notices._500)
     }
-    const err = notices._500
-    return res.status(err.code).json(err)
 })
 
 module.exports = router
