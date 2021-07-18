@@ -19,8 +19,8 @@ router.get('/', async (req, res) => {
     try {
         const authors = await User.paginationEditor()
         const users = await User.paginationUser(offset, limit)
-        const info = notices.reqSuccess([authors, users])
-        return res.status(info.code).json(info)
+        const resuft = notices.reqSuccess([authors, users])
+        return res.status(resuft.code).json(resuft)
     } catch (error) {
         // console.log(error)
         return res.status(notices._500.code).json(notices._500)
