@@ -247,8 +247,7 @@ const paginationEditor = async () => {
         where: {roleId: 2}
     })
     .then(u => {
-        console.log(u)
-        return u
+        return u||false
     })
     .catch(err => {
         // console.log(err)
