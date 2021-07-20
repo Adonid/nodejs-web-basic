@@ -24,7 +24,6 @@ router.get('/', async (req, res) => {
                              .then(user => user)
                              .catch(err => err)
     if(myself){
-        delete myself.password
         const msg = notices.reqSuccess(myself)
         return res.status(msg.code).json(msg)
     }
