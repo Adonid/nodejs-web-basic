@@ -207,7 +207,7 @@ const updateUser = async (value, index, indexPrimary=false) => {
  */
 const paginationUser = async (offset=0, limit=5) => {
     const users = await User.findAll({
-        attributes: ['name', 'email', 'active', 'provider', 'fullName', 'phoneNumber', 'createdAt' ],
+        attributes: ['id', 'name', 'email', 'active', 'provider', 'fullName', 'phoneNumber', 'createdAt' ],
         include: [
             {
                 model: UserImage,
@@ -237,7 +237,7 @@ const paginationUser = async (offset=0, limit=5) => {
  */
 const paginationEditor = async () => {
     const editors = await User.findAll({
-        attributes: ['name', 'email', 'active', 'fullName', 'phoneNumber', 'createdAt' ],
+        attributes: ['id', 'name', 'email', 'active', 'fullName', 'phoneNumber', 'createdAt' ],
         include: [
             {
                 model: UserImage,
