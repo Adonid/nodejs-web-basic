@@ -19,7 +19,9 @@ router.get('/', async (req, res) => {
                               .then(author => author)
                               .catch(err => err)
         const data = notices.reqSuccess(author)
-        return res.status(data.code).json(data)
+        if(author)
+            return res.status(data.code).json(data)
+        return res.status(notices._500.code).json(notices._500)
     } catch (error) {
         return res.status(notices._500.code).json(notices._500)
     }
