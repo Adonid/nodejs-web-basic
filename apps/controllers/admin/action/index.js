@@ -3,7 +3,7 @@ const router = express.Router()
 const dashboard = require('./dashboard')
 const myself = require('./mySelf')
 const users = require('./users')
-const editors = require('./editors')
+const author = require('./author')
 const userDetail = require('./userDetail')
 const manager = require('./manager')
 const categories = require('./categories')
@@ -15,9 +15,9 @@ const posts = require('./posts')
  router.use('/', dashboard)
 
 /**
- *  Danh sach cac editors
+ *  Thao tac voi Author
  */
- router.use('/editors-list', editors)
+ router.use('/author', author)
 /**
  *  Cac thao tac tai khoan cua chinh toi
  */
