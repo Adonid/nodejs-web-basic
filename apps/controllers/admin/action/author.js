@@ -13,9 +13,10 @@ const {notices} = require('../../../common')
  * 
  */
 router.get('/', async (req, res) => {
-    const {authorId} = req.body
+    console.log(req.query.params, typeof req.query.params, typeof JSON.parse(req.query.params))
+    const id = JSON.parse(req.query.params).id
     try {
-        const author = await User.getUser({id: authorId, roleId: 2})
+        const author = await User.getUser({id, roleId: 2})
                               .then(author => author)
                               .catch(err => err)
         const data = notices.reqSuccess(author)
