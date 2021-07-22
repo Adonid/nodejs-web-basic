@@ -4,7 +4,7 @@ const dashboard = require('./dashboard')
 const myself = require('./mySelf')
 const users = require('./users')
 const author = require('./author')
-const userDetail = require('./userDetail')
+const user = require('./user')
 const manager = require('./manager')
 const categories = require('./categories')
 const posts = require('./posts')
@@ -13,23 +13,22 @@ const posts = require('./posts')
  *  Route cho phep vao lay ra du lieu cho trang dashboard
  */
  router.use('/', dashboard)
-
+ /**
+ *  Cac thao tac tai khoan cua chinh toi
+ */
+  router.use('/myself', myself)
+/**
+ *  Cac thao tac danh sach cac user & author
+ */
+ router.use('/users-list', users)
 /**
  *  Thao tac voi Author
  */
  router.use('/author', author)
 /**
- *  Cac thao tac tai khoan cua chinh toi
+ *  Thao tac voi User
  */
- router.use('/myself', myself)
-/**
- *  Cac thao tac danh sach cac users
- */
- router.use('/users-list', users)
-/**
- *  Cac thao tac chi tiet user
- */
- router.use('/user-detail', userDetail)
+ router.use('/user', user)
 /**
  *  Cac thao tac quan ly user
  */
