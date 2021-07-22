@@ -2,8 +2,6 @@ const express = require('express')
 const router = express.Router()
 const {User} = require('../../../models')
 const {notices} = require('../../../common')
-const {generalMiddleware} = require('../../../middleware')
-
 
 /**
  * Cap nhat thong tin co ban cho user
@@ -13,11 +11,11 @@ const {generalMiddleware} = require('../../../middleware')
  * @returns {user} object JSON
  * 
  */
-router.post('/active-user', generalMiddleware.checkNotAdmin, async (req, res) => {
-    const {id, email, roleId, active} = req.body
+router.post('/activities', async (req, res) => {
+    const {id, email, active} = req.body
     const user = await User.updateUser(
         {active},
-        {id, email, roleId}
+        {id, email}
     )
     if(user){
         const note = notices.reqSuccess(user)
