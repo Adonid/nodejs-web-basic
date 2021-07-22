@@ -5,22 +5,26 @@ const {notices} = require('../../../common')
 
 
 /**
- * Lay thong tin chi tiet nguoi dung
+ * LAY CHI TIET CAC DU LIEU CUA 1 USER
  * 
- * @param {*} email, roleId
+ * @params {query} 
  * 
  * @returns {*} object JSON
  * 
  */
-router.get('/', async (req, res) => {
-    const {email, roleId} = req.body
-    const user = await User.getUserDetail(email, roleId)
-    if(user){
-        const info = notices.reqSuccess(user)
-        return res.status(info.code).json(info)
+ router.get('/', async (req, res) => {
+    const id = JSON.parse(req.query.params).id
+    try {
+        const user = await User.getUser({id, roleId: 3})
+                              .then(user => user)
+                              .catch(err => err)
+        const data = notices.reqSuccess(user)
+        if(user)
+            return res.status(data.code).json(data)
+        return res.status(notices._500.code).json(notices._500)
+    } catch (error) {
+        return res.status(notices._500.code).json(notices._500)
     }
-    const err = notices._500
-    return res.status(err.code).json(err)
 })
 
 module.exports = router
