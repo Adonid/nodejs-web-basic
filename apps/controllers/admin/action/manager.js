@@ -11,7 +11,7 @@ const {notices} = require('../../../common')
  * @returns {user} object JSON
  * 
  */
-router.post('/activities', async (req, res) => {
+router.post('/update', async (req, res) => {
     const payload = req.body
     const {id, email} = payload
     delete payload.id
