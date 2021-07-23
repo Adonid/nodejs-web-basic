@@ -28,6 +28,11 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         allowNull: false,
       },
+      member: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
       codeReset: {
         type: Sequelize.STRING,
         allowNull: true,

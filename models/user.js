@@ -36,6 +36,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     name: DataTypes.STRING,
     active: DataTypes.BOOLEAN,
+    member: DataTypes.BOOLEAN,
     provider: DataTypes.STRING,
     social: DataTypes.JSON,
     fullName: DataTypes.STRING,
