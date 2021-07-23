@@ -12,10 +12,13 @@ const {notices} = require('../../../common')
  * 
  */
 router.post('/activities', async (req, res) => {
-    const {id, email, active} = req.body
+    const payload = req.body
+    const {id, email} = payload
+    delete payload.id
+    delete payload.email
     try {
         const user = await User.updateUser(
-            {active},
+            payload,
             {id, email}
         )
         if(user){
