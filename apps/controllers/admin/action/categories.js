@@ -6,6 +6,11 @@ const {Category} = require('../../../models')
 const {notices} = require('../../../common')
 const {Slug} = require('../../../helpers')
 const config = require('../../../../config/config.json')
+const {ImagePost} = require('../../../models')
+const {ImageMannager} = require('../../../services')
+const {
+    generalMiddleware
+} = require("../../../middleware")
 
 /**
  * Lay danh sach tat ca danh muc
@@ -77,6 +82,50 @@ router.post('/update', adminMiddleware.checkUpdateCategory, async (req, res) => 
         return res.status(info.code).send(info)
     }
     return res.status(err.code).send(err)
+})
+
+/** 
+ * POST - Upload anh CATEGORY
+ * 
+ * @param {email, roleId, name} in user. Rassport returned. { imageBase64 }
+ * @param {imageBase64} in body
+ * 
+ */
+ router.post('/upload-category-image', generalMiddleware.checkUpdateImage, async (req, res) => {
+    const {id, imageBase64} = req.body
+    const user = req.user
+    const indexImage = {userId: user.id, type: config.image.typeCategory}
+    const folderOriginal = config.image.categoryOriginal
+    const fileName = Slug.slugNameImage(user.name+"-"+Random.makeCodeReset(5))
+    const values = {original: folderOriginal+fileName, name: user.name}
+    const newImage = {...values, ...indexImage }
+    try {
+        // Tai len anh goc category
+        await ImageMannager.saveOriginal(folderOriginal, fileName, imageBase64)
+        if(id){
+            // CAP NHAT
+            // Lay anh category da luu
+            const {original} = await ImagePost.getImage({...indexImage, id})
+            // Xoa file da ton tai
+            if(original)
+                ImageMannager.removeFileIfExists(original)
+            // Cap nhat vao DB
+            await ImagePost.updateImage(values, indexImage)
+        }
+        else{
+            // TAO MOI
+            // Them moi vao DB
+            await ImagePost.createImage(newImage)
+        }
+       // Lay lai danh sach cac anh danh muc
+       const categories = await ImagePost.getImages(indexImage)
+
+       const message = notices._203("Upload ảnh category", categories)
+       return res.status(message.code).json(message)
+    } catch (error) {
+        console.log(error)
+        return res.status(notices._500.code).json(notices._500)
+    }
 })
 
 

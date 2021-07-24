@@ -25,6 +25,31 @@ const getImage = async (index) => {
     return image
 }
 
+/** LAY VE DANH SACH DOI TUONG ANH
+ * 
+ * @param {type, userId} = index
+ * 
+ * type - STRING & unnullable
+ * 
+ * userId - INTERGER & unnullable
+ * 
+ * @returns {categories} = array
+ */
+const getImages = async (index) => {
+    const images = await PostImage.findAll({
+        attributes: ['id', 'name','original', 'thumbnail'],
+        where: index
+    })
+    .then(imgs => {
+        return imgs||false
+    })
+    .catch(err => {
+        console.log(err)
+        return false
+    })
+    return images
+}
+
 /** TAO MOI 1 ANH CHO USER
  * 
  * @param {type, original, thumbnail, name, userId} 
@@ -81,6 +106,7 @@ const updateImage = async (value, index) => {
 
 module.exports={
     getImage,
+    getImages,
     createImage,
     updateImage
 }
