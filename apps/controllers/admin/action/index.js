@@ -6,7 +6,7 @@ const users = require('./users')
 const author = require('./author')
 const user = require('./user')
 const manager = require('./manager')
-const categories = require('./categories')
+const categoryTag = require('./categoryTag')
 const posts = require('./posts')
 
 /**
@@ -36,7 +36,7 @@ const posts = require('./posts')
 /**
  *  Cac thao tac quan ly danh muc
  */
- router.use('/categories', categories)
+ router.use('/category-tag', categoryTag)
 /**
  *  Cac thao tac quan ly bai viet
  */
