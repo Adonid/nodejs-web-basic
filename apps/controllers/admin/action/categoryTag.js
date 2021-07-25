@@ -20,9 +20,9 @@ const {
  */
 router.get('/', async (req, res) => {
     const images = await ImagePost.getImages({type: "category"})
-    // const categories = await Category.getCategories()
+    const categories = await Category.getCategories()
     if(images){
-        const data = notices.reqSuccess(images)
+        const data = notices.reqSuccess({images, categories})
         return res.status(data.code).json(data)
     }
     const err = notices._500
