@@ -39,16 +39,23 @@ const updatePasswordAdmin = async (req, res, next) => {
     return next()
 }
 
-const checkNewCategory = async (req, res, next) => {
-    const {name} = req.body
-    const errors = adminValidation.checkNewCategory(req)
-    if(errors){
-        res.status(errors.code).send(errors)
-        return next('route')
+const checkCategory = async (req, res, next) => {
+    const {id, name} = req.body
+    let exists = false
+    // Kiem tra kieu du lieu
+
+    // Neu tao moi thi ko duoc trung nhau
+    if(!id){
+        const cat1 = await Category.getCategory({name})
+        exists = cat1?true:false
     }
-    const category = await Category.getCategory({name})
-    if(category){
-        const err = notices.fieldNotDuplicate('name', name)
+    // Neu sua thi ten khong duoc trung nhau
+    else{
+        const cat2 = await Category.isCategoryDuplicate(id, name)
+        exists = cat2?true:false
+    }
+    if(exists){
+        const err = notices.errorField("name", "Tên danh mục này đã tồn tại!")
         res.status(err.code).send(err)
         return next('route')
     }
@@ -86,6 +93,6 @@ module.exports={
     verifyLoginAdmin,
     verifyRegisterAdmin,
     updatePasswordAdmin,
-    checkNewCategory,
+    checkCategory,
     checkUpdateCategory
 }

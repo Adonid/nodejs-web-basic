@@ -54,27 +54,20 @@ const getCategory = async obj => {
 
 /** TAO MOI DANH MUC
  * 
- * @param {*} name 
- * @param {*} email 
- * @param {*} password 
+ * @param {name, imageId, color, description} = payload 
  * 
  * @returns boolean
  */
- const createCategory = async (name, imageId, color, description) => {
-    const user = await Category.create({
-        name,
-        imageId,
-        color,
-        description
-    })
-    .then(user => {
-        return user?true:false
+ const createCategory = async (payload) => {
+    const cat = await Category.create(payload)
+    .then(cat => {
+        return cat?true:false
     })
     .catch(err => {
         console.log(err)
         return false
     })
-    return user ? await getCategories() : false
+    return cat
 }
 
 /** CAP NHAT FIELD(s) TRONG BANG CATEGORY
@@ -83,7 +76,7 @@ const getCategory = async obj => {
  * @return {array | false}
  */
  const updateCategory = async (value, index) => {
-    const category = await Category.update(value, {
+    const cat = await Category.update(value, {
         where: index    
     })
     .then( data => {
@@ -94,11 +87,7 @@ const getCategory = async obj => {
         console.log(err)
         return false
     })
-    if(category){
-        const data = await getCategories()
-        return data
-    }
-    return false
+    return cat
 }
 
 /** CATEGORY IS DUPLICATE?
@@ -107,7 +96,7 @@ const getCategory = async obj => {
  * 
  * @param {}
  * 
- * @return boolean or OBJECT
+ * @return boolean
 */
 const isCategoryDuplicate = async (id, name) => {
     try {

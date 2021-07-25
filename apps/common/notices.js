@@ -47,6 +47,15 @@ const _204 = datas => {
     }
 }
 
+const _205 = (name, datas) => {
+    return {
+        code: 205,
+        error: false,
+        msg: `${name} thành công!`,
+        datas
+    }
+}
+
 const loginSuccess = (token, myself, provinces) => {
     return {
         code: 200,
@@ -290,6 +299,7 @@ module.exports={
     _202,
     _203,
     _204,
+    _205,
     loginSuccess,
     resetCodeSuccess,
     reqSuccess,

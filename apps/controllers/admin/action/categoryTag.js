@@ -32,26 +32,29 @@ router.get('/', async (req, res) => {
 /**
  * Tao moi 1 danh muc
  * 
- * @param {name, imageBase64, color, description} 
+ * @param {name, color, description} 
  * 
  * @return {*} object JSON
  * 
  */
-router.post('/create', adminMiddleware.checkNewCategory, async (req, res) => {
-    const {name, imageBase64, color, description} = req.body
-    const err = notices._500
-    const dataFile = await DriverGoogle.uploadFile(config.googledriver.categoryFolder, imageBase64, name)
-    // TEST UPLOAD FILE
-    if(!dataFile){
-        return res.status(err.code).json(err)
+router.post('/category', adminMiddleware.checkCategory, async (req, res) => {
+    const {id, name, color, imageId} = req.body
+    try {
+        // CO ID->UPDATE
+        if(id){
+            await Category.updateCategory({name, color, imageId}, {id})
+        }
+        // KO CO ID->ADD NEW
+        else{
+            await Category.createCategory({name, color, imageId})
+        }
+        // Lay lai danh sach categories
+        const categories = await Category.getCategories()
+        const notify = id?notices._203("Danh mục", categories):notices._205("Tạo danh mục", categories)
+        return res.status(notify.code).json(notify)
+    } catch (error) {
+        return res.status(notices._500.code).json(notices._500)
     }
-    // CAP NHAT FILE CHO USER NAY
-    const newCategory = await Category.createCategory(name, dataFile, color, description)
-    if(newCategory){
-        const message = notices._200
-        return res.status(message.code).json(message)
-    }
-    return res.status(err.code).json(err)
 })
 
 /**
@@ -62,7 +65,7 @@ router.post('/create', adminMiddleware.checkNewCategory, async (req, res) => {
  * @return {*} object JSON
  * 
  */
-router.post('/update', adminMiddleware.checkUpdateCategory, async (req, res) => {
+router.post('/tag', adminMiddleware.checkUpdateCategory, async (req, res) => {
     const {id, name, imageBase64, color, description} = req.body
     const err = notices._500
     // Lay danh muc nay

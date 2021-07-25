@@ -113,9 +113,7 @@ const roleId = 1
  * @params req
  * @returns errors
  */
- const checkNewCategory = req => {
-    const {name, imageBase64, color, description} = req.body
-    // Kiem tra so bo req
+ const checkCategory = ({name, color}) => {
     if(!name || !name.trim()){
         return notices.fieldEmpty('name', 'tên danh mục')
     }
@@ -169,6 +167,6 @@ module.exports={
     isRegisterAdmin,
     isLoginAdmin,
     isResetPasswordAdmin,
-    checkNewCategory,
+    checkCategory,
     checkUpdateCategory
 }
