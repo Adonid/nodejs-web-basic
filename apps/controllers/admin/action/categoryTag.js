@@ -96,7 +96,7 @@ router.post('/update', adminMiddleware.checkUpdateCategory, async (req, res) => 
     const indexImage = {userId: user.id, type: config.image.typeCategory}
     const folderOriginal = config.image.categoryOriginal
     const fileName = Slug.slugNameImage(user.name+"-"+Random.makeCodeReset(5))
-    const values = {original: folderOriginal+fileName, name: user.name}
+    const values = {original: folderOriginal+fileName, name: fileName}
     const newImage = {...values, ...indexImage }
     try {
         // Tai len anh goc category
