@@ -1,13 +1,11 @@
 const express = require('express')
 const router = express.Router()
 const {adminMiddleware} = require('../../../middleware')
-const {DriverGoogle} = require('../../../services')
-const {Category} = require('../../../models')
+const {DriverGoogle, ImageMannager} = require('../../../services')
+const {Category, ImagePost} = require('../../../models')
 const {notices} = require('../../../common')
 const {Slug, Random} = require('../../../helpers')
 const config = require('../../../../config/config.json')
-const {ImagePost} = require('../../../models')
-const {ImageMannager} = require('../../../services')
 const {
     generalMiddleware
 } = require("../../../middleware")
@@ -21,9 +19,10 @@ const {
  * 
  */
 router.get('/', async (req, res) => {
-    const categories = await Category.getCategories()
-    if(categories){
-        const data = notices.reqSuccess(categories)
+    const images = await ImagePost.getImages({type: "category"})
+    // const categories = await Category.getCategories()
+    if(images){
+        const data = notices.reqSuccess(images)
         return res.status(data.code).json(data)
     }
     const err = notices._500

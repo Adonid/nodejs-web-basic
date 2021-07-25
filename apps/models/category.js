@@ -14,7 +14,7 @@ const getCategories = async () => {
             include: [
                 {
                     model: PostImage,
-                    attributes: ['id', 'type', 'name', 'original', 'thumbnail', 'userId']
+                    attributes: ['id', 'name', 'original', 'userId']
                 },
             ]
         })
