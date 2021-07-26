@@ -1,13 +1,13 @@
 const express = require('express')
 const router = express.Router()
-const {adminMiddleware} = require('../../../middleware')
 const {DriverGoogle, ImageMannager} = require('../../../services')
-const {Category, ImagePost} = require('../../../models')
+const {Category, Post, ImagePost} = require('../../../models')
 const {notices} = require('../../../common')
 const {Slug, Random} = require('../../../helpers')
 const config = require('../../../../config/config.json')
 const {
-    generalMiddleware
+    generalMiddleware,
+    adminMiddleware
 } = require("../../../middleware")
 
 /**
@@ -52,6 +52,30 @@ router.post('/category', adminMiddleware.checkCategory, async (req, res) => {
         const categories = await Category.getCategories()
         const notify = id?notices._203("Danh mục", categories):notices._201_data("Tạo danh mục", categories)
         return res.status(notify.code).json(notify)
+    } catch (error) {
+        return res.status(notices._500.code).json(notices._500)
+    }
+})
+
+/**
+ * DELETE CATEGORY - EXCEPTION ID = 1
+ * 
+ * @param {id} 
+ * 
+ * @return {*} object JSON
+ * 
+ */
+router.post('/category/del', adminMiddleware.checkDelCategory, async (req, res) => {
+    const {id} = req.body
+    try {
+        // CHUYEN TAT CA BAI VIET TRONG DANH MUC NAY VE DANH MUC MAC DINH = 1
+        await Post.updatePreviewPost({categoryId: 1}, {categoryId})
+        // VI KHONG CON KHOA NGOAI CUA POST TRO TOI NEN CO THE XOA DUOC ROI
+        await Category.deleteCategory({id})
+        // Lay lai danh sach categories
+        const categories = await Category.getCategories()
+        const resuft = notices._204(categories)
+        return res.status(resuft.code).json(resuft)
     } catch (error) {
         return res.status(notices._500.code).json(notices._500)
     }
