@@ -90,6 +90,27 @@ const getCategory = async obj => {
     return cat
 }
 
+/** XOA 1 CATEGORY NGOAI TRU CAT DAU TIEN - MAC DINH
+ * 
+ * @param {id}
+ * @return {array | false}
+ */
+ const deleteCategory = async (id) => {
+    const resuft = await Category.destroy({
+        where: {
+            id: {
+                [Op.eq]: id,
+                [Op.not]: 1
+            }
+        }
+    })
+    .catch(err => {
+        console.log(err)
+        return false
+    })
+    return resuft
+}
+
 /** CATEGORY IS DUPLICATE?
  * 
  * CO DANH MUC NAO TRUNG TEN KHONG (NGOAI TRU CHINH DANH MUC DANG KIEM TRA)
@@ -124,5 +145,6 @@ module.exports={
     getCategory,
     createCategory,
     updateCategory,
+    deleteCategory,
     isCategoryDuplicate
 }
