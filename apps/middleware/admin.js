@@ -62,6 +62,24 @@ const checkCategory = async (req, res, next) => {
     return next()
 }
 
+const checkDelCategory = async (req, res, next) => {
+    const {id} = req.body
+    // NEU LA ID MAC DINH THI KHONG CHO PHEP DI TIEP
+    if(id===1){
+        const err1 = notices._400("Không thể xóa danh mục mặc định!")
+        res.status(err1.code).send(err1)
+        return next('route')
+    }
+    // CHI CHO DI TIEP NEU TON TAI DANH MUC NAY
+    const cat = await Category.getCategory({id})
+    if(!cat){
+        const err2 = notices._404("danh mục")
+        res.status(err2.code).send(err2)
+        return next('route')
+    }
+    return next()
+}
+
 const checkUpdateCategory = async (req, res, next) => {
     const {id, name} = req.body
     const errors = adminValidation.checkUpdateCategory(req)
@@ -94,5 +112,6 @@ module.exports={
     verifyRegisterAdmin,
     updatePasswordAdmin,
     checkCategory,
+    checkDelCategory,
     checkUpdateCategory
 }
