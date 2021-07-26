@@ -314,6 +314,7 @@ module.exports={
     requestError,
     formatError,
     notFound,
+    _400,
     _403,
     _422,
     _500,
