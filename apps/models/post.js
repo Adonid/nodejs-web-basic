@@ -214,6 +214,27 @@ const createNewPost = async dataPost => {
     return post && isContent ? updateContent({content}, index) : post||false
 }
 
+/** UPDATE PREVIEW POST 
+ * 
+ * 
+ * @param {value, index}
+ * @return {array || false}
+ */
+ const updatePreviewPost = async (value, index) => {
+    const post = await Post.update(value, {
+        where: index
+    })
+    .then( data => {
+        // console.log(data)
+        return data||false
+    })
+    .catch(err => {
+        // console.log(err)
+        return false
+    })
+    return post
+}
+
 /** POST IS DUPLICATE (title)?
  * 
  * CO POST NAO TRUNG TEN KHONG (NGOAI TRU CHINH POST DANG KIEM TRA)
@@ -249,5 +270,6 @@ module.exports = {
     getDetailedPost,
     createNewPost,
     updatePost,
+    updatePreviewPost,
     isPostDuplicate
 }
