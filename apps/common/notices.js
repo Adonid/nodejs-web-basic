@@ -91,6 +91,14 @@ const _403 = {
     error: "Úi. Tải trọng quá lớn!"
 }
 
+/** Lỗi tham số thao tăc */
+const _400 = msg => {
+    return{
+        code: 400,
+        error: msg
+    }
+}
+
 const _422 = {
     code: 422,
     error: "Thực thể không thể xử lý!"
