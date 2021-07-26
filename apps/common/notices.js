@@ -99,6 +99,14 @@ const _400 = msg => {
     }
 }
 
+/** Các tham số yêu cầu không có trên máy chủ */
+const _404 = (name="") => {
+    return{
+        code: 404,
+        error: `Không tìm thấy ${name||"đối tượng"} này`
+    }
+}
+
 const _422 = {
     code: 422,
     error: "Thực thể không thể xử lý!"
