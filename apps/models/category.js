@@ -1,4 +1,4 @@
-const {Category, PostImage, CommentsPost, FavouritesPost} = require('../../models')
+const {Category, Post, PostImage, CommentsPost, FavouritesPost} = require('../../models')
 const { Op } = require("sequelize");
 
 /** LAY DANH SACH TAT CA CAC DANH MUC 
@@ -16,6 +16,10 @@ const getCategories = async () => {
                     model: PostImage,
                     attributes: ['id', 'name', 'original', 'userId']
                 },
+                {
+                    model: Post,
+                    attributes: ['id', 'active']
+                }
             ]
         })
         return categories
