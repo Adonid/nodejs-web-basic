@@ -30,9 +30,9 @@ router.get('/', async (req, res) => {
 })
 
 /**
- * Tao moi 1 danh muc
+ * CREATE | UPDATE
  * 
- * @param {name, color, description} 
+ * @param {id, name, color, description} 
  * 
  * @return {*} object JSON
  * 
