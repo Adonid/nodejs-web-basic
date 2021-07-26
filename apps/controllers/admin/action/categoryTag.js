@@ -50,7 +50,7 @@ router.post('/category', adminMiddleware.checkCategory, async (req, res) => {
         }
         // Lay lai danh sach categories
         const categories = await Category.getCategories()
-        const notify = id?notices._203("Danh mục", categories):notices._205("Tạo danh mục", categories)
+        const notify = id?notices._203("Danh mục", categories):notices._201_data("Tạo danh mục", categories)
         return res.status(notify.code).json(notify)
     } catch (error) {
         return res.status(notices._500.code).json(notices._500)

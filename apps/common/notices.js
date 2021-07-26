@@ -21,6 +21,15 @@ const _201 = (name, as=null) => {
     }
 }
 
+const _201_data = (name, datas) => {
+    return {
+        code: 201,
+        error: false,
+        msg: `${name} thành công!`,
+        datas
+    }
+}
+
 const _202 = (name, as=null) => {
     return {
         code: 200,
@@ -43,15 +52,6 @@ const _204 = datas => {
         code: 200,
         error: false,
         msg: "Đã xóa!",
-        datas
-    }
-}
-
-const _205 = (name, datas) => {
-    return {
-        code: 205,
-        error: false,
-        msg: `${name} thành công!`,
         datas
     }
 }
@@ -296,10 +296,10 @@ module.exports={
     notEmail,
     _200,
     _201,
+    _201_data,
     _202,
     _203,
     _204,
-    _205,
     loginSuccess,
     resetCodeSuccess,
     reqSuccess,

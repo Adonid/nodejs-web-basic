@@ -45,7 +45,7 @@ const getCategory = async obj => {
         })
         // console.log(data)
         // return data ? data.dataValues : false
-        return data.dataValues
+        return data?data.dataValues:false
     } catch (error) {
         console.log(error)
         return false
