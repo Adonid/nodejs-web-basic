@@ -103,7 +103,7 @@ const _400 = msg => {
 const _404 = (name="") => {
     return{
         code: 404,
-        error: `Không tìm thấy ${name||"đối tượng"} này`
+        error: `Không tìm thấy ${name||"đối tượng"} này!`
     }
 }
 
