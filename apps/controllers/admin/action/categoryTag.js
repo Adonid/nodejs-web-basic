@@ -69,9 +69,9 @@ router.post('/category/del', adminMiddleware.checkDelCategory, async (req, res) 
     const {id} = req.body
     try {
         // CHUYEN TAT CA BAI VIET TRONG DANH MUC NAY VE DANH MUC MAC DINH = 1
-        await Post.updatePreviewPost({categoryId: 1}, {categoryId})
+        await Post.updatePreviewPost({categoryId: 1}, {categoryId: id})
         // VI KHONG CON KHOA NGOAI CUA POST TRO TOI NEN CO THE XOA DUOC ROI
-        await Category.deleteCategory({id})
+        await Category.deleteCategory(id)
         // Lay lai danh sach categories
         const categories = await Category.getCategories()
         const resuft = notices._204(categories)
