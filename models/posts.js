@@ -17,6 +17,11 @@ module.exports = (sequelize, DataTypes) => {
       Post.hasMany(models.PostsContent, {foreignKey: 'postId'})
       Post.hasMany(models.FavouritesPost, {foreignKey: 'postId'})
       Post.hasMany(models.CommentsPost, {foreignKey: 'postId'})
+
+      Post.belongsToMany(models.Tag, {
+        through: "PostTags",
+        foreignKey: 'postId'
+      })
     }
   };
   Post.init({
