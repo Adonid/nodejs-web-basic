@@ -31,7 +31,7 @@ router.get('/', async (req, res) => {
 })
 
 /**
- * CREATE | UPDATE
+ * CREATE | UPDATE CATEGORY
  * 
  * @param {id, name, color, description} 
  * 
@@ -83,32 +83,31 @@ router.post('/category/del', adminMiddleware.checkDelCategory, async (req, res) 
 })
 
 /**
- * Tao moi 1 danh muc
+ * CREATE | UPDATE TAG
  * 
- * @param {name, imageBase64, color, description} 
+ * @param {id, name, color} 
  * 
  * @return {*} object JSON
  * 
  */
-router.post('/tag', adminMiddleware.checkUpdateCategory, async (req, res) => {
-    const {id, name, imageBase64, color, description} = req.body
-    const err = notices._500
-    // Lay danh muc nay
-    const category = await Category.getCategory({id})
-    const fileId = category.image.fileId
-    // Upload anh len neu ton tai
-    const image = await DriverGoogle.updateFile(config.googledriver.categoryFolder, imageBase64, name, fileId)
-    // TEST UPDATE FILE
-    if(!image){
-        return res.status(err.code).send(err)
+ router.post('/tag', async (req, res) => {
+    const {id, name, color} = req.body
+    try {
+        // CO ID->UPDATE
+        if(id){
+            await Tag.updateTag({name, color}, {id})
+        }
+        // KO CO ID->ADD NEW
+        else{
+            await Tag.createTag({name, color})
+        }
+        // Lay lai danh sach tags
+        const tags = await Tag.getTags()
+        const notify = id?notices._203("Thẻ tag", tags):notices._201_data("Tạo thẻ tag", tags)
+        return res.status(notify.code).json(notify)
+    } catch (error) {
+        return res.status(notices._500.code).json(notices._500)
     }
-    // CAP NHAT DANH MUC VAO DB
-    const dataUpdate = await Category.updateCategory({name, image, color, description}, {id})
-    if(dataUpdate){
-        const info = notices.reqSuccess(dataUpdate)
-        return res.status(info.code).send(info)
-    }
-    return res.status(err.code).send(err)
 })
 
 /** 
