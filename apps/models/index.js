@@ -5,6 +5,7 @@ const Tag = require('./tag')
 const Address = require('./address')
 const ImageUser = require('./imageUser')
 const ImagePost = require('./imagePost')
+const CompanyDescription = require('./companyDescription')
 
 module.exports={
     User,
@@ -14,4 +15,5 @@ module.exports={
     Address,
     ImageUser,
     ImagePost,
+    CompanyDescription,
 }
