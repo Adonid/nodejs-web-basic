@@ -19,16 +19,15 @@ const {
  * 
  */
 router.get('/', async (req, res) => {
-    // const images = await ImagePost.getImages({type: "category"})
-    // const categories = await Category.getCategories()
-    const tags = await Tag.getTags()
-    if(tags){
-        // const data = notices.reqSuccess({images, categories})
-        const data = notices.reqSuccess(tags)
+    try {
+        const images = await ImagePost.getImages({type: "category"})
+        const categories = await Category.getCategories()
+        const tags = await Tag.getTags()
+        const data = notices.reqSuccess({images, categories, tags})
         return res.status(data.code).json(data)
-    }
-    const err = notices._500
-    return res.status(err.code).json(err)
+    } catch (error) {
+        return res.status(notices._500.code).json(notices._500)
+    }    
 })
 
 /**
