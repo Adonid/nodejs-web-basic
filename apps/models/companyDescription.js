@@ -80,12 +80,12 @@ const getCompanyDescription = async obj => {
 
 /** XOA 1 TAG NGOAI TRU CAT DAU TIEN - MAC DINH
  * 
- * @param {index}
+ * @param {id}
  * @return {array | false}
  */
- const deleteCompanyDescription = async (index) => {
+ const deleteCompanyDescription = async (id) => {
     const resuft = await CompanyDescription.destroy({
-        where: index
+        where: {id}
     })
     .catch(err => {
         console.log(err)

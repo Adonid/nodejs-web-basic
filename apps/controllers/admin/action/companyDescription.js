@@ -32,19 +32,19 @@ router.get('/', async (req, res) => {
  * 
  */
 router.post('/manipulation', async (req, res) => {
-    const {id, name, color, imageId} = req.body
+    const {id, name, color, icon, description} = req.body
     try {
         // CO ID->UPDATE
         if(id){
-            await Category.updateCategory({name, color, imageId}, {id})
+            await CompanyDescription.updateCompanyDescription({name, color, icon, description}, {id})
         }
         // KO CO ID->ADD NEW
         else{
-            await Category.createCategory({name, color, imageId})
+            await CompanyDescription.createCompanyDescription({name, color, icon, description})
         }
-        // Lay lai danh sach categories
-        const categories = await Category.getCategories()
-        const notify = id?notices._203("Danh mục", categories):notices._201_data("Tạo danh mục", categories)
+        // Lay lai danh sach companysDescription
+        const companysDescription = await CompanyDescription.getCompanysDescription()
+        const notify = id?notices._203("Đối tượng", companysDescription):notices._201_data("Tạo mô tả", companysDescription)
         return res.status(notify.code).json(notify)
     } catch (error) {
         return res.status(notices._500.code).json(notices._500)
@@ -62,13 +62,10 @@ router.post('/manipulation', async (req, res) => {
 router.post('/manipulation/del', async (req, res) => {
     const {id} = req.body
     try {
-        // CHUYEN TAT CA BAI VIET TRONG DANH MUC NAY VE DANH MUC MAC DINH = 1
-        await Post.updatePreviewPost({categoryId: 1}, {categoryId: id})
-        // VI KHONG CON KHOA NGOAI CUA POST TRO TOI NEN CO THE XOA DUOC ROI
-        await Category.deleteCategory(id)
+        await CompanyDescription.deleteCompanyDescription(id)
         // Lay lai danh sach categories
-        const categories = await Category.getCategories()
-        const resuft = notices._204(categories)
+        const companysDescription = await CompanyDescription.getCompanysDescription()
+        const resuft = notices._204(companysDescription)
         return res.status(resuft.code).json(resuft)
     } catch (error) {
         return res.status(notices._500.code).json(notices._500)
