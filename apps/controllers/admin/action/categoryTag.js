@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const {DriverGoogle, ImageMannager} = require('../../../services')
-const {Category, Post, ImagePost} = require('../../../models')
+const {Category, Post, Tag, ImagePost} = require('../../../models')
 const {notices} = require('../../../common')
 const {Slug, Random} = require('../../../helpers')
 const config = require('../../../../config/config.json')
@@ -19,10 +19,12 @@ const {
  * 
  */
 router.get('/', async (req, res) => {
-    const images = await ImagePost.getImages({type: "category"})
-    const categories = await Category.getCategories()
-    if(images){
-        const data = notices.reqSuccess({images, categories})
+    // const images = await ImagePost.getImages({type: "category"})
+    // const categories = await Category.getCategories()
+    const tags = await Tag.getTags()
+    if(tags){
+        // const data = notices.reqSuccess({images, categories})
+        const data = notices.reqSuccess(tags)
         return res.status(data.code).json(data)
     }
     const err = notices._500
