@@ -68,7 +68,7 @@ const getDistributedData = async obj => {
         where: index    
     })
     .then( data => {
-        console.log(data)
+        // console.log(data)
         return data||false
     })
     .catch(err => {
