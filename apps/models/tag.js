@@ -18,7 +18,7 @@ const getTags = async () => {
                 }
             ]
         })
-        console.log(tags)
+        // console.log(tags)
         return tags
     } catch (error) {
         console.log(error)
