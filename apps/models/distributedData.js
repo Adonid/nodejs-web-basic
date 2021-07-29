@@ -47,15 +47,15 @@ const getDistributedData = async obj => {
  * @returns boolean
  */
  const createDistributedData = async (payload) => {
-    const description = await DistributedData.create(payload)
-    .then(description => {
-        return description?true:false
+    const obj = await DistributedData.create(payload)
+    .then(obj => {
+        return obj?true:false
     })
     .catch(err => {
         console.log(err)
         return false
     })
-    return description
+    return obj
 }
 
 /** CAP NHAT FIELD(s) TRONG BANG TAG
@@ -64,18 +64,18 @@ const getDistributedData = async obj => {
  * @return {array | false}
  */
  const updateDistributedData = async (value, index) => {
-    const description = await DistributedData.update(value, {
+    const data = await DistributedData.update(value, {
         where: index    
     })
     .then( data => {
-        // console.log(data)
+        console.log(data)
         return data||false
     })
     .catch(err => {
         console.log(err)
         return false
     })
-    return description
+    return data
 }
 
 /** XOA 1 TAG NGOAI TRU CAT DAU TIEN - MAC DINH

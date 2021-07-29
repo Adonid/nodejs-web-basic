@@ -24,7 +24,7 @@ router.get('/policy', async (req, res) => {
 /**
  * UPDATE POLICY
  * 
- * @param {id, type, content} 
+ * @param {type, content} 
  * 
  * @return {*} object JSON
  * 

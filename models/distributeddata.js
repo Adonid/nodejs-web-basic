@@ -14,7 +14,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   DistributedData.init({
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
+    content: DataTypes.TEXT,
   }, {
     sequelize,
     modelName: 'DistributedData',
