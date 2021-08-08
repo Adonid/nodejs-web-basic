@@ -10,6 +10,7 @@ const categoryTag = require('./categoryTag')
 const posts = require('./posts')
 const companyDescription = require('./companyDescription')
 const distributedData = require('./distributedData')
+const photoManager = require('./photoManager')
 
 /**
  *  Route cho phep vao lay ra du lieu cho trang dashboard
@@ -51,6 +52,10 @@ const distributedData = require('./distributedData')
  *  Cac thao tac voi du lieu phan tan cua ung dung
  */
  router.use('/distributed', distributedData)
+/**
+ *  Cac thao tac voi du lieu trang quan ly anh cua ung dung 
+ */
+ router.use('/photo-manager', photoManager)
 
 
 module.exports = router

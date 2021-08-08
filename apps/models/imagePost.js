@@ -1,4 +1,4 @@
-const {PostImage} = require('../../models')
+const {PostImage, User, UserImage} = require('../../models')
 
 /** LAY VE 1 DOI TUONG ANH
  * 
@@ -39,6 +39,47 @@ const getImages = async (index) => {
     const images = await PostImage.findAll({
         attributes: ['id', 'name','original', 'thumbnail'],
         where: index
+    })
+    .then(imgs => {
+        return imgs||false
+    })
+    .catch(err => {
+        console.log(err)
+        return false
+    })
+    return images
+}
+
+/** LAY VE DANH SACH DOI TUONG ANH - CO GIOI HAN VA OFFSET
+ * 
+ * @param {id, type} = index
+ * 
+ * index === {} - TUC LA LAY TAT CA
+ * 
+ * id - NUMBER & unnullable
+ * 
+ * type - STRING & unnullable
+ * 
+ * @returns {images} = array
+ */
+ const queryImages = async (index, offset=0, limit=10) => {
+    const images = await PostImage.findAll({
+        attributes: ['id', 'type', 'name','original', 'thumbnail'],
+        include: [
+            {
+                model: User,
+                attributes: ['name', 'fullName'],
+                include: [
+                    {
+                        model: UserImage,
+                        attributes: ['name', 'original', 'thumbnail'],
+                    }
+                ]
+            },
+        ],
+        where: index||{},
+        offset: offset,
+        limit: limit
     })
     .then(imgs => {
         return imgs||false
@@ -107,6 +148,7 @@ const updateImage = async (value, index) => {
 module.exports={
     getImage,
     getImages,
+    queryImages,
     createImage,
     updateImage
 }
