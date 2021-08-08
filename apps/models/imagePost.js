@@ -79,6 +79,9 @@ const getImages = async (index) => {
             },
         ],
         where: index||{},
+        order: [
+            ['id', 'DESC']
+        ],
         offset: offset,
         limit: limit
     })
