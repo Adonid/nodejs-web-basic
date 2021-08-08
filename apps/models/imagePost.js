@@ -64,7 +64,7 @@ const getImages = async (index) => {
  */
  const queryImages = async (index, offset=0, limit=10) => {
     const images = await PostImage.findAll({
-        attributes: ['id', 'type', 'name','original', 'thumbnail'],
+        attributes: ['id', 'type', 'name','original', 'thumbnail', 'updatedAt'],
         include: [
             {
                 model: User,
