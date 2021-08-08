@@ -72,7 +72,8 @@ const getImages = async (index) => {
                 include: [
                     {
                         model: UserImage,
-                        attributes: ['name', 'original', 'thumbnail'],
+                        where: {type: 'avatar'},
+                        attributes: ['name', 'thumbnail'],
                     }
                 ]
             },
