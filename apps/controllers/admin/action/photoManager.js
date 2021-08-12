@@ -29,6 +29,28 @@ const config = require('../../../../config/config.json')
 })
 
 /**
+ * TRUY VAN ANH THEO THAM SO QUERYs
+ * 
+ * @params {index, offset, limit} 
+ * 
+ * @returns {*} object JSON
+ * 
+ */
+ router.post('/query', async (req, res) => {
+    const {index, offset, limit} = req.body
+    console.log(index, offset, limit)
+    try {
+        const images = await ImagePost.queryImages(index, offset, limit)
+        const data = notices.reqSuccess(images)
+        if(images)
+            return res.status(data.code).json(data)
+        return res.status(notices._500.code).json(notices._500)
+    } catch (error) {
+        return res.status(notices._500.code).json(notices._500)
+    }
+})
+
+/**
  * CAP NHAT 1 ANH BAT KY
  * 
  * @params {id, type, content}
