@@ -57,25 +57,31 @@ const config = require('../../../../config/config.json')
  * @returns {*} object JSON
  * 
  */
- router.post('/update-photo', async (req, res) => {
-    const {id, nameFile, type, imageBase64} = req.body
-    const fileName = Slug.slugNameImage(nameFile+"-"+Random.makeCodeReset(5))
+ router.post('/add-photo', async (req, res) => {
+    const {nameFile, type, imageBase64} = req.body
+    const {id} = req.user
+    const fileName = Slug.slugNameImage(nameFile+"-"+Random.makeCodeReset(3))
     let values
     let folderOriginal
     // Lay uri vi tri luu anh
     switch (type) {
-        case 'preview':
+        case config.image.typePost:
             folderOriginal = config.image.postPreviewOriginal
             values = {original: folderOriginal+fileName, thumbnail: config.image.postPreviewThumbnail+fileName, name: fileName}
             break
     
-        case 'in-post':
+        case config.image.typeInPost:
             folderOriginal = config.image.postInOriginal
             values = {original: folderOriginal+fileName, name: fileName}
             break
     
-        case 'category':
+        case config.image.typeCategory:
             folderOriginal = config.image.categoryOriginal
+            values = {original: folderOriginal+fileName, name: fileName}
+            break
+    
+        case config.image.typeSystem:
+            folderOriginal = config.image.fragmentOriginal
             values = {original: folderOriginal+fileName, name: fileName}
             break
     
@@ -87,7 +93,64 @@ const config = require('../../../../config/config.json')
         // Tai len anh goc truoc
         await ImageMannager.saveOriginal(folderOriginal, fileName, imageBase64)
         // Luu anh thumbnail neu la anh preview
-        if(type==='preview'){
+        if(type===config.image.typePost){
+            await ImageMannager.saveThumbnail(config.image.postPreviewThumbnail, fileName, folderOriginal+fileName)
+        }
+        // Them moi doi tuong anh vao DB
+        const idImage = await ImagePost.createImage({...values, type, userId: id})
+        // Tra ve anh da them vao
+        const image = await ImagePost.getImage({id: idImage, type})
+        const message = notices._201_data("Thêm ảnh", image)
+        return res.status(message.code).json(message)
+    } catch (error) {
+        return res.status(notices._500.code).json(notices._500)
+    }
+})
+
+/**
+ * CAP NHAT 1 ANH BAT KY
+ * 
+ * @params {id, type, content}
+ * 
+ * @returns {*} object JSON
+ * 
+ */
+ router.post('/update-photo', async (req, res) => {
+    const {id, nameFile, type, imageBase64} = req.body
+    const fileName = Slug.slugNameImage(nameFile+"-"+Random.makeCodeReset(3))
+    let values
+    let folderOriginal
+    // Lay uri vi tri luu anh
+    switch (type) {
+        case config.image.typePost:
+            folderOriginal = config.image.postPreviewOriginal
+            values = {original: folderOriginal+fileName, thumbnail: config.image.postPreviewThumbnail+fileName, name: fileName}
+            break
+    
+        case config.image.typeInPost:
+            folderOriginal = config.image.postInOriginal
+            values = {original: folderOriginal+fileName, name: fileName}
+            break
+    
+        case config.image.typeCategory:
+            folderOriginal = config.image.categoryOriginal
+            values = {original: folderOriginal+fileName, name: fileName}
+            break
+    
+        case config.image.typeSystem:
+            folderOriginal = config.image.fragmentOriginal
+            values = {original: folderOriginal+fileName, name: fileName}
+            break
+    
+        default:
+            break
+    }
+    
+    try {
+        // Tai len anh goc truoc
+        await ImageMannager.saveOriginal(folderOriginal, fileName, imageBase64)
+        // Luu anh thumbnail neu la anh preview
+        if(type===config.image.typePost){
             await ImageMannager.saveThumbnailImage(config.image.postPreviewThumbnail, fileName, imageBase64)
         }
         // Lay doi tuong anh da luu

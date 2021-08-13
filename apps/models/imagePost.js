@@ -12,11 +12,24 @@ const {PostImage, User, UserImage} = require('../../models')
  */
 const getImage = async (index) => {
     const image = await PostImage.findOne({
-        attributes: ['id', 'name','original', 'thumbnail'],
-        where: index
+        attributes: ['id', 'type', 'name','original', 'thumbnail', 'updatedAt'],
+        include: [
+            {
+                model: User,
+                attributes: ['name', 'fullName'],
+                include: [
+                    {
+                        model: UserImage,
+                        where: {type: 'avatar'},
+                        attributes: ['name', 'thumbnail'],
+                    }
+                ]
+            },
+        ],
+        where: index||{},
     })
     .then(img => {
-        return img?img.dataValues:false
+        return img?img:false
     })
     .catch(err => {
         console.log(err)
@@ -116,7 +129,7 @@ const createImage = async ({type, name, userId, original, thumbnail}) => {
         thumbnail: thumbnail
     })
     .then(img => {
-        return img?true:false
+        return img?img.dataValues.id:false
     })
     .catch(err => {
         // console.log(err)
