@@ -38,7 +38,6 @@ const config = require('../../../../config/config.json')
  */
  router.post('/query', async (req, res) => {
     const {index, offset, limit} = req.body
-    console.log(index, offset, limit)
     try {
         const images = await ImagePost.queryImages(index, offset, limit)
         const data = notices.reqSuccess(images)
