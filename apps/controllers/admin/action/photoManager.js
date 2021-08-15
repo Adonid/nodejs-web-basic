@@ -151,7 +151,7 @@ const config = require('../../../../config/config.json')
         await ImageMannager.saveOriginal(folderOriginal, fileName, imageBase64)
         // Luu anh thumbnail neu la anh preview
         if(type===config.image.typePost){
-            await ImageMannager.saveThumbnailImage(config.image.postPreviewThumbnail, fileName, imageBase64)
+            await ImageMannager.saveThumbnail(config.image.postPreviewThumbnail, fileName, folderOriginal+fileName)
         }
         // Lay doi tuong anh da luu
         const {original, thumbnail} = await ImagePost.getImage({id, type})
