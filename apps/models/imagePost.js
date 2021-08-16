@@ -75,7 +75,7 @@ const getImages = async (index) => {
  * 
  * @returns {images} = array
  */
- const queryImages = async (index, offset=0, limit=3) => {
+ const queryImages = async (index, offset=0, limit=15) => {
     const images = await PostImage.findAll({
         attributes: ['id', 'type', 'name','original', 'thumbnail', 'updatedAt'],
         include: [
