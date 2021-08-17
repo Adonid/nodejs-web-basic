@@ -20,7 +20,10 @@ const getCategories = async () => {
                     model: Post,
                     attributes: ['id', 'active']
                 }
-            ]
+            ],
+            order: [
+                ['id', 'DESC']
+            ],
         })
         return categories
     } catch (error) {
