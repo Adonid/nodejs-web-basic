@@ -17,8 +17,16 @@ module.exports = {
         type: Sequelize.TEXT
       },
       readTime: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.TEXT
+      },
+      draft: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+      },
+      remove: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
       },
       active: {
         type: Sequelize.BOOLEAN,
