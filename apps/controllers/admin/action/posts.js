@@ -2,10 +2,30 @@ const express = require('express')
 const router = express.Router()
 const {generalMiddleware} = require('../../../middleware')
 const {DriverGoogle} = require('../../../services')
-const {Category, Post} = require('../../../models')
+const {Category, Post, ImagePost} = require('../../../models')
 const {notices} = require('../../../common')
 const {Slug} = require('../../../helpers')
 const config = require('../../../../config/config.json')
+
+
+/**
+ * LAY DU LIEU KHOI TAO TRANG THEM MOI BAI VIET
+ * 
+ * @param {}
+ * 
+ * @return {obj} object JSON
+ * 
+ */
+ router.get('/initially-data', async (req, res) => {
+    try {
+        const categories = await Category.getCategories()
+        const imagesPreview = await ImagePost.getImages({type:config.image.typePost})
+        const data = notices.reqSuccess({categories, imagesPreview})
+        return res.status(data.code).json(data)
+    } catch (error) {
+        return res.status(notices._500.code).json(notices._500)
+    }
+})
 
 /**
  * LAY DANH SACH CAC BAI VIET KHI CUON LOAD
