@@ -19,8 +19,8 @@ const config = require('../../../../config/config.json')
  router.get('/initially-data', async (req, res) => {
     try {
         const categories = await Category.getCategories()
-        const imagesPreview = await ImagePost.getImages({type:config.image.typePost})
-        const data = notices.reqSuccess({categories, imagesPreview})
+        const images = await ImagePost.getImages({type: [config.image.typePost, config.image.typeInPost]})
+        const data = notices.reqSuccess({categories, images})
         return res.status(data.code).json(data)
     } catch (error) {
         return res.status(notices._500.code).json(notices._500)

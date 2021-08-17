@@ -50,7 +50,7 @@ const getImage = async (index) => {
  */
 const getImages = async (index) => {
     const images = await PostImage.findAll({
-        attributes: ['id', 'name','original', 'thumbnail'],
+        attributes: ['id', 'type', 'name','original', 'thumbnail'],
         where: index
     })
     .then(imgs => {
