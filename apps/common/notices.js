@@ -197,7 +197,7 @@ const fieldNotDuplicate = (filed, fieldName) => {
     return {
         code: 411,
         field: filed,
-        error: `Uh! "${fieldName||filed}" đã tồn tại rồi`
+        error: `Uh! ${fieldName||filed} đã tồn tại rồi`
     }
 }
 
