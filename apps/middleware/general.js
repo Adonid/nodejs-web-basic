@@ -1,8 +1,6 @@
 const {generalValidation} = require('../validator')
 const {User, Post, Category} = require('../models')
 const {notices, bcrypt, regex} = require('../common')
-const {DriverGoogle} = require('../services')
-const config = require('../../config/config.json')
 
 const ROLE_ADMIN  = 1
 const ROLE_AUTHOR = 2
@@ -130,27 +128,27 @@ const checkNotAdmin = async (req, res, next) => {
  * @return {next | next('route')}
  */
 const checkNewPost = async (req, res, next) => {
-    const {title, categoryId} = req.body
-    // Kiem tra dinh dang du lieu
-    const error = generalValidation.checkNewPost(req)
-    if(error){
-        res.status(error.code).send(error)
-        return next('route')
-    }
+    const {title} = req.body
+    // // Kiem tra dinh dang du lieu
+    // const error = generalValidation.checkNewPost(req)
+    // if(error){
+    //     res.status(error.code).send(error)
+    //     return next('route')
+    // }
     // Tieu de bai viet khong trung nhau
     const post = await Post.getOnePost({title})
     if(post){
-        const duplicate = notices.fieldNotDuplicate('title', title)
+        const duplicate = notices.fieldNotDuplicate('title', "Tên bài viết")
         res.status(duplicate.code).send(duplicate)
         return next('route')
     }
-    // Co ton tai danh muc nay khong
-    const category = await Category.getCategory({id: categoryId})
-    if(!category){
-        const duplicate = notices.notFound('danh mục này')
-        res.status(duplicate.code).send(duplicate)
-        return next('route')
-    }
+    // // Co ton tai danh muc nay khong
+    // const category = await Category.getCategory({id: categoryId})
+    // if(!category){
+    //     const duplicate = notices.notFound('danh mục này')
+    //     res.status(duplicate.code).send(duplicate)
+    //     return next('route')
+    // }
     return next()
 }
 
@@ -183,24 +181,16 @@ const checkActivePost = async (req, res, next) => {
  * @return {next | next('route')}
  */
 const checkUpdatePost = async (req, res, next) => {
-    const {id, title, categoryId} = req.body
-    // Kiem tra dinh dang du lieu
-    const error = generalValidation.checkUpdatePost(req)
-    if(error){
-        res.status(error.code).send(error)
-        return next('route')
-    }
-    // Tieu de bai viet khong trung nhau
-    const post = await Post.isPostDuplicate(id, title)
-    if(post){
-        const duplicate = notices.fieldNotDuplicate('title', title)
+    const {id, title} = req.body
+    const exists = await Post.getOnePost({id})
+    if(!exists){
+        const duplicate = notices.notFound('bài viết')
         res.status(duplicate.code).send(duplicate)
         return next('route')
     }
-    // Co ton tai danh muc nay khong
-    const category = await Category.getCategory({id: categoryId})
-    if(!category){
-        const duplicate = notices.notFound('danh mục này')
+    const post = await Post.isPostDuplicate(id, title)
+    if(post){
+        const duplicate = notices.fieldNotDuplicate('title', 'Tên bài viết')
         res.status(duplicate.code).send(duplicate)
         return next('route')
     }

@@ -69,29 +69,43 @@ router.get('/detailed', async (req, res) => {
 /**
  * TAO MOI 1 BAI VIET
  * 
- * @param {title, imageBase64, desc, readTime, content, categoryId}
+ * @param {title, desc, imageId, categoryId, draft}
  * @param {id, name, roleId}
  * 
  * @return {*} object JSON
  * 
  */
 router.post('/create', generalMiddleware.checkNewPost, async (req, res) => {
-    const {title, imageBase64, desc, readTime, content, categoryId} = req.body
+    const {title, desc, imageId, categoryId, draft} = req.body
     const {id} = req.user
-    const err = notices._500
-    // Upload anh bai viet
-    const image = await DriverGoogle.uploadFile(config.googledriver.postFolder, imageBase64, title)
-    // Check upload anh
-    if(!image){
-        return res.status(err.code).json(err)
-    }
-    // TAO BAI VIET - active khi nay mac dinh = true
-    const newPost = await Post.createNewPost({title, image, desc, readTime, content, authorId: id, categoryId, active: true})
-    if(newPost){
-        const message = notices._200
+    // TAO BAI VIET
+    try {
+        const postId = await Post.createNewPost({title, desc, imageId, categoryId, authorId: id, draft: draft||false})
+        const msg = draft?"Lưu nháp":"Tạo mới bài viết"
+        const message = notices._201_data(msg, {postId})
         return res.status(message.code).json(message)
+    } catch (error) {
+        return res.status(notices._500.code).json(notices._500)
     }
-    return res.status(err.code).json(err)
+})
+/**
+ * TCAP NHAT BAI VIET
+ * 
+ * @param {id, title, desc, imageId, categoryId, draft}
+ * 
+ * @return {*} object JSON
+ * 
+ */
+router.post('/update', generalMiddleware.checkUpdatePost, async (req, res) => {
+    const {id, title, desc, imageId, categoryId} = req.body
+    // CAP NHAT BAI VIET
+    try {
+        const post = await Post.updatePost({title, desc, imageId, categoryId}, {id})
+        const message = notices._203("Bài viết", {post})
+        return res.status(message.code).json(message)
+    } catch (error) {
+        return res.status(notices._500.code).json(notices._500)
+    }
 })
 
 /**

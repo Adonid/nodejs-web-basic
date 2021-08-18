@@ -1,19 +1,16 @@
 const {Post, User, Category, PostsContent, CommentsPost, FavouritesPost, PostImage} = require('../../models')
 const { Op } = require("sequelize")
 
-/** LAY 1 BAI VIET THEO CAC TRUONG
- * 
- * muc dich de xem cac tham so dua vao co dung la bai ton tai khong
+/** LAY 1 BAI VIET THEO DIEU KIEN - KIEM TRA SU TON TAI CUA POST
  * 
  * @param obj options - {id: 12}...
  * 
- * @return boolean or OBJECT
+ * @return {post}
 */
 const getOnePost = async obj => {
     try {
         const data = await Post.findOne({
-            attributes: ['id', 'title', 'desc', 'readTime', 'active', 'authorId', 'categoryId'],
-            include: [PostImage],
+            attributes: ['id', 'title'],
             where: obj
         })
         // console.log(data)
@@ -162,44 +159,31 @@ const updateContent = async (value, index) => {
  * 
  * Tao moi bai viet
  * 
- * @param {'title', 'image', 'desc', 'readTime', 'content', 'authorId', 'categoryId'} = dataPost
+ * @param {title, desc, imageId, categoryId, authorId, draft}
  * 
  * @return {true | false}
  */
 const createNewPost = async dataPost => {
-    const {title, imageId, desc, readTime, content, authorId, categoryId, active} = dataPost
-    const postId = await Post.create({
-        title,
-        imageId,
-        desc,
-        readTime,
-        authorId,
-        categoryId,
-        active
-    })
+    const postId = await Post.create(dataPost)
     .then(post => {
         // console.log(post)
         return post ? post.dataValues.id : false
     })
     .catch(err => {
-        // console.log(err)
+        console.log(err)
         return false
     })
-    return postId ? createNewContent({postId, content}) : false
+    return postId
 }
 
 /** UPDATE POST
  * 
  * Cap nhat bai viet
  * 
- * @param {value, index}
+ * @param {title, desc, imageId, categoryId, authorId, draft}
  * @return {array || false}
  */
  const updatePost = async (value, index) => {
-    const content = value.content
-    delete value.content
-    const isContent = typeof(content)!=="undefined" ? true : false
-
     const post = await Post.update(value, {
         where: index
     })
@@ -208,10 +192,10 @@ const createNewPost = async dataPost => {
         return data||false
     })
     .catch(err => {
-        // console.log(err)
+        console.log(err)
         return false
     })
-    return post && isContent ? updateContent({content}, index) : post||false
+    return post
 }
 
 /** UPDATE PREVIEW POST 
