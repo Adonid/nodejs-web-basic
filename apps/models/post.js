@@ -166,7 +166,7 @@ const updateContent = async (value, index) => {
 const createNewPost = async dataPost => {
     const postId = await Post.create(dataPost)
     .then(post => {
-        console.log(post)
+        // console.log(post)
         return post ? post.dataValues.id : false
     })
     .catch(err => {
