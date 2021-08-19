@@ -78,15 +78,16 @@ router.get('/detailed', async (req, res) => {
 router.post('/create', generalMiddleware.checkNewPost, async (req, res) => {
     const {title, desc, imageId, categoryId, draft} = req.body
     const {id} = req.user
+    const data = {title, desc, imageId, categoryId, authorId: id, draft: draft||false}
     // TAO BAI VIET
-    try {
-        const postId = await Post.createNewPost({title, desc, imageId, categoryId, authorId: id, draft: draft||false})
+    let postId = false
+    postId = Post.createNewPost(data)
+    if(postId){
         const msg = draft?"Lưu nháp":"Tạo mới bài viết"
         const message = notices._201_data(msg, {postId})
         return res.status(message.code).json(message)
-    } catch (error) {
-        return res.status(notices._500.code).json(notices._500)
     }
+    return res.status(notices._500.code).json(notices._500)
 })
 /**
  * TCAP NHAT BAI VIET

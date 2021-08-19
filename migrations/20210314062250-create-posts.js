@@ -21,8 +21,8 @@ module.exports = {
         type: Sequelize.TEXT
       },
       draft: {
+        allowNull: false,
         type: Sequelize.BOOLEAN,
-        defaultValue: false
       },
       remove: {
         type: Sequelize.BOOLEAN,
