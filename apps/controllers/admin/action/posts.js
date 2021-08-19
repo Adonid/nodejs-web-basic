@@ -109,6 +109,25 @@ router.post('/create-content', async (req, res) => {
     return res.status(notices._500.code).json(notices._500)
 })
 /**
+ * CAP NHAT NOI DUNG CHO BAI VIET
+ * 
+ * @param {id, content}
+ * 
+ * @return {id}
+ * 
+ */
+router.post('/update-content', async (req, res) => {
+    const {contentId, content} = req.body
+    // TAO NOI DUNG
+    let content = false
+    content = Post.updateContent({content}, {id: contentId})
+    if(content){
+        const message = notices._203("Nội dung bài viết", {content})
+        return res.status(message.code).json(message)
+    }
+    return res.status(notices._500.code).json(notices._500)
+})
+/**
  * TCAP NHAT BAI VIET
  * 
  * @param {id, title, desc, imageId, categoryId, draft}

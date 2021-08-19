@@ -114,28 +114,6 @@ const getDetailedPost = async obj => {
     }
 }
 
-/** CAP NHAT NOI DUNG BAI VIET
- * 
- * 
- * @param {value, index} = dataContent
- * 
- * @return {true | false}
- */
-const updateContent = async (value, index) => {
-    const content = await PostsContent.update(value, {
-        where: index
-    })
-    .then( data => {
-        // console.log(data)
-        return data||false
-    })
-    .catch(err => {
-        // console.log(err)
-        return false
-    })
-    return content
-}
-
 /** CREATE NEW POST
  * 
  * Tao moi bai viet
@@ -170,6 +148,27 @@ const createNewPost = async dataPost => {
     })
     .catch(err => {
         // console.log(err)
+        return false
+    })
+    return content
+}
+/** CAP NHAT NOI DUNG BAI VIET
+ * 
+ * 
+ * @param {value, index}
+ * 
+ * @return {true | false}
+ */
+ const updateContent = async (value, index) => {
+    const content = await PostsContent.update(value, {
+        where: index
+    })
+    .then( data => {
+        // console.log(data)
+        return data||false
+    })
+    .catch(err => {
+        console.log(err)
         return false
     })
     return content
@@ -254,7 +253,8 @@ module.exports = {
     
     createNewPost,
     createNewContent,
-
+    updateContent,
+    
     updatePost,
     updatePreviewPost,
     isPostDuplicate
