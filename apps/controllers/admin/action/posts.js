@@ -81,7 +81,7 @@ router.post('/create', generalMiddleware.checkNewPost, async (req, res) => {
     const data = {title, desc, imageId, categoryId, authorId: id, draft: draft||false}
     // TAO BAI VIET
     let postId = false
-    postId = Post.createNewPost(data)
+    postId = await Post.createNewPost(data)
     if(postId){
         const msg = draft?"Lưu nháp":"Tạo mới bài viết"
         const message = notices._201_data(msg, {postId})
@@ -120,7 +120,7 @@ router.post('/update-content', async (req, res) => {
     const {contentId, content} = req.body
     // TAO NOI DUNG
     let contentPost = false
-    contentPost = Post.updateContent({content}, {id: contentId})
+    contentPost = await Post.updateContent({content}, {id: contentId})
     if(contentPost){
         const message = notices._203("Nội dung bài viết", {contentPost})
         return res.status(message.code).json(message)
