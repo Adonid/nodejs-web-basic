@@ -119,10 +119,10 @@ router.post('/create-content', async (req, res) => {
 router.post('/update-content', async (req, res) => {
     const {contentId, content} = req.body
     // TAO NOI DUNG
-    let content = false
-    content = Post.updateContent({content}, {id: contentId})
-    if(content){
-        const message = notices._203("Nội dung bài viết", {content})
+    let contentPost = false
+    contentPost = Post.updateContent({content}, {id: contentId})
+    if(contentPost){
+        const message = notices._203("Nội dung bài viết", {contentPost})
         return res.status(message.code).json(message)
     }
     return res.status(notices._500.code).json(notices._500)
