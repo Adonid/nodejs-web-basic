@@ -90,6 +90,25 @@ router.post('/create', generalMiddleware.checkNewPost, async (req, res) => {
     return res.status(notices._500.code).json(notices._500)
 })
 /**
+ * TAO MOI NOI DUNG CHO BAI VIET
+ * 
+ * @param {postId, content}
+ * 
+ * @return {id}
+ * 
+ */
+router.post('/create-content', async (req, res) => {
+    const {postId, content} = req.body
+    // TAO NOI DUNG
+    let contentId = false
+    contentId = await Post.createNewContent({postId, content})
+    if(contentId){
+        const message = notices._201_data("Tạo nội dung", {contentId})
+        return res.status(message.code).json(message)
+    }
+    return res.status(notices._500.code).json(notices._500)
+})
+/**
  * TCAP NHAT BAI VIET
  * 
  * @param {id, title, desc, imageId, categoryId, draft}

@@ -114,25 +114,6 @@ const getDetailedPost = async obj => {
     }
 }
 
-/** TAO MOI 1 NOI DUNG CHO BAI VIET
- * 
- * 
- * @param {postId, content} = dataContent
- * 
- * @return {true | false}
- */
-const createNewContent = async dataContent => {
-    const content = await PostsContent.create(dataContent)
-    .then(content => {
-        return content ? true : false
-    })
-    .catch(err => {
-        // console.log(err)
-        return false
-    })
-    return content
-}
-
 /** CAP NHAT NOI DUNG BAI VIET
  * 
  * 
@@ -174,6 +155,24 @@ const createNewPost = async dataPost => {
         return false
     })
     return postId
+}
+
+/** CREATE CONTENT TO POST
+ * 
+ * @param {postId, content} = dataContent
+ * 
+ * @return {id}
+ */
+ const createNewContent = async dataContent => {
+    const content = await PostsContent.create(dataContent)
+    .then(content => {
+        return content ? content.dataValues.id : false
+    })
+    .catch(err => {
+        // console.log(err)
+        return false
+    })
+    return content
 }
 
 /** UPDATE POST
@@ -252,7 +251,10 @@ module.exports = {
     getOnePost,
     getPosts,
     getDetailedPost,
+    
     createNewPost,
+    createNewContent,
+
     updatePost,
     updatePreviewPost,
     isPostDuplicate
