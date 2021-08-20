@@ -297,6 +297,7 @@ module.exports = {
     createNewPost,
     createNewContent,
     updateContent,
+    addTags,
     
     updatePost,
     updatePreviewPost,
