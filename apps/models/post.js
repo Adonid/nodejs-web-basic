@@ -1,4 +1,4 @@
-const {Post, User, Category, PostsContent, CommentsPost, FavouritesPost, PostImage, Tag} = require('../../models')
+const {Post, User, UserImage, Category, PostsContent, CommentsPost, FavouritesPost, PostImage, Tag} = require('../../models')
 const { Op } = require("sequelize")
 
 /** LAY 1 BAI VIET THEO DIEU KIEN - KIEM TRA SU TON TAI CUA POST
@@ -36,7 +36,13 @@ const getPosts = async (offset=0, limit=8) => {
             include: [
                 {
                     model: User,
-                    attributes: ['id', 'name', 'fullName', 'avatar', 'roleId']
+                    attributes: ['id', 'name', 'fullName', 'roleId'],
+                    include: [
+                        {
+                            model: UserImage,
+                            attributes: ['type', 'name', 'thumbnail']
+                        }
+                    ]
                 },
                 {
                     model: Category,
