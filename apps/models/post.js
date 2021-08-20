@@ -36,12 +36,11 @@ const getPosts = async (offset=0, limit=8) => {
             include: [
                 {
                     model: User,
-                    attributes: ['id', 'name', 'fullName', 'roleId'],
+                    attributes: ['name', 'fullName'],
                     include: [
                         {
                             model: UserImage,
-                            attributes: ['type', 'name', 'thumbnail'],
-                            where: {type: 'avatar'}
+                            attributes: ['type', 'name', 'thumbnail']
                         }
                     ]
                 },
@@ -59,7 +58,7 @@ const getPosts = async (offset=0, limit=8) => {
                 },
                 {
                     model: PostImage,
-                    attributes: ['id', 'type', 'name', 'original', 'thumbnail', 'userId']
+                    attributes: ['name', 'original', 'thumbnail']
                 },
                 {
                     model: Tag,
