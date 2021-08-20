@@ -40,7 +40,8 @@ const getPosts = async (offset=0, limit=8) => {
                     include: [
                         {
                             model: UserImage,
-                            attributes: ['type', 'name', 'thumbnail']
+                            attributes: ['type', 'name', 'thumbnail'],
+                            where: {type: 'avatar'}
                         }
                     ]
                 },
