@@ -54,12 +54,17 @@ const getPosts = async (offset=0, limit=8) => {
                     model: PostImage,
                     attributes: ['id', 'type', 'name', 'original', 'thumbnail', 'userId']
                 },
+                {
+                    model: Tag,
+                    attributes: ['id', 'name', 'color']
+                },
             ],
+            where: {draft: false, remove: false},
             offset,
             limit
         })
         // console.log(data)
-        return data.length ? data : false
+        return data||false
     } catch (error) {
         console.log(error)
         return false
