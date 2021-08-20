@@ -1,4 +1,4 @@
-const {Post, User, UserImage, Category, PostsContent, CommentsPost, FavouritesPost, PostImage, Tag} = require('../../models')
+const {Post, User, UserImage, Category, PostsContent, CommentsPost, FavouritesPost, PostImage, Tag, PostTags} = require('../../models')
 const { Op } = require("sequelize")
 
 /** LAY 1 BAI VIET THEO DIEU KIEN - KIEM TRA SU TON TAI CUA POST
@@ -215,6 +215,13 @@ const createNewPost = async dataPost => {
  * @return {true | false}
  */
  const addTags = async (tagsId, index) => {
+     // Xoa toan bo the tag da gan cua bai viet nay truoc
+    await PostTags.destroy({
+        where: {
+            postId: index.id
+        }
+    })
+    // Lay doi tuong tags
     const tags = await Tag.findAll({
         attributes: ['id', 'name'],
         where: {
@@ -230,6 +237,7 @@ const createNewPost = async dataPost => {
         console.log(err)
         return false
     })
+    // Neu tags ton tai thi cho luu
     if(tags){
         return await Post.findOne({
             attributes: ['id', 'title'],
