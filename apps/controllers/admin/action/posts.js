@@ -127,6 +127,30 @@ router.post('/update-content', async (req, res) => {
     }
     return res.status(notices._500.code).json(notices._500)
 })
+
+/**
+ * XU LY TAGS & READTIME CHO POST
+ * 
+ * @param {id, tagsId} - tagsId = array
+ * 
+ * @return {msg} object JSON
+ * 
+ */
+ router.post('/update-tags-readtime', async (req, res) => {
+    const {id, tagsId} = req.body
+    // CAP NHAT BAI VIET
+    try {
+        const post = await Post.addTags(tagsId, {id})
+        if(post){
+            const message = notices._201_data("Cập nhật", post)
+            return res.status(message.code).json(message)
+        }
+        return res.status(notices._500.code).json(notices._500)
+    } catch (error) {
+        return res.status(notices._500.code).json(notices._500)
+    }
+})
+
 /**
  * TCAP NHAT BAI VIET
  * 
