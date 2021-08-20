@@ -1,4 +1,4 @@
-const {Post, User, Category, PostsContent, CommentsPost, FavouritesPost, PostImage} = require('../../models')
+const {Post, User, Category, PostsContent, CommentsPost, FavouritesPost, PostImage, Tag} = require('../../models')
 const { Op } = require("sequelize")
 
 /** LAY 1 BAI VIET THEO DIEU KIEN - KIEM TRA SU TON TAI CUA POST
@@ -134,6 +134,27 @@ const createNewPost = async dataPost => {
     })
     return postId
 }
+/** UPDATE POST
+ * 
+ * Cap nhat bai viet
+ * 
+ * @param {title, desc, imageId, categoryId, authorId, draft}
+ * @return {array || false}
+ */
+ const updatePost = async (value, index) => {
+    const post = await Post.update(value, {
+        where: index
+    })
+    .then( data => {
+        // console.log(data)
+        return data||false
+    })
+    .catch(err => {
+        console.log(err)
+        return false
+    })
+    return post
+}
 
 /** CREATE CONTENT TO POST
  * 
@@ -174,26 +195,48 @@ const createNewPost = async dataPost => {
     return content
 }
 
-/** UPDATE POST
+/** LUU THE TAGS & READTIME POST
  * 
- * Cap nhat bai viet
  * 
- * @param {title, desc, imageId, categoryId, authorId, draft}
- * @return {array || false}
+ * @param {tagsId} = value
+ * @param {id} = index
+ * 
+ * @return {true | false}
  */
- const updatePost = async (value, index) => {
-    const post = await Post.update(value, {
-        where: index
+ const addTags = async (tagsId, index) => {
+    const tags = await Tag.findAll({
+        attributes: ['id', 'name'],
+        where: {
+            id: {
+                [Op.in]: tagsId
+            }
+        }
     })
-    .then( data => {
-        // console.log(data)
-        return data||false
+    .then( tag => {
+        return tag||false
     })
     .catch(err => {
         console.log(err)
         return false
     })
-    return post
+    if(tags){
+        return await Post.findOne({
+            attributes: ['id', 'title'],
+            include: [{model: Tag}],
+            where: index
+        })
+        .then( post => {
+            if(post){
+                post.addTag(tags)
+            }
+            return false
+        })
+        .catch(err => {
+            console.log(err)
+            return false
+        })
+    }
+    return false
 }
 
 /** UPDATE PREVIEW POST 
