@@ -228,6 +228,7 @@ const createNewPost = async dataPost => {
         .then( post => {
             if(post){
                 post.addTag(tags)
+                return true
             }
             return false
         })
@@ -298,7 +299,7 @@ module.exports = {
     createNewContent,
     updateContent,
     addTags,
-    
+
     updatePost,
     updatePreviewPost,
     isPostDuplicate
