@@ -137,12 +137,13 @@ router.post('/update-content', async (req, res) => {
  * 
  */
  router.post('/update-tags-readtime', async (req, res) => {
-    const {id, tagsId} = req.body
+    const {id, tagsId, readTime} = req.body
     // CAP NHAT BAI VIET
     try {
-        const post = await Post.addTags(tagsId, {id})
-        if(post){
-            const message = notices._201_data("Cập nhật", post)
+        const tag = await Post.addTags(tagsId, {id})
+        const readTimenow = await Post.updatePost({readTime}, {id})
+        if(tag&&readTimenow){
+            const message = notices._201_data("Cập nhật")
             return res.status(message.code).json(message)
         }
         return res.status(notices._500.code).json(notices._500)
