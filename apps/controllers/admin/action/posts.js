@@ -65,6 +65,29 @@ router.get('/detailed', async (req, res) => {
     const err = notices._500
     return res.status(err.code).json(err)
 })
+/**
+ * LAY CHI TIET BAI VIET DE SUA
+ * 
+ * @param {obj} = req.body
+ * 
+ * @return {obj} object JSON
+ * 
+ */
+router.get('/get-edit', async (req, res) => {
+    const id = JSON.parse(req.query.params).id
+    try {
+        // Lay chi tiet post
+        const post = await Post.getEditPost({id})
+        // Lay ca su lieu khoi tao trang
+        const categories = await Category.getCategories()
+        const tags = await Tag.getTags()
+        const images = await ImagePost.getImages({type: [config.image.typePost, config.image.typeInPost]})
+        const data = notices.reqSuccess({post, categories, images, tags})
+        return res.status(data.code).json(data)
+    } catch (error) {
+        return res.status(notices._500.code).json(notices._500)
+    }
+})
 
 /**
  * TAO MOI 1 BAI VIET

@@ -125,6 +125,54 @@ const getDetailedPost = async obj => {
     }
 }
 
+/** LAY CHI TIET BAI VIET DE SUA
+ * 
+ * @param {obj} - vd id: 1000
+ * 
+ * @return boolean or OBJECT
+*/
+const getEditPost = async obj => {
+    try {
+        const data = await Post.findOne({
+            attributes: ['id', 'title', 'desc', 'readTime', 'active'],
+            include: [
+                {
+                    model: User,
+                    attributes: ['name', 'fullName'],
+                    include: [
+                        {
+                            model: UserImage,
+                            attributes: ['type', 'name', 'thumbnail']
+                        }
+                    ]
+                },
+                {
+                    model: Category,
+                    attributes: ['id', 'name', 'imageId', 'color']
+                },
+                {
+                    model: Tag,
+                    attributes: ['id', 'name', 'color']
+                },
+                {
+                    model: PostsContent,
+                    attributes: ['id', 'content']
+                },
+                {
+                    model: PostImage,
+                    attributes: ['id', 'type', 'name', 'original']
+                },
+            ],
+            where: obj
+        })
+        // console.log(data)
+        return data ? data.dataValues : false
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+}
+
 /** CREATE NEW POST
  * 
  * Tao moi bai viet
@@ -313,6 +361,8 @@ module.exports = {
     getOnePost,
     getPosts,
     getDetailedPost,
+
+    getEditPost,
     
     createNewPost,
     createNewContent,

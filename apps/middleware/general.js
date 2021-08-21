@@ -177,7 +177,7 @@ const checkActivePost = async (req, res, next) => {
 
 /**
  * MIDDLEWARE DU LIEU UPDATE POST
- * @param {id, title, imageBase64, desc, readTime, content, categoryId} = req.body
+ * @param {id, title, desc, categoryId, imageId} = req.body
  * @return {next | next('route')}
  */
 const checkUpdatePost = async (req, res, next) => {
