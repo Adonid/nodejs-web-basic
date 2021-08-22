@@ -56,7 +56,7 @@ router.get('/', async (req, res) => {
  * 
  */
 router.get('/detailed', async (req, res) => {
-    const {id} = req.body
+    const id = JSON.parse(req.query.params).id
     const post = await Post.getDetailedPost({id})
     if(post){
         const data = notices.reqSuccess(post)

@@ -92,11 +92,29 @@ const getDetailedPost = async obj => {
             include: [
                 {
                     model: User,
-                    attributes: ['id', 'name', 'fullName', 'avatar', 'roleId']
+                    attributes: ['name', 'fullName'],
+                    include: [
+                        {
+                            model: UserImage,
+                            attributes: ['type', 'name', 'thumbnail']
+                        }
+                    ]
                 },
                 {
                     model: Category,
-                    attributes: ['id', 'name', 'imageId', 'color']
+                    attributes: ['name', 'imageId', 'color']
+                },
+                {
+                    model: Tag,
+                    attributes: ['name', 'color']
+                },
+                {
+                    model: PostsContent,
+                    attributes: ['content']
+                },
+                {
+                    model: PostImage,
+                    attributes: ['type', 'name', 'original']
                 },
                 {
                     model: CommentsPost,
@@ -105,14 +123,6 @@ const getDetailedPost = async obj => {
                 {
                     model: FavouritesPost,
                     attributes: ['id', 'userId']
-                },
-                {
-                    model: PostsContent,
-                    attributes: ['content']
-                },
-                {
-                    model: PostImage,
-                    attributes: ['id', 'type', 'name', 'original', 'thumbnail', 'userId']
                 },
             ],
             where: obj
