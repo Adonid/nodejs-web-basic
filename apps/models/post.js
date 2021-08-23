@@ -1,4 +1,4 @@
-const {Post, User, UserImage, Category, PostsContent, CommentsPost, FavouritesPost, PostImage, Tag, PostTags} = require('../../models')
+const {Post, User, UserImage, Category, PostsContent, CommentsPost, ReplysComment, FavouritesPost, FavouritesComment, FavouritesReplyComment, PostImage, Tag, PostTags} = require('../../models')
 const { Op } = require("sequelize")
 
 /** LAY 1 BAI VIET THEO DIEU KIEN - KIEM TRA SU TON TAI CUA POST
@@ -118,11 +118,71 @@ const getDetailedPost = async obj => {
                 },
                 {
                     model: CommentsPost,
-                    attributes: ['id', 'userId']
+                    attributes: ['id', 'comment', 'createdAt'],
+                    include: [
+                        {
+                            model: ReplysComment,
+                            attributes: ['id', 'reply', 'createdAt'],
+                            include: [
+                                {
+                                    model: User,
+                                    attributes: ['name', 'fullName'],
+                                    include: [
+                                        {
+                                            model: UserImage,
+                                            attributes: ['type', 'name', 'thumbnail']
+                                        }
+                                    ]
+                                }
+                            ],
+                            include: [
+                                {
+                                    model: FavouritesReplyComment,
+                                    attributes: ['id', 'level'],
+                                    include: [
+                                        {
+                                            model: User,
+                                            attributes: ['name', 'fullName']
+                                        }
+                                    ]
+                                }
+                            ],
+                        }
+                    ],
+                    include: [
+                        {
+                            model: FavouritesComment,
+                            attributes: ['id', 'level'],
+                            include: [
+                                {
+                                    model: User,
+                                    attributes: ['name', 'fullName']
+                                }
+                            ]
+                        }
+                    ],
+                    include: [
+                        {
+                            model: User,
+                            attributes: ['name', 'fullName'],
+                            include: [
+                                {
+                                    model: UserImage,
+                                    attributes: ['type', 'name', 'thumbnail']
+                                }
+                            ]
+                        }
+                    ],
                 },
                 {
                     model: FavouritesPost,
-                    attributes: ['id', 'userId']
+                    attributes: ['id', 'level'],
+                    include: [
+                        {
+                            model: User,
+                            attributes: ['name', 'fullName']
+                        }
+                    ]
                 },
             ],
             where: obj
