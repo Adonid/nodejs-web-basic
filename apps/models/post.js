@@ -88,7 +88,7 @@ const getPosts = async (offset=0, limit=8) => {
 const getDetailedPost = async obj => {
     try {
         const data = await Post.findOne({
-            attributes: ['id', 'title', 'desc', 'readTime', 'active'],
+            attributes: ['id', 'title', 'desc', 'readTime', 'active', 'updatedAt'],
             include: [
                 {
                     model: User,
