@@ -207,7 +207,7 @@ router.post('/active', async (req, res) => {
     const {id, active} = req.body
     try {
         await Post.updatePost({active}, {id})
-        const message = notices._200
+        const message = notices._201(active?"Duyệt bài":"Dừng bài viết")
         return res.status(message.code).json(message)
     } catch (error) {
         return res.status(notices._500.code).json(notices._500)  
