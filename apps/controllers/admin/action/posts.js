@@ -1,10 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const {generalMiddleware} = require('../../../middleware')
-const {DriverGoogle} = require('../../../services')
 const {Category, Post, ImagePost, Tag} = require('../../../models')
 const {notices} = require('../../../common')
-const {Slug} = require('../../../helpers')
 const config = require('../../../../config/config.json')
 
 
