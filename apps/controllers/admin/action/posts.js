@@ -196,56 +196,24 @@ router.post('/update', generalMiddleware.checkUpdatePost, async (req, res) => {
 /**
  * KICH HOAT | NGUNG KICH HOAT BAI VIET
  * 
- * @param {id, active} = req.body
+ * @param {id, values} = req.body
+ * 
+ * values = {}
  * 
  * @return {*} object JSON
  * 
  */
-router.post('/active', generalMiddleware.checkActivePost, async (req, res) => {
+router.post('/active', async (req, res) => {
     const {id, active} = req.body
-    const err = notices._500
-    // CAP NHAT VIEC ACTIVE POST
-    const newPost = await Post.updatePost({active}, {id})
-    if(newPost){
+    try {
+        await Post.updatePost({active}, {id})
         const message = notices._200
         return res.status(message.code).json(message)
+    } catch (error) {
+        return res.status(notices._500.code).json(notices._500)  
     }
-    return res.status(err.code).json(err)
 })
 
-/**
- * TAO MOI 1 BAI VIET
- * 
- * @param {title, imageBase64, desc, readTime, content, categoryId}
- * @param {id, name, roleId}
- * 
- * @return {*} object JSON
- * 
- */
- router.post('/update', generalMiddleware.checkUpdatePost, async (req, res) => {
-    const {id, title, imageBase64, desc, readTime, content, categoryId} = req.body
-    const err = notices._500
-    // Lay bai viet nay
-    const post = await Post.getOnePost({id})
-    if(!post){
-        const notFound = notices.notFound('bài viết này')
-        return res.status(notFound.code).json(notFound)
-    }
-    const fileId = post.image.fileId
-    // Upload anh bai viet
-    const image = await DriverGoogle.updateFile(config.googledriver.postFolder, imageBase64, title, fileId)
-    // Check update anh
-    if(!image){
-        return res.status(err.code).json(err)
-    }
-    // CAP NHAT POST
-    const updatePost = await Post.updatePost({title, image, desc, readTime, content, categoryId, active: true}, {id})
-    if(updatePost){
-        const message = notices._200
-        return res.status(message.code).json(message)
-    }
-    return res.status(err.code).json(err)
-})
 
 
 

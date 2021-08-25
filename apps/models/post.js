@@ -297,7 +297,7 @@ const createNewPost = async dataPost => {
         return content ? content.dataValues.id : false
     })
     .catch(err => {
-        // console.log(err)
+        console.log(err)
         return false
     })
     return content
