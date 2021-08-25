@@ -11,6 +11,7 @@ const posts = require('./posts')
 const companyDescription = require('./companyDescription')
 const distributedData = require('./distributedData')
 const photoManager = require('./photoManager')
+const commentPost = require('./commentPost')
 
 /**
  *  Route cho phep vao lay ra du lieu cho trang dashboard
@@ -56,6 +57,10 @@ const photoManager = require('./photoManager')
  *  Cac thao tac voi du lieu trang quan ly anh cua ung dung 
  */
  router.use('/photo-manager', photoManager)
+/**
+ *  Thao tac comment cua admin
+ */
+ router.use('/comment-manager', commentPost)
 
 
 module.exports = router

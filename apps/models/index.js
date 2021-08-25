@@ -7,6 +7,7 @@ const ImageUser = require('./imageUser')
 const ImagePost = require('./imagePost')
 const CompanyDescription = require('./companyDescription')
 const DistributedData = require('./distributedData')
+const Comments = require('./comments')
 
 module.exports={
     User,
@@ -18,4 +19,5 @@ module.exports={
     ImagePost,
     CompanyDescription,
     DistributedData,
+    Comments,
 }
