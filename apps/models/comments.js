@@ -1,4 +1,10 @@
-const {CommentsPost, ReplysComment, FavouritesComment, FavouritesReplyComment, User, UserImage} = require('../../models')
+const {
+    CommentsPost, 
+    ReplysComment, 
+    FavouritesComment, 
+    FavouritesReplyComment, 
+    User, UserImage
+} = require('../../models')
 const { Op } = require("sequelize");
 
 /** LAY DANH SACH TOAN BO COMMENTS CUA POST
@@ -114,9 +120,45 @@ const removeComment = async index => {
     }
 }
 
+/** LIKE 1 COMMENT
+ * 
+ * @param {commentId, userId} = payload
+ * 
+ * @return {*}
+*/
+const likeComment = async payload => {
+    try {
+        await FavouritesComment.create(payload)
+        return true
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+}
+/** UPDATELIKE 1 COMMENT
+ * 
+ * @param {level} = value
+ * @param {commentId, userId} = index
+ * 
+ * @return {*}
+*/
+const updateLikeComment = async (value, index) => {
+    try {
+        await FavouritesComment.update(value, {
+            where: index
+        })
+        return true
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+}
+
 
 module.exports={
     addNewComment,
     getCommentsPost,
-    removeComment
+    removeComment,
+    likeComment,
+    updateLikeComment
 }

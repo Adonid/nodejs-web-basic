@@ -66,5 +66,32 @@ router.post('/remove-comment', async (req, res) => {
     }
 })
 
+/**
+ * LIKE COMMENT
+ * 
+ * @param {postId, commentId, userId, level} = req.body. level in [0-5]
+ *
+ * @return {*} object JSON
+ * 
+ */
+router.post('/like-comment', async (req, res) => {
+    const {postId, commentId, userId, level} = req.body
+    try {
+        // Cap nhat trang thai like
+        if(typeof level === "number"){
+            await Comments.updateLikeComment({level}, {commentId, userId})
+        }
+        // Them moi 1 like
+        else{
+            await Comments.likeComment({commentId, userId})
+        }
+        const comments = await Comments.getCommentsPost({postId})
+        const message = notices._201_data("Like bình luận thành công!", comments)
+        return res.status(message.code).json(message)
+    } catch (error) {
+        return res.status(notices._500.code).json(notices._500)  
+    }
+})
+
 
 module.exports = router
