@@ -129,7 +129,7 @@ const removeComment = async index => {
 const getOneLikeComment = async obj => {
     try {
         const data = await FavouritesComment.findOne({
-            attributes: ['id'],
+            attributes: ['id', 'commentId', 'userId', 'level'],
             where: obj
         })
         // console.log(data)
