@@ -55,7 +55,7 @@ router.post('/add-comment', async (req, res) => {
  * 
  */
 router.post('/remove-comment', async (req, res) => {
-    const {id} = req.body
+    const {postId, id} = req.body
     try {
         await Comments.removeComment({id})
         const comments = await Comments.getCommentsPost({postId})
