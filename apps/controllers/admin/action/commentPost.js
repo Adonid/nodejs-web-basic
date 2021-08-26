@@ -55,9 +55,9 @@ router.post('/add-comment', async (req, res) => {
  * 
  */
 router.post('/remove-comment', async (req, res) => {
-    const {postId, id} = req.body
+    const {postId, commentId} = req.body
     try {
-        await Comments.removeComment({id})
+        await Comments.removeComment({id: commentId})
         const comments = await Comments.getCommentsPost({postId})
         const message = notices._201_data("Xóa bình luận thành công!", comments)
         return res.status(message.code).json(message)
