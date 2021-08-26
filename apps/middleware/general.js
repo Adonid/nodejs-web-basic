@@ -1,5 +1,5 @@
 const {generalValidation} = require('../validator')
-const {User, Post, Category} = require('../models')
+const {User, Post, Comments} = require('../models')
 const {notices, bcrypt, regex} = require('../common')
 
 const ROLE_ADMIN  = 1
@@ -197,6 +197,24 @@ const checkUpdatePost = async (req, res, next) => {
     return next()
 }
 
+/**
+ * KIEM TRA KHONG DE KHI THEM LIKE COMMENT KHONG BI TRUNG LAP LAI
+ * @param {commentId, userId} = req.body
+ * @return {next | next('route')}
+ */
+const notDuplicateLikeComment = async (req, res, next) => {
+    const {commentId, userId} = req.body
+    const exists = await Comments.getOneLikeComment({commentId, userId})
+    if(exists){
+        const duplicate = notices.fieldNotDuplicate('like', 'Lượt like đã tồn tại!')
+        res.status(duplicate.code).send(duplicate)
+        return next('route')
+    }
+    return next()
+}
+
+
+
 module.exports={
     login,
     register,
@@ -206,5 +224,7 @@ module.exports={
     checkNotAdmin,
     checkNewPost,
     checkActivePost,
-    checkUpdatePost
+    checkUpdatePost,
+
+    notDuplicateLikeComment
 }

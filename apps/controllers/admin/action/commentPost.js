@@ -2,7 +2,9 @@ const express = require('express')
 const router = express.Router()
 const {Comments} = require('../../../models')
 const {notices} = require('../../../common')
-
+const {
+    generalMiddleware
+} = require("../../../middleware")
 
 /**
  * LAY DANH DACH COMMENTS CUA 1 POST
@@ -74,7 +76,7 @@ router.post('/remove-comment', async (req, res) => {
  * @return {*} object JSON
  * 
  */
-router.post('/like-comment', async (req, res) => {
+router.post('/like-comment', generalMiddleware.notDuplicateLikeComment, async (req, res) => {
     const {postId, commentId, userId, level} = req.body
     try {
         // Cap nhat trang thai like

@@ -120,6 +120,26 @@ const removeComment = async index => {
     }
 }
 
+/** KIEM TRA SU TON TAI CUA 1 LIKE COMMENT
+ * 
+ * @param {commentId, userId} = payload
+ * 
+ * @return {*}
+*/
+const getOneLikeComment = async obj => {
+    try {
+        const data = await FavouritesComment.findOne({
+            attributes: ['id'],
+            where: obj
+        })
+        // console.log(data)
+        return data ? data.dataValues : false
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+}
+
 /** LIKE 1 COMMENT
  * 
  * @param {commentId, userId} = payload
@@ -159,6 +179,7 @@ module.exports={
     addNewComment,
     getCommentsPost,
     removeComment,
+    getOneLikeComment,
     likeComment,
     updateLikeComment
 }
