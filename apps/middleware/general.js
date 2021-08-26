@@ -199,12 +199,13 @@ const checkUpdatePost = async (req, res, next) => {
 
 /**
  * KIEM TRA KHONG DE KHI THEM LIKE COMMENT KHONG BI TRUNG LAP LAI
- * @param {commentId, userId} = req.body
+ * @param {commentId} = req.body
  * @return {next | next('route')}
  */
 const notDuplicateLikeComment = async (req, res, next) => {
-    const {commentId, userId, level} = req.body
-    const exists = await Comments.getOneLikeComment({commentId, userId})
+    const {commentId, level} = req.body
+    const {id} = req.user
+    const exists = await Comments.getOneLikeComment({commentId, userId: id})
     if(exists && typeof level !== "number"){
         const duplicate = notices.fieldNotDuplicate('like', 'Lượt like!')
         res.status(duplicate.code).send(duplicate)

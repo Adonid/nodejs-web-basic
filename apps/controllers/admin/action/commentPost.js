@@ -71,21 +71,22 @@ router.post('/remove-comment', async (req, res) => {
 /**
  * LIKE COMMENT
  * 
- * @param {postId, commentId, userId, level} = req.body. level in [0-5]
+ * @param {postId, commentId, level} = req.body. level in [0-5]
  *
  * @return {*} object JSON
  * 
  */
 router.post('/like-comment', generalMiddleware.notDuplicateLikeComment, async (req, res) => {
-    const {postId, commentId, userId, level} = req.body
+    const {postId, commentId, level} = req.body
+    const {id} = req.user
     try {
         // Cap nhat trang thai like
         if(typeof level === "number"){
-            await Comments.updateLikeComment({level}, {commentId, userId})
+            await Comments.updateLikeComment({level}, {commentId, userId: id})
         }
         // Them moi 1 like
         else{
-            await Comments.likeComment({commentId, userId})
+            await Comments.likeComment({commentId, userId: id})
         }
         const comments = await Comments.getCommentsPost({postId})
         const message = notices._201_data("Like bình luận thành công!", comments)
