@@ -205,7 +205,7 @@ const checkUpdatePost = async (req, res, next) => {
 const notDuplicateLikeComment = async (req, res, next) => {
     const {commentId, userId} = req.body
     const exists = await Comments.getOneLikeComment({commentId, userId})
-    if(exists){
+    if(exists && typeof level !== "number"){
         const duplicate = notices.fieldNotDuplicate('like', 'Lượt like!')
         res.status(duplicate.code).send(duplicate)
         return next('route')
