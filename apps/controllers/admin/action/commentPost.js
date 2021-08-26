@@ -46,6 +46,25 @@ router.post('/add-comment', async (req, res) => {
         return res.status(notices._500.code).json(notices._500)  
     }
 })
+/**
+ * XOA 1 COMMENT TRONG POST
+ * 
+ * @param {id} = req.body
+ *
+ * @return {*} object JSON
+ * 
+ */
+router.post('/remove-comment', async (req, res) => {
+    const {id} = req.body
+    try {
+        await Comments.removeComment({id})
+        const comments = await Comments.getCommentsPost({postId})
+        const message = notices._201_data("Xóa bình luận thành công!", comments)
+        return res.status(message.code).json(message)
+    } catch (error) {
+        return res.status(notices._500.code).json(notices._500)  
+    }
+})
 
 
 module.exports = router

@@ -96,8 +96,27 @@ const addNewComment = async payload => {
     return commentId
 }
 
+/** XOA 1 COMMENT
+ * 
+ * @param {id} = index
+ * 
+ * @return {*}
+*/
+const removeComment = async index => {
+    try {
+        await CommentsPost.destroy({
+            where: index
+          })
+        return true
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+}
+
 
 module.exports={
     addNewComment,
-    getCommentsPost
+    getCommentsPost,
+    removeComment
 }
