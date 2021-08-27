@@ -18,6 +18,16 @@ const getCommentsPost = async index => {
         attributes: ['id', 'comment', 'updatedAt'],
         include: [
             {
+                model: User,
+                attributes: ['name', 'fullName'],
+                include: [
+                    {
+                        model: UserImage,
+                        attributes: ['type', 'name', 'thumbnail']
+                    }
+                ]
+            },
+            {
                 model: ReplysComment,
                 attributes: ['id', 'reply', 'createdAt'],
                 include: [
@@ -44,9 +54,7 @@ const getCommentsPost = async index => {
                         ]
                     }
                 ],
-            }
-        ],
-        include: [
+            },
             {
                 model: FavouritesComment,
                 attributes: ['id', 'level'],
@@ -54,18 +62,6 @@ const getCommentsPost = async index => {
                     {
                         model: User,
                         attributes: ['name', 'fullName']
-                    }
-                ]
-            }
-        ],
-        include: [
-            {
-                model: User,
-                attributes: ['name', 'fullName'],
-                include: [
-                    {
-                        model: UserImage,
-                        attributes: ['type', 'name', 'thumbnail']
                     }
                 ]
             }

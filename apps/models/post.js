@@ -121,6 +121,16 @@ const getDetailedPost = async obj => {
                     attributes: ['id', 'comment', 'createdAt'],
                     include: [
                         {
+                            model: User,
+                            attributes: ['name', 'fullName'],
+                            include: [
+                                {
+                                    model: UserImage,
+                                    attributes: ['type', 'name', 'thumbnail']
+                                }
+                            ]
+                        },
+                        {
                             model: ReplysComment,
                             attributes: ['id', 'reply', 'createdAt'],
                             include: [
@@ -147,9 +157,7 @@ const getDetailedPost = async obj => {
                                     ]
                                 }
                             ],
-                        }
-                    ],
-                    include: [
+                        },
                         {
                             model: FavouritesComment,
                             attributes: ['id', 'level'],
@@ -160,19 +168,7 @@ const getDetailedPost = async obj => {
                                 }
                             ]
                         }
-                    ],
-                    include: [
-                        {
-                            model: User,
-                            attributes: ['name', 'fullName'],
-                            include: [
-                                {
-                                    model: UserImage,
-                                    attributes: ['type', 'name', 'thumbnail']
-                                }
-                            ]
-                        }
-                    ],
+                    ]
                 },
                 {
                     model: FavouritesPost,
