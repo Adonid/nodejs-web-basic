@@ -19,7 +19,7 @@ const getCommentsPost = async index => {
         include: [
             {
                 model: User,
-                attributes: ['name', 'fullName'],
+                attributes: ['id', 'name', 'fullName'],
                 include: [
                     {
                         model: UserImage,
