@@ -71,7 +71,7 @@ router.post('/remove-comment', async (req, res) => {
 /**
  * LIKE COMMENT
  * 
- * @param {postId, commentId, level} = req.body. level in [0-5]
+ * @param {postId, commentId} = req.body
  *
  * @return {*} object JSON
  * 
