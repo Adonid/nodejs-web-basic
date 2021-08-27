@@ -18,7 +18,7 @@ router.post('/get-comments', async (req, res) => {
     const {postId} = req.body
     try {
         const comments = await Comments.getCommentsPost({postId})
-        const message = notices._201_data("Bình luận thành công!", comments)
+        const message = notices._201_data("Bình luận!", comments)
         return res.status(message.code).json(message)
     } catch (error) {
         console.log(error)
@@ -28,7 +28,7 @@ router.post('/get-comments', async (req, res) => {
 /**
  * THEM 1 COMMENT VAO POST
  * 
- * @param {postId, userId, comment} = req.body
+ * @param {postId, comment} = req.body
  *
  * @return {*} object JSON
  * 
@@ -40,7 +40,7 @@ router.post('/add-comment', async (req, res) => {
         const commentId = await Comments.addNewComment({userId: id, postId, comment})
         if(commentId){
             const comments = await Comments.getCommentsPost({postId})
-            const message = notices._201_data("Bình luận thành công!", comments)
+            const message = notices._201_data("Bình luận!", comments)
             return res.status(message.code).json(message)
         }
         return res.status(notices._500.code).json(notices._500)  
@@ -61,7 +61,7 @@ router.post('/remove-comment', async (req, res) => {
     try {
         await Comments.removeComment({id: commentId})
         const comments = await Comments.getCommentsPost({postId})
-        const message = notices._201_data("Xóa bình luận thành công!", comments)
+        const message = notices._201_data("Xóa bình luận!", comments)
         return res.status(message.code).json(message)
     } catch (error) {
         return res.status(notices._500.code).json(notices._500)  
@@ -92,7 +92,51 @@ router.post('/like-comment', async (req, res) => {
             await Comments.likeComment({commentId, userId: id})
         }
         const comments = await Comments.getCommentsPost({postId})
-        const message = notices._201_data("Like bình luận thành công!", comments)
+        const message = notices._201_data("Like bình luận!", comments)
+        return res.status(message.code).json(message)
+    } catch (error) {
+        return res.status(notices._500.code).json(notices._500)  
+    }
+})
+
+
+/**
+ * THEM 1 REPLY VAO COMMENT
+ * 
+ * @param {postId, commentId, reply} = req.body
+ *
+ * @return {*} object JSON
+ * 
+ */
+ router.post('/add-reply', async (req, res) => {
+    const {postId, commentId, reply} = req.body
+    const {id} = req.user
+    try {
+        const replyId = await Comments.addNewReply({userId: id, commentId, reply})
+        if(replyId){
+            const comments = await Comments.getCommentsPost({postId})
+            const message = notices._201_data("Phản hồi!", comments)
+            return res.status(message.code).json(message)
+        }
+        return res.status(notices._500.code).json(notices._500)  
+    } catch (error) {
+        return res.status(notices._500.code).json(notices._500)  
+    }
+})
+/**
+ * XOA 1 REPLY
+ * 
+ * @param {id} = req.body
+ *
+ * @return {*} object JSON
+ * 
+ */
+ router.post('/remove-reply', async (req, res) => {
+    const {postId, replyCommentId} = req.body
+    try {
+        await Comments.removeReply({id: replyCommentId})
+        const comments = await Comments.getCommentsPost({postId})
+        const message = notices._201_data("Xóa phản hồi!", comments)
         return res.status(message.code).json(message)
     } catch (error) {
         return res.status(notices._500.code).json(notices._500)  

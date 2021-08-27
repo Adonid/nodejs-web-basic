@@ -168,6 +168,44 @@ const updateLikeComment = async (value, index) => {
     }
 }
 
+/** REPLY COMMENT */
+
+/** TAO MOI 1 REPLY CHO COMMENT
+ * 
+ * @param {userId, commentId, reply} = payload
+ * 
+ * @return {*}
+*/
+const addNewReply = async payload => {
+    const commentId = await ReplysComment.create(payload)
+    .then(comment => {
+        // console.log(comment)
+        return comment ? comment.dataValues.id : false
+    })
+    .catch(err => {
+        console.log(err)
+        return false
+    })
+    return commentId
+}
+
+/** XOA 1 REPLY
+ * 
+ * @param {id} = index
+ * 
+ * @return {*}
+*/
+const removeReply = async index => {
+    try {
+        await ReplysComment.destroy({
+            where: index
+          })
+        return true
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+}
 
 module.exports={
     addNewComment,
@@ -175,5 +213,7 @@ module.exports={
     removeComment,
     getOneLikeComment,
     likeComment,
-    updateLikeComment
+    updateLikeComment,
+    addNewReply,
+    removeReply,
 }
