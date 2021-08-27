@@ -55,7 +55,7 @@ const getUser = obj => {
         const data = await User.findOne({
             where: obj,
             attributes:{
-                exclude: ['password', 'codeReset', 'provinceId', 'districtId', 'communeId']
+                exclude: ['password', 'codeReset', 'provinceId', 'districtId', 'communeId', 'createdAt', 'updatedAt']
             },
             include: [
                 {
