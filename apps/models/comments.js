@@ -207,6 +207,61 @@ const removeReply = async index => {
     }
 }
 
+/** KIEM TRA SU TON TAI CUA 1 LIKE REPLY
+ * 
+ * @param {replyCommentId, userId} = payload
+ * 
+ * @return {*}
+*/
+const getOneLikeReply = async obj => {
+    try {
+        const data = await FavouritesReplyComment.findOne({
+            attributes: ['id', 'replyCommentId', 'userId', 'level'],
+            where: obj
+        })
+        // console.log(data)
+        return data ? data.dataValues : false
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+}
+
+/** LIKE 1 REPLY
+ * 
+ * @param {replyCommentId, userId} = payload
+ * 
+ * @return {*}
+*/
+const likeReply = async payload => {
+    try {
+        await FavouritesReplyComment.create(payload)
+        return true
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+}
+/** UPDATELIKE 1 REPLY
+ * 
+ * @param {level} = value
+ * @param {replyCommentId, userId} = index
+ * 
+ * @return {*}
+*/
+const updateLikeReply = async (value, index) => {
+    try {
+        await FavouritesReplyComment.update(value, {
+            where: index
+        })
+        return true
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+}
+
+
 module.exports={
     addNewComment,
     getCommentsPost,
@@ -216,4 +271,7 @@ module.exports={
     updateLikeComment,
     addNewReply,
     removeReply,
+    getOneLikeReply,
+    likeReply,
+    updateLikeReply,
 }

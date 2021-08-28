@@ -143,5 +143,35 @@ router.post('/like-comment', async (req, res) => {
     }
 })
 
+/**
+ * LIKE REPLY
+ * 
+ * @param {postId, replyCommentId} = req.body
+ *
+ * @return {*} object JSON
+ * 
+ */
+ router.post('/like-reply', async (req, res) => {
+    const {postId, replyCommentId} = req.body
+    const {id} = req.user
+    try {
+        // Lay reply nay xem
+        const like = await Comments.getOneLikeReply({replyCommentId, userId: id})
+        // Neu reply ton tai -> dao trang thai like
+        if(like){
+            const level = like.level?0:1
+            await Comments.updateLikeReply({level}, {replyCommentId, userId: id})
+        }
+        // Neu chua like thi them moi (Mac dinh la like)
+        else{
+            await Comments.likeReply({replyCommentId, userId: id})
+        }
+        const comments = await Comments.getCommentsPost({postId})
+        const message = notices._201_data("Like phản hồi!", comments)
+        return res.status(message.code).json(message)
+    } catch (error) {
+        return res.status(notices._500.code).json(notices._500)  
+    }
+})
 
 module.exports = router
