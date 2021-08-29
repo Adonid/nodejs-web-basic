@@ -35,8 +35,8 @@ const config = require('../../../../config/config.json')
  * 
  */
 router.post('/query', async (req, res) => {
-    const {offset, limit, index} = req.body
-    const posts = await Post.getPosts(index, offset, limit)
+    const {offset, limit, index, search} = req.body
+    const posts = await Post.getPosts(search, index, offset, limit)
     if(posts){
         const data = notices.reqSuccess(posts)
         return res.status(data.code).json(data)
