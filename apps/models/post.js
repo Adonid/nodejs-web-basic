@@ -29,7 +29,7 @@ const getOnePost = async obj => {
  * 
  * @return boolean or OBJECT
 */
-const getPosts = async (search="", index={}, offset=0, limit=8) => {
+const getPosts = async (search="", index={}, offset=0, limit=12) => {
     try {
         const data = await Post.findAll({
             attributes: ['id', 'title', 'desc', 'readTime', 'active', 'updatedAt'],

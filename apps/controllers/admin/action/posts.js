@@ -27,9 +27,26 @@ const config = require('../../../../config/config.json')
 })
 
 /**
- * LAY DANH SACH CAC BAI VIET KHI CUON LOAD
+ * LAY DANH SACH CAC BAI VIET KHI SSR
  * 
- * @param {index, offset=0, limit=8} = req.body
+ * @param {}
+ * 
+ * @return {obj} object JSON
+ * 
+ */
+router.get('/query', async (req, res) => {
+    const posts = await Post.getPosts()
+    if(posts){
+        const data = notices.reqSuccess(posts)
+        return res.status(data.code).json(data)
+    }
+    const err = notices._500
+    return res.status(err.code).json(err)
+})
+/**
+ * LAY DANH SACH CAC BAI VIET SAU KHI SSR
+ * 
+ * @param {index, offset, limit, search} = req.body
  * 
  * @return {obj} object JSON
  * 
