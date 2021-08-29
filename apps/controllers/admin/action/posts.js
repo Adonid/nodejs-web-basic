@@ -29,14 +29,14 @@ const config = require('../../../../config/config.json')
 /**
  * LAY DANH SACH CAC BAI VIET KHI CUON LOAD
  * 
- * @param {offset=0, limit=8} = req.body
+ * @param {index, offset=0, limit=8} = req.body
  * 
  * @return {obj} object JSON
  * 
  */
-router.get('/', async (req, res) => {
-    const {offset, limit} = req.body
-    const posts = await Post.getPosts(offset, limit)
+router.post('/query', async (req, res) => {
+    const {offset, limit, index} = req.body
+    const posts = await Post.getPosts(index, offset, limit)
     if(posts){
         const data = notices.reqSuccess(posts)
         return res.status(data.code).json(data)

@@ -25,18 +25,18 @@ const getOnePost = async obj => {
  * 
  * muc dich de lay cac bai viet khi cuon trang
  * 
- * @param {offset=0, limit=8} - mac dinh lay 8 bai viet moi nhat
+ * @param {index, offset=0, limit=8} - mac dinh lay 8 bai viet moi nhat. index = object
  * 
  * @return boolean or OBJECT
 */
-const getPosts = async (offset=0, limit=8) => {
+const getPosts = async (index={}, offset=0, limit=8) => {
     try {
         const data = await Post.findAll({
-            attributes: ['id', 'title', 'desc', 'readTime', 'active'],
+            attributes: ['id', 'title', 'desc', 'readTime', 'active', 'updatedAt'],
             include: [
                 {
                     model: User,
-                    attributes: ['name', 'fullName'],
+                    attributes: ['id', 'name', 'fullName'],
                     include: [
                         {
                             model: UserImage,
@@ -46,28 +46,31 @@ const getPosts = async (offset=0, limit=8) => {
                 },
                 {
                     model: Category,
-                    attributes: ['id', 'name', 'imageId', 'color']
+                    attributes: ['id', 'name', 'color']
                 },
                 {
                     model: CommentsPost,
-                    attributes: ['id', 'userId']
+                    attributes: ['userId'],
                 },
                 {
                     model: FavouritesPost,
-                    attributes: ['id', 'userId']
+                    attributes: ['userId'],
+                    include: [
+                        {
+                            model: User,
+                            attributes: ['name', 'fullName']
+                        }
+                    ]
                 },
                 {
                     model: PostImage,
                     attributes: ['name', 'original', 'thumbnail']
-                },
-                {
-                    model: Tag,
-                    attributes: ['id', 'name', 'color']
-                },
+                }
             ],
-            where: {draft: false, remove: false},
-            offset,
-            limit
+            where: {...index, draft: false, remove: false},
+            order: [ ['id', 'DESC'] ],
+            offset: offset,
+            limit: limit
         })
         // console.log(data)
         return data||false
