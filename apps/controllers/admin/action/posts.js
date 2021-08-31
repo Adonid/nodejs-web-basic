@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const {generalMiddleware} = require('../../../middleware')
-const {Category, Post, ImagePost, Tag} = require('../../../models')
+const {Category, Post, ImagePost, Tag, User} = require('../../../models')
 const {notices} = require('../../../common')
 const config = require('../../../../config/config.json')
 
@@ -27,7 +27,7 @@ const config = require('../../../../config/config.json')
 })
 
 /**
- * LAY DANH SACH CAC BAI VIET KHI SSR
+ * LAY DANH SACH CAC BAI VIET DE KHOI TAO TRANG DANH SACH CAC BAI VIET
  * 
  * @param {}
  * 
@@ -35,13 +35,19 @@ const config = require('../../../../config/config.json')
  * 
  */
 router.get('/query', async (req, res) => {
-    const posts = await Post.getPosts()
-    if(posts){
-        const data = notices.reqSuccess(posts)
+    try {
+       // Lay tac gia
+        const authors = await User.getAuthors()
+        // Lay danh muc
+        const categories = await Category.getCategoriesSorft()
+        // Lay cac bai viet
+        const posts = await Post.getPosts()
+        const data = notices.reqSuccess({posts, authors, categories})
         return res.status(data.code).json(data)
+    } catch (error) {
+        return res.status(notices._500.code).json(notices._500)
     }
-    const err = notices._500
-    return res.status(err.code).json(err)
+    
 })
 /**
  * LAY DANH SACH CAC BAI VIET SAU KHI SSR

@@ -1,6 +1,26 @@
-const {Category, Post, PostImage, CommentsPost, FavouritesPost} = require('../../models')
+const {Category, Post, PostImage} = require('../../models')
 const { Op } = require("sequelize");
 
+/** LAY DANH SACH TAT CA CAC DANH MUC NGAN GON
+ * 
+ * @param none
+ * 
+ * @return array [{'id', 'name'}]
+*/
+const getCategoriesSorft = async () => {
+    try {
+        const categories = await Category.findAll({
+            attributes: ['id', 'name'],
+            order: [
+                ['id', 'DESC']
+            ],
+        })
+        return categories
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+}
 /** LAY DANH SACH TAT CA CAC DANH MUC 
  * 
  * @param none
@@ -148,6 +168,7 @@ const isCategoryDuplicate = async (id, name) => {
 }
 
 module.exports={
+    getCategoriesSorft,
     getCategories,
     getCategory,
     createCategory,

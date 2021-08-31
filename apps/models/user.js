@@ -1,7 +1,6 @@
 const {User, Role, Province, District, Commune, Post, CommentsPost, FavouritesPost, UserImage} = require('../../models')
 const {ImageUser} = require('../models')
 const config = require('../../config/config.json')
-const { Op } = require('sequelize')
 
 /** KIEM TRA DAY CO DUNG LA 1 TAI KHOAN KHONG
  * 
@@ -303,6 +302,27 @@ const getUserDetail = async (email, roleId) => {
     return user
 }
 
+/** LAY TAT CA TAC GIA
+ * 
+ * @param {}
+ * 
+ * @return boolean or OBJECT
+*/
+const getAuthors = async () => {
+    const authors = await User.findAll({
+        attributes: ['id', 'name', 'fullName' ],
+        where: {roleId: 2}
+    })
+    .then(u => {
+        return u
+    })
+    .catch(err => {
+        console.log(err)
+        return false
+    })
+    return authors
+}
+
 module.exports={
     getUserBasic,
     existsUser,
@@ -313,5 +333,6 @@ module.exports={
     updateUser,
     paginationUser,
     paginationEditor,
-    getUserDetail
+    getUserDetail,
+    getAuthors
 }
