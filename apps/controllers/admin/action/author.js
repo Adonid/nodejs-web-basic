@@ -36,9 +36,9 @@ router.get('/', async (req, res) => {
  * 
  */
 router.post('/load-post', async (req, res) => {
-    const {id, offset, limit} = req.body
+    const {index, offset, limit} = req.body
     try {
-        const posts = await Post.getPostsAuthor({index: {authorId: id, roleId: 2}, offset, limit})
+        const posts = await Post.getPostsAuthor({index: {...index, roleId: 2}, offset, limit})
         const data = notices.reqSuccess(posts)
         return res.status(data.code).json(data)
     } catch (error) {
