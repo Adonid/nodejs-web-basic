@@ -85,6 +85,122 @@ const getPosts = async (search="", index={}, offset=0, limit=12) => {
     }
 }
 
+/** LAY CAC BAI VIET CUA TAC GIA
+ * 
+ * 
+ * @param {index, offset=0, limit=8} - mac dinh lay 8 bai viet moi nhat. index = object
+ * 
+ * @return boolean or OBJECT
+*/
+const getPostsAuthor = async (index={}, offset=0, limit=12) => {
+    try {
+        const data = await Post.findAll({
+            attributes: ['id', 'title', 'desc', 'readTime', 'active', 'updatedAt'],
+            include: [
+                {
+                    model: User,
+                    attributes: ['id', 'name', 'fullName'],
+                    include: [
+                        {
+                            model: UserImage,
+                            attributes: ['type', 'name', 'thumbnail']
+                        }
+                    ]
+                },
+                {
+                    model: Category,
+                    attributes: ['id', 'name', 'color']
+                },
+                {
+                    model: CommentsPost,
+                    attributes: ['userId'],
+                },
+                {
+                    model: FavouritesPost,
+                    attributes: ['userId'],
+                    include: [
+                        {
+                            model: User,
+                            attributes: ['name', 'fullName']
+                        }
+                    ]
+                },
+                {
+                    model: PostImage,
+                    attributes: ['name', 'original', 'thumbnail']
+                }
+            ],
+            where: {
+                ...index, draft: false, remove: false
+            },
+            order: [ ['id', 'DESC'] ],
+            offset: offset,
+            limit: limit
+        })
+        // console.log(data)
+        return data||false
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+}
+
+/** LAY CAC BAI NHAP CUA TAC GIA
+ * 
+ * 
+ * @param {id} = index
+ * 
+ * @return boolean or OBJECT
+*/
+const getPostsDraftAuthor = async (index) => {
+    try {
+        const data = await Post.findAll({
+            attributes: ['id', 'title', 'desc', 'readTime', 'active', 'updatedAt'],
+            include: [
+                {
+                    model: User,
+                    attributes: ['id', 'name', 'fullName'],
+                    include: [
+                        {
+                            model: UserImage,
+                            attributes: ['type', 'name', 'thumbnail']
+                        }
+                    ]
+                },
+                {
+                    model: Category,
+                    attributes: ['id', 'name', 'color']
+                },
+                {
+                    model: CommentsPost,
+                    attributes: ['userId'],
+                },
+                {
+                    model: FavouritesPost,
+                    attributes: ['userId'],
+                    include: [
+                        {
+                            model: User,
+                            attributes: ['name', 'fullName']
+                        }
+                    ]
+                },
+                {
+                    model: PostImage,
+                    attributes: ['name', 'original', 'thumbnail']
+                }
+            ],
+            where: index,
+            order: [ ['id', 'DESC'] ]
+        })
+        // console.log(data)
+        return data||false
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+}
+
 /** LAY CHI TIET BAI VIET
  * 
  * muc dich de lay du lieu ve bai viet cho nguoi dung DOC
@@ -433,7 +549,8 @@ module.exports = {
     getOnePost,
     getPosts,
     getDetailedPost,
-
+    getPostsAuthor,
+    getPostsDraftAuthor,
     getEditPost,
     
     createNewPost,

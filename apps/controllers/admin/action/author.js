@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const {User} = require('../../../models')
+const {User, Post} = require('../../../models')
 const {notices} = require('../../../common')
 
 
@@ -15,13 +15,32 @@ const {notices} = require('../../../common')
 router.get('/', async (req, res) => {
     const id = JSON.parse(req.query.params).id
     try {
-        const author = await User.getUser({id, roleId: 2})
-                              .then(author => author)
+        const user = await User.getUser({id, roleId: 2})
+                              .then(user => user)
                               .catch(err => err)
-        const data = notices.reqSuccess(author)
-        if(author)
-            return res.status(data.code).json(data)
+        const posts = await Post.getPostsAuthor({authorId: id})
+        const postsdraft = await Post.getPostsDraftAuthor({authorId: id})
+        
+        const data = notices.reqSuccess({user, posts, postsdraft})
+        return res.status(data.code).json(data)
+    } catch (error) {
         return res.status(notices._500.code).json(notices._500)
+    }
+})
+/**
+ * CUON LOAD LAY CAC BAI VIET CUA TAC GIA
+ * 
+ * @params {*}
+ * 
+ * @returns {*} object JSON
+ * 
+ */
+router.post('/load-post', async (req, res) => {
+    const {id, offset, limit} = req.body
+    try {
+        const posts = await Post.getPostsAuthor({index: {authorId: id, roleId: 2}, offset, limit})
+        const data = notices.reqSuccess(posts)
+        return res.status(data.code).json(data)
     } catch (error) {
         return res.status(notices._500.code).json(notices._500)
     }
