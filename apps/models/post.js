@@ -190,7 +190,7 @@ const getPostsDraftAuthor = async (index) => {
                     attributes: ['name', 'original', 'thumbnail']
                 }
             ],
-            where: index,
+            where: {...index, draft: true},
             order: [ ['id', 'DESC'] ]
         })
         // console.log(data)
