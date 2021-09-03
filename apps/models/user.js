@@ -1,5 +1,4 @@
 const {User, Role, Province, District, Commune, Post, CommentsPost, FavouritesPost, UserImage} = require('../../models')
-const { Op } = require("sequelize")
 const {ImageUser} = require('../models')
 const config = require('../../config/config.json')
 
