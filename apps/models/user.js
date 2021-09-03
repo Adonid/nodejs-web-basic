@@ -1,4 +1,5 @@
 const {User, Role, Province, District, Commune, Post, CommentsPost, FavouritesPost, UserImage} = require('../../models')
+const { Op } = require("sequelize")
 const {ImageUser} = require('../models')
 const config = require('../../config/config.json')
 
@@ -323,6 +324,19 @@ const getAuthors = async () => {
     return authors
 }
 
+/** DEM SO LUONG TAC GIA - KHONG CO ADMIN
+ * 
+ * @param {index}
+ * 
+ * @return boolean or OBJECT
+*/
+const countPeople = async index => {
+    const authors = await User.count({
+        where: index
+    })
+    return authors
+}
+
 module.exports={
     getUserBasic,
     existsUser,
@@ -334,5 +348,6 @@ module.exports={
     paginationUser,
     paginationEditor,
     getUserDetail,
-    getAuthors
+    getAuthors,
+    countPeople
 }
