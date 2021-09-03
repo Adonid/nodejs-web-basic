@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const {User, Post} = require('../../../models')
+const {User, Post, ImagePost} = require('../../../models')
 const {notices} = require('../../../common')
 
 
@@ -21,7 +21,8 @@ router.get('/', async (req, res) => {
         const posts = await Post.getPostsAuthor({authorId: id})
         const postsdraft = await Post.getPostsDraftAuthor({authorId: id})
         const amountPost = await Post.countPosts({authorId: id})
-        const data = notices.reqSuccess({user, posts, postsdraft, amountPost})
+        const amountImage = await ImagePost.countImages({userId: id})
+        const data = notices.reqSuccess({user, posts, postsdraft, amountPost, amountImage})
         return res.status(data.code).json(data)
     } catch (error) {
         return res.status(notices._500.code).json(notices._500)

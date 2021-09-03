@@ -162,10 +162,29 @@ const updateImage = async (value, index) => {
     return user
 }
 
+/** DEM ANH UPLOAD CUA TAC GIA
+ * 
+ * @param {index}
+ * 
+ * @return boolean or OBJECT
+*/
+const countImages = async index => {
+    try {
+        const images = await PostImage.count({
+            where: index
+        })
+        return images
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+}
+
 module.exports={
     getImage,
     getImages,
     queryImages,
     createImage,
-    updateImage
+    updateImage,
+    countImages
 }
