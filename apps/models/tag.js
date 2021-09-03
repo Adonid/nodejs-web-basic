@@ -141,11 +141,28 @@ const isTagDuplicate = async (id, name) => {
     }
 }
 
+/** DEM THE TAG
+ * 
+ * @param {index}
+ * 
+ * @return boolean or OBJECT
+*/
+const countTags = async index => {
+    try {
+        const tags = await Tag.count()
+        return tags
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+}
+
 module.exports={
     getTags,
     getTag,
     createTag,
     updateTag,
     deleteTag,
-    isTagDuplicate
+    isTagDuplicate,
+    countTags
 }

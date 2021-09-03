@@ -167,6 +167,22 @@ const isCategoryDuplicate = async (id, name) => {
     }
 }
 
+/** DEM SO LUONG DANH MUC
+ * 
+ * @param {index}
+ * 
+ * @return boolean or OBJECT
+*/
+const countCategories = async index => {
+    try {
+        const cats = await Category.count()
+        return cats
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+}
+
 module.exports={
     getCategoriesSorft,
     getCategories,
@@ -174,5 +190,6 @@ module.exports={
     createCategory,
     updateCategory,
     deleteCategory,
-    isCategoryDuplicate
+    isCategoryDuplicate,
+    countCategories
 }

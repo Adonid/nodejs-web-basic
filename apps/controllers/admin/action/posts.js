@@ -42,7 +42,12 @@ router.get('/query', async (req, res) => {
         const categories = await Category.getCategoriesSorft()
         // Lay cac bai viet
         const posts = await Post.getPosts()
-        const data = notices.reqSuccess({posts, authors, categories})
+        // Dem so lieu
+        const amountPosts = await Post.countPosts({active: true, remove: false})
+        const amountPostsNotActive = await Post.countPosts({active: false, remove: false})
+        const amountTags = await Tag.countTags()
+        const amountCategories = await Category.countCategories()
+        const data = notices.reqSuccess({posts, authors, categories, amountPosts, amountPostsNotActive, amountTags, amountCategories})
         return res.status(data.code).json(data)
     } catch (error) {
         return res.status(notices._500.code).json(notices._500)
