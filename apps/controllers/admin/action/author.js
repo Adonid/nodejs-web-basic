@@ -22,7 +22,8 @@ router.get('/', async (req, res) => {
         const postsdraft = await Post.getPostsDraftAuthor({authorId: id})
         const amountPost = await Post.countPosts({authorId: id})
         const amountImage = await ImagePost.countImages({userId: id})
-        const data = notices.reqSuccess({user, posts, postsdraft, amountPost, amountImage})
+        const images = await ImagePost.getImages({userId: id})
+        const data = notices.reqSuccess({user, posts, postsdraft, amountPost, amountImage, images})
         return res.status(data.code).json(data)
     } catch (error) {
         return res.status(notices._500.code).json(notices._500)
