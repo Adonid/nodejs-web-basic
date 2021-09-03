@@ -545,6 +545,24 @@ const isPostDuplicate = async (id, title) => {
     }
 }
 
+/** DEM BAI VIET
+ * 
+ * @param {index}
+ * 
+ * @return boolean or OBJECT
+*/
+const countPosts = async index => {
+    try {
+        const posts = await Post.count({
+            where: {...index, draft: false}
+        })
+        return posts
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+}
+
 module.exports = {
     getOnePost,
     getPosts,
@@ -560,5 +578,6 @@ module.exports = {
 
     updatePost,
     updatePreviewPost,
-    isPostDuplicate
+    isPostDuplicate,
+    countPosts
 }

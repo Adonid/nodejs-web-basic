@@ -20,8 +20,8 @@ router.get('/', async (req, res) => {
                               .catch(err => err)
         const posts = await Post.getPostsAuthor({authorId: id})
         const postsdraft = await Post.getPostsDraftAuthor({authorId: id})
-        
-        const data = notices.reqSuccess({user, posts, postsdraft})
+        const amountPost = await Post.countPosts({authorId: id})
+        const data = notices.reqSuccess({user, posts, postsdraft, amountPost})
         return res.status(data.code).json(data)
     } catch (error) {
         return res.status(notices._500.code).json(notices._500)
