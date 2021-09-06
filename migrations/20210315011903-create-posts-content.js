@@ -20,6 +20,10 @@ module.exports = {
         allowNull: true,
         type: Sequelize.TEXT
       },
+      marker: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: true
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
