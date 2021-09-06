@@ -32,6 +32,10 @@ module.exports = {
         min: 0,
         max: 5
       },
+      marker: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: true
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

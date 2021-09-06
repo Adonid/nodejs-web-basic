@@ -32,6 +32,10 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         defaultValue: false
       },
+      marker: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: true
+      },
       imageId: {
         allowNull: false,
         type: Sequelize.INTEGER,

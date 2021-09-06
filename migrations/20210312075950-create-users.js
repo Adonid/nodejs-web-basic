@@ -79,6 +79,10 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: true,
       },
+      marker: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: true
+      },
       provinceId: {
         type: Sequelize.INTEGER,
         defaultValue: '0',

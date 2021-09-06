@@ -48,6 +48,7 @@ module.exports = (sequelize, DataTypes) => {
     work: DataTypes.STRING,
     linkSocials: DataTypes.JSON,
     address: DataTypes.TEXT,
+    marker: DataTypes.BOOLEAN,
     provinceId: DataTypes.INTEGER,
     districtId: DataTypes.INTEGER,
     communeId: DataTypes.INTEGER,

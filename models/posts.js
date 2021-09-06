@@ -35,6 +35,7 @@ module.exports = (sequelize, DataTypes) => {
     authorId: DataTypes.INTEGER,
     categoryId: DataTypes.INTEGER,
     active: DataTypes.BOOLEAN,
+    marker: DataTypes.BOOLEAN,
   }, {
     sequelize,
     modelName: 'Post',
