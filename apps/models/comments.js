@@ -5,7 +5,28 @@ const {
     FavouritesReplyComment, 
     User, UserImage
 } = require('../../models')
-const { Op } = require("sequelize");
+
+/** LAY 1 COMMENT POST
+ * 
+ * @param {id}
+ * 
+ * @return {*}
+*/
+const getComment = async index => {
+    const comment = await CommentsPost.findOne({
+        attributes: ['id', 'marker'],
+        where: index
+    })
+    .then(data => {
+        // console.log(comment)
+        return data ? data.dataValues : false
+    })
+    .catch(err => {
+        console.log(err)
+        return false
+    })
+    return comment
+}
 
 /** LAY DANH SACH TOAN BO COMMENTS CUA POST
  * 
@@ -261,8 +282,27 @@ const updateLikeReply = async (value, index) => {
     }
 }
 
+/** UPDATE COMMENT DANH CHO THAY DOI TRANG THAI DA DOC THONG BAO
+ * 
+ * @param {value}
+ * 
+ * @return {index}
+*/
+const updateComment = async (value, index) => {
+    try {
+        await CommentsPost.update(value, {
+            where: index
+        })
+        return true
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+}
+
 
 module.exports={
+    getComment,
     addNewComment,
     getCommentsPost,
     removeComment,
@@ -274,4 +314,6 @@ module.exports={
     getOneLikeReply,
     likeReply,
     updateLikeReply,
+
+    updateComment
 }

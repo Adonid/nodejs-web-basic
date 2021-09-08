@@ -2,9 +2,6 @@ const express = require('express')
 const router = express.Router()
 const {Comments} = require('../../../models')
 const {notices} = require('../../../common')
-const {
-    generalMiddleware
-} = require("../../../middleware")
 
 /**
  * LAY DANH DACH COMMENTS CUA 1 POST
@@ -171,6 +168,28 @@ router.post('/like-comment', async (req, res) => {
         return res.status(message.code).json(message)
     } catch (error) {
         return res.status(notices._500.code).json(notices._500)  
+    }
+})
+
+/**
+ * DOI TRANG THAI COMMENT DA DOC | CHUA DOC
+ * 
+ * @params {id}
+ * 
+ * @return {*}
+ */
+ router.post('/marker', async (req, res) => {
+    const {id} = req.body
+    try {
+        // LAY TRANG THAI COMMENT
+        const comment = await Comments.getComment({id})
+        // CAP NHAT LAI TRANG THAI DA DOC
+        await Comments.updateComment({marker: !comment.marker}, {id})
+
+        const message = notices._201_data("Doi trang thai thanh cong", {comment})
+        return res.status(message.code).json(message)
+    } catch (error) {
+        return res.status(notices._500.code).json(notices._500)
     }
 })
 
