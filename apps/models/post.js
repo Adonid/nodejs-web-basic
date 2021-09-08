@@ -10,7 +10,26 @@ const { Op } = require("sequelize")
 const getOnePost = async obj => {
     try {
         const data = await Post.findOne({
-            attributes: ['id', 'title'],
+            attributes: ['id', 'title', 'marker'],
+            where: obj
+        })
+        // console.log(data)
+        return data ? data.dataValues : false
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+}
+/** LAY NOI DUNG BAI VIET THEO DIEU KIEN - KIEM TRA SU TON TAI CUA POST
+ * 
+ * @param obj options - {id: 12}...
+ * 
+ * @return {post}
+*/
+const getContentPost = async obj => {
+    try {
+        const data = await PostsContent.findOne({
+            attributes: ['id', 'marker'],
             where: obj
         })
         // console.log(data)
@@ -565,6 +584,7 @@ const countPosts = async index => {
 
 module.exports = {
     getOnePost,
+    getContentPost,
     getPosts,
     getDetailedPost,
     getPostsAuthor,

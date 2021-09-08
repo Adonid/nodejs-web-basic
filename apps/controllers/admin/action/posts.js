@@ -169,7 +169,7 @@ router.post('/update-content', async (req, res) => {
     const {contentId, content} = req.body
     // TAO NOI DUNG
     let contentPost = false
-    contentPost = await Post.updateContent({content}, {id: contentId})
+    contentPost = await Post.updateContent({...content, marker: true}, {id: contentId})
     if(contentPost){
         const message = notices._203("Nội dung bài viết", {contentPost})
         return res.status(message.code).json(message)
@@ -191,7 +191,7 @@ router.post('/update-content', async (req, res) => {
     try {
         if(tagsId.length)
             await Post.addTags(tagsId, {id})
-        await Post.updatePost({readTime}, {id})
+        await Post.updatePost({readTime, marker: true}, {id})
         const message = notices._201_data("Cập nhật")
         return res.status(message.code).json(message)
     } catch (error) {
@@ -211,7 +211,7 @@ router.post('/update', generalMiddleware.checkUpdatePost, async (req, res) => {
     const {id, title, desc, imageId, categoryId} = req.body
     // CAP NHAT BAI VIET
     try {
-        const post = await Post.updatePost({title, desc, imageId, categoryId}, {id})
+        const post = await Post.updatePost({title, desc, imageId, categoryId, marker: true}, {id})
         const message = notices._203("Bài viết", {post})
         return res.status(message.code).json(message)
     } catch (error) {
@@ -240,7 +240,30 @@ router.post('/active', async (req, res) => {
     }
 })
 
+/**
+ * DOI TRANG THAI BAI VIET DA DOC | CHUA DOC
+ * 
+ * @params {id}
+ * 
+ * @return {*}
+ */
+router.post('/marker', async (req, res) => {
+    const {id} = req.body
+    try {
+        // LAY TRANG THAI BAI VIET
+        const post = await Post.getOnePost({id})
+        // LAY TRANG THAI NOI DUNG BAI VIET
+        const postContent = await Post.getContentPost({postId: id})
+        // CAP NHAT LAI TRANG THAI DA DOC
+        await Post.updatePost({marker: !post.marker}, {id})
+        await Post.updateContent({marker: !postContent.marker}, {id: postContent.id})
 
+        const message = notices._201_data("Doi trang thai thanh cong", {post, postContent})
+        return res.status(message.code).json(message)
+    } catch (error) {
+        return res.status(notices._500.code).json(notices._500)
+    }
+})
 
 
 module.exports = router
