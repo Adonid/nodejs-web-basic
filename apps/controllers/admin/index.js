@@ -8,7 +8,7 @@ const action = require("./action")
 /**
  *  Route nay dung cho nguoi muon dang ky lam admin cua trang web
  */
-router.use('/auth', checkLimit(3, 7), auth)
+router.use('/auth', checkLimit(3, 10), auth)
 
 /**
  *  Route nay dung cho admin dang dang ky, dang nhap muon vao lam viec
@@ -17,7 +17,7 @@ router.use('/auth', checkLimit(3, 7), auth)
  * 
  *  Yeu cau nay buoc user phai dang nhap thanh cong truoc khi vao lam viec
  */
- router.use('/dashboard', checkLimit(3, 25), passport.authenticate('jwt', { session: false}), action)
+ router.use('/dashboard', checkLimit(3, 50), passport.authenticate('jwt', { session: false}), action)
 
 
 module.exports = router

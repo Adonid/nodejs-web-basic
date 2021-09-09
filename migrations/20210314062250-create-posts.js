@@ -12,21 +12,44 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
+<<<<<<< HEAD
       image: {
         allowNull: false,
         type: Sequelize.JSON
       },
+=======
+>>>>>>> admin
       desc: {
         allowNull: false,
         type: Sequelize.TEXT
       },
       readTime: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.TEXT
+      },
+      draft: {
+        allowNull: false,
+        type: Sequelize.BOOLEAN,
+      },
+      remove: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
       },
       active: {
         type: Sequelize.BOOLEAN,
         defaultValue: false
+      },
+      marker: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: true
+      },
+      imageId: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'postImages',
+          key: 'id',
+        }
       },
       authorId: {
         allowNull: false,

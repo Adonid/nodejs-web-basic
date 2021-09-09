@@ -2,6 +2,12 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('postsContents', {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER
+      },
       postId: {
         allowNull: false,
         type: Sequelize.INTEGER,
@@ -13,6 +19,10 @@ module.exports = {
       content: {
         allowNull: true,
         type: Sequelize.TEXT
+      },
+      marker: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: true
       },
       createdAt: {
         allowNull: false,

@@ -10,6 +10,7 @@ required npm package: googleapis
 const {google} = require('googleapis')
 const config = require('../../config/config.json')
 const { Stream } = require('stream')
+const {Slug} = require('../helpers')
 
 const CLIENT_ID = config.googledriver.clientID
 const CLIENT_SECRET = config.googledriver.clientSecret
@@ -31,9 +32,9 @@ const drive = google.drive({
 
   /** Lay thong tin file
  * 
- * @params {fileId}
+ * @param {fileId}
  * 
- * @return {webContentLink, webViewLink}
+ * @return {webViewLink, webContentLink, thumbnailLink}
  * 
  */
    const generatePublicUrl = async (fileId) => {
@@ -70,9 +71,9 @@ though this can be any filePath
 */
 /** Upload file len GOOGLE DRIVER
  * 
- * @params {folderId, nameFile, imgBase64} file anh da ma hoa sang kieu base64
+ * @param {folderId, nameFile, imgBase64} file anh da ma hoa sang kieu base64
  * 
- * @returns {kind, id, name, mimeType} 
+ * @return {kind, id, name, mimeType} 
  * 
  */
 const uploadFile = async (folderId, imgBase64, nameFile) => {
@@ -85,7 +86,7 @@ const uploadFile = async (folderId, imgBase64, nameFile) => {
     img.end(buf)
     const response = await drive.files.create({
       requestBody: {
-        name: nameFile,       //This can be name of your choice
+        name: Slug.slugNameImage(nameFile),       //This can be name of your choice
         parents: [folderId],  //This can be folder id of your choice
         mimeType: 'image/jpg',
       },
@@ -106,9 +107,9 @@ const uploadFile = async (folderId, imgBase64, nameFile) => {
 
 /** Delete FOREVER file tren GOOGLE DRIVER
  * 
- * @params {fileId}
+ * @param {fileId}
  * 
- * @returns {status}
+ * @return {status}
  * 
  */
  const deleteFile = async (fileId) => {
@@ -124,8 +125,34 @@ const uploadFile = async (folderId, imgBase64, nameFile) => {
     }
   }
 
+/** UPDATE file len GOOGLE DRIVER
+ * 
+ * @param {folderId, nameFile, imgBase64} file anh da ma hoa sang kieu base64
+ * 
+ * @return {kind, id, name, mimeType} 
+ * 
+ */
+ const updateFile = async (folderId, imgBase64, nameFile, fileId) => {
+   // Chi tien hanh UPLOAD FILE MOI KHI imgBase64 khong rong
+  const dataFile = imgBase64 ? await uploadFile(folderId, imgBase64, nameFile) : await generatePublicUrl(fileId)
+  // Upload khong thanh cong
+  if(!dataFile){
+    return false
+  }
+  // Xoa file cu neu ton tai va co file moi upload len
+  if(fileId && imgBase64){
+    const status = await deleteFile(fileId)
+    // Loi ko xoa duoc
+    if(!status){
+        return false
+    }
+  }
+  return dataFile
+}
+
 module.exports = {
     uploadFile,
     deleteFile,
-    generatePublicUrl
+    generatePublicUrl,
+    updateFile
 }

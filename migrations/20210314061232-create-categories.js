@@ -12,11 +12,19 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
-      imgUrl: {
+      imageId: {
         allowNull: false,
-        type: Sequelize.TEXT
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'postImages',
+          key: 'id',
+        }
       },
       color: {
+        allowNull: true,
+        type: Sequelize.STRING
+      },
+      description: {
         allowNull: true,
         type: Sequelize.STRING
       },

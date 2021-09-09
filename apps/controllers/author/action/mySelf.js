@@ -33,7 +33,11 @@ router.get('/', async (req, res) => {
  * @params {email, roleId, name} auto in req. Rassport returned. { imageBase64 } in body
  * 
  */
+<<<<<<< HEAD
  router.post('/update-avatar', generalMiddleware.updateAvatar, (req, res) => {})
+=======
+//  router.post('/update-avatar', generalMiddleware.updateAvatar, (req, res) => {})
+>>>>>>> admin
 
 /**
  *  POST - CAP NHAT THONG TIN CO BAN

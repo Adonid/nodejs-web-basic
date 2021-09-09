@@ -4,6 +4,7 @@ const register = require("./register")
 const login = require("./login")
 const verifyEmail = require("./verifyEmail")
 const updatePassword = require("./updatePassword")
+const address = require("./address")
 
 // const {checkLimit} = require("../../../common")
 
@@ -35,6 +36,11 @@ router.use('/register', register)
  *  Route nay dung cho admin muon reset lai mat khau
  */
  router.use('/reset-password', updatePassword)
+
+/**
+ *  Route nay dung de lay cac gia tri district, communes
+ */
+ router.use('/address', address)
 
 
 

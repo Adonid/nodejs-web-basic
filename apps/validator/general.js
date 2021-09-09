@@ -1,6 +1,5 @@
 const validator = require('validator')
-const {notices, regex, bcrypt} = require('../common')
-const {User} = require('../models')
+const {notices, regex} = require('../common')
 
 /** CAC METHODS NAY DUNG DE SOI CHIEU VOI DU LIEU CUA REQUEST - ONLY SELECT */
 
@@ -20,6 +19,18 @@ const checkName = name => {
     }
     if(regex.username(name)){
         return notices.usernamedNotFormat
+    }
+    return false
+}
+
+// KIEM TRA DANG TIEU DE BAI VIET - TITLE
+const checkTitleOrNormal = (title, field, note) => {
+    // Validate title
+    if(!title || !title.trim()){
+        return notices.fieldEmpty(field, note)
+    }
+    if(regex.textNormal(title)){
+        return notices.fieldNotFormat(field, note)
     }
     return false
 }
@@ -94,12 +105,47 @@ const checkPhoneNumber = phoneNumber => {
 }
 // KIEM TRA DANG TEXT NORMAL - ADDRESS
 const checkAddress = address => {
-    // Validate fullName
+    // Validate address
     if(address || address.trim()){
         if(regex.textNormal(address)){
             return notices.fieldNotFormat("address", "Địa chỉ")
         }
         return false
+    }
+    return false
+}
+// KIEM TRA DANG BASE64 STRING - IMAGE
+const checkBase64String = image => {
+    // Validate image
+    if(image || image.trim()){
+        const convertBase64 = image.split(/,(.+)/)[1]
+        if(regex.base64String(convertBase64)){
+            return notices.fieldNotFormat("image", "Ảnh")
+        }
+        return false
+    }
+    return false
+}
+// KIEM TRA DANG BASE64 STRING - IMAGE
+const checkBase64StringRequire = image => {
+    // Validate image
+    if(!image || !image.trim()){
+        return notices.fieldEmpty('ảnh')
+    }
+    const convertBase64 = image.split(/,(.+)/)[1]
+    if(regex.base64String(convertBase64)){
+        return notices.fieldNotFormat("image", "Ảnh")
+    }
+    return false
+}
+// KIEM TRA DANG MA MAU - COLOR
+const checkHexColorCode = color => {
+    // Validate color
+    if(!color || !color.trim()){
+        return notices.fieldEmpty('color', 'mã màu')
+    }
+    if(regex.hexColorCode(color)){
+        return notices.fieldNotFormat("color", "Mã màu")
     }
     return false
 }
@@ -215,27 +261,137 @@ const isResetPassword = req => {
  * @returns errors
  */
 const checkUserDataBasic = req => {
-    const {name, fullName, phoneNumber, bio, address} = req.body
-    const nameCheck = checkName(name)
-    const fullNameCheck = checkFullName(fullName)
-    const numberCheck = checkPhoneNumber(phoneNumber)
-    const addressCheck = checkAddress(address)
-    const bioCheck = checkBio(bio)
-    if(nameCheck)
-        return nameCheck
+    const {name, fullName, phoneNumber, provinceId, districtId, communeId, address, bio, age, genre, work} = req.body
+    // Kiem tra NAME
+    if(name){
+        const nameNotEmpty = regex.requireField('name', name)
+        if(nameNotEmpty){
+            return notices.errorField('name', nameNotEmpty)
+        }
+        const nameRequire = regex.requireUserName('name', name)
+        if(nameRequire){
+            return notices.errorField('name', nameRequire)
+        }
+        const isName = regex.notSpecialChar('name', name)
+        if(isName){
+            return notices.errorField('name', isName)
+        }
+    }
+    // Kiem tra fullName
+    if(fullName){
+        const isRequireFullName = regex.requireField('fullName', fullName)
+        if(isRequireFullName){
+            return notices.errorField('fullName', isRequireFullName)
+        }
+        const isFullName = regex.notSpecialChar('fullName', fullName)
+        if(isFullName){
+            return notices.errorField('fullName', isFullName)
+        }
+        const isLimitedFullName = regex.limitedName('fullName', fullName)
+        if(isLimitedFullName){
+            return notices.errorField('fullName', isLimitedFullName)
+        }
+    }
+    // Kiem tra so dien thoai
+    if(phoneNumber){
+        const phoneNumberRequire = regex.requireField('phoneNumber', phoneNumber)
+        if(phoneNumberRequire){
+            return notices.errorField('phoneNumber', phoneNumberRequire)
+        }
+        const numberRequire = regex.isNumber('phoneNumber', phoneNumber)
+        if(numberRequire){
+            return notices.errorField('phoneNumber', numberRequire)
+        }
+        const isFormatPhone = regex.isPhoneNumber('phoneNumber', phoneNumber)
+        if(isFormatPhone){
+            return notices.errorField('phoneNumber', isFormatPhone)
+        }
+    }
+
+    // Kiem tra dia chi noi o -address
+    if(address){
+        const isRequireAddress = regex.requireField('address', address)
+        if(isRequireAddress){
+            return notices.errorField('address', isRequireAddress)
+        }
+        const formatAddress = regex.notSpecialChar('address', address)
+        if(formatAddress){
+            return notices.errorField('address', formatAddress)
+        }
+        const LimitAddress = regex.limitedName('address', address)
+        if(LimitAddress){
+            return notices.errorField('address', LimitAddress)
+        }
+    }
+    // Kiem tra Tinh/tp - Quan/H - Xa/P
+    if(provinceId){
+        const isRequireProvinceId = regex.requireField('provinceId', provinceId)
+        if(isRequireProvinceId || Number(provinceId) < 0 || Number(provinceId) > 96){
+            return notices.errorField('provinceId', "Tỉnh/Thành phố không đúng định dạng!")
+        }
+    }
+    if(districtId){
+        const isRequireDistrictId = regex.requireField('districtId', districtId)
+        if(isRequireDistrictId || Number(districtId) < 0 || Number(districtId) > 973){
+            return notices.errorField('districtId', "Quận/Huyện không đúng định dạng!")
+        }
+    }
+    if(communeId){
+        const isRequireCommuneId = regex.requireField('communeId', communeId)
+        if(isRequireCommuneId || Number(communeId) < 1 || Number(communeId) > 10615){
+            return notices.errorField('communeId', "Xã/Phường không đúng định dạng!")
+        }
+    }
+
+    // Kiem tra do tuoi
+    if(age){
+        const isRequireAge = regex.requireField('age', age)
+        if(isRequireAge){
+            return notices.errorField('age', isRequireAge)
+        }
+        const formatAge = regex.isNumber('age', age)
+        if(formatAge){
+            return notices.errorField('age', formatAge)
+        }
+        const limitAge = regex.limitedAge('age', age)
+        if(limitAge){
+            return notices.errorField('age', limitAge)
+        }
+    }
     
-    if(fullNameCheck)
-        return fullNameCheck
     
-    if(numberCheck)
-        return numberCheck
-    
-    if(addressCheck)
-        return addressCheck
-    
-    if(bioCheck)
-        return bioCheck
-    
+    // Kiem tra BIO
+    if(bio){
+        const isRequireBio = regex.requireField('bio', bio)
+        if(isRequireBio){
+            return notices.errorField('bio', isRequireBio)
+        }
+        const formatBio = regex.notSpecialChar('bio', bio)
+        if(formatBio){
+            return notices.errorField('bio', formatBio)
+        }
+        const limitBio = regex.limitedDescription('bio', bio)
+        if(limitBio){
+            return notices.errorField('bio', limitBio)
+        }
+    }
+
+    // Kiem tra gioi tinh
+    if(genre){
+        const isRequireGenre = regex.requireField('genre', genre)
+        if(isRequireGenre){
+            return notices.errorField('genre', isRequireGenre)
+        }
+    }
+
+    // Kiem tra nghe nghiep
+    if(work){
+        const isRequireWork = regex.requireField('work', work)
+        if(isRequireWork){
+            return notices.errorField('work', isRequireWork)
+        }
+    }
+
     return false
     
 }
@@ -262,7 +418,7 @@ const checkUserPassword = req => {
     
 }
 
-/** KIEM TRA DU LIEU ACTIVE ỦE TRUOC KHI UPDATE
+/** KIEM TRA DU LIEU ACTIVE USER TRUOC KHI UPDATE
  * @params req
  * @returns errors
  */
@@ -276,6 +432,67 @@ const checkActiveUser = req => {
     
 }
 
+/** KIEM TRA DU LIEU POST TRUOC KHI TAO MOI
+ * @params req
+ * @returns errors
+ */
+const checkNewPost = req => {
+    const {title, imageBase64, desc, readTime, content} = req.body
+    // Validate title
+    const checkTitle = checkTitleOrNormal(title, 'title', 'Tiêu đề bài viết')
+    if(checkTitle){
+        return checkTitle
+    }
+    const checkDesc = checkTitleOrNormal(desc, 'desc', 'Mô tả bài viết')
+    if(checkDesc){
+        return checkDesc
+    }
+    const checkReadTime = checkTitleOrNormal(readTime, 'readTime', 'Thời gian đọc bài')
+    if(checkReadTime){
+        return checkReadTime
+    }
+    const checkImage64 = checkBase64StringRequire(imageBase64)
+    if(checkImage64){
+        return checkImage64
+    }
+    if(!content || !content.trim()){
+        return notices.fieldEmpty('content', 'Nội dung bài viết')
+    }
+    return false
+    
+}
+
+/** KIEM TRA DU LIEU POST TRUOC KHI CAP NHAT
+ * @params req
+ * @returns errors
+ */
+const checkUpdatePost = req => {
+    const {title, imageBase64, desc, readTime, content} = req.body
+    // Validate title
+    const checkTitle = checkTitleOrNormal(title, 'title', 'Tiêu đề bài viết')
+    if(checkTitle){
+        return checkTitle
+    }
+    const checkDesc = checkTitleOrNormal(desc, 'desc', 'Mô tả bài viết')
+    if(checkDesc){
+        return checkDesc
+    }
+    const checkReadTime = checkTitleOrNormal(readTime, 'readTime', 'Thời gian đọc bài')
+    if(checkReadTime){
+        return checkReadTime
+    }
+    const checkImage64 = checkBase64String(imageBase64)
+    if(checkImage64){
+        return checkImage64
+    }
+    if(!content || !content.trim()){
+        return notices.fieldEmpty('content', 'Nội dung bài viết')
+    }
+    return false
+    
+}
+
+
 module.exports={
     emailCheckBase,
     login,
@@ -283,5 +500,10 @@ module.exports={
     isResetPassword,
     checkUserDataBasic,
     checkUserPassword,
-    checkActiveUser
+    checkActiveUser,
+    checkBase64String,
+    checkBase64StringRequire,
+    checkHexColorCode,
+    checkNewPost,
+    checkUpdatePost
 }

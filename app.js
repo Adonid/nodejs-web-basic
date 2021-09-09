@@ -9,6 +9,13 @@ const passport = require('passport')
 const {Passport} = require(__dirname+'/apps/services')
 // Use express
 const app = express()
+// Use cors
+const cors = require('cors')
+
+// Cho phep CORS - tat ca cac domain - Chi danh cho DEV, SAU KHI DEV XONG PHAI XOA DONG NAY
+app.use(cors({
+    origin: true,
+}))
 
 // Passport session setup.
 passport.serializeUser((user, done) => done(null, user))
@@ -27,7 +34,7 @@ Passport.applyPassportTwitterStrategy(passport)
 // Dua req ve dang json va chi lam viec voi json - toi da cua request la 5Mb
 app.use(express.json({limit: '5mb'}))
 // Cau hinh file static
-app.use('/static', express.static(__dirname + "/public"))
+app.use(express.static(__dirname))
 // them vao app cac route & controller
 app.use(controllers)
 

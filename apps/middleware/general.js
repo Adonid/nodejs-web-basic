@@ -1,9 +1,6 @@
 const {generalValidation} = require('../validator')
-const {User} = require('../models')
-const {notices, bcrypt} = require('../common')
-const {Slug} = require('..//helpers')
-const {DriverGoogle} = require('../services')
-const config = require('../../config/config.json')
+const {User, Post, Comments} = require('../models')
+const {notices, bcrypt, regex} = require('../common')
 
 const ROLE_ADMIN  = 1
 const ROLE_AUTHOR = 2
@@ -11,7 +8,7 @@ const ROLE_USER   = 3
 
 /**
  * 
- * @param {]} req 
+ * @param {} req 
  * @param {*} res 
  * @param {*} next 
  * @return next('route') | next()
@@ -43,49 +40,24 @@ const register = (req, res, next) => {
  * @return next('route') | next()
  * 
  */
- const updateAvatar = async (req, res, next) => {
+ const checkUpdateImage = async (req, res, next) => {
     const {email, roleId, name} = req.user
     const {imageBase64} = req.body
+    // DUNG DINH DANG IMAGE64 KHONG
+    const isImage = regex.base64String(imageBase64)
+    if(!isImage){
+        const err = notices.errorField('image', "Uh! Không phải định dạng ảnh.")
+        res.status(err.code).json(err)
+        return next('route')
+    }
     // PHAI TON TAI USER NAY
-    const user = await User.getUser({email, roleId, name})
-                            .then(data => data)
-                            .catch(err => err)
-    if(!user || !imageBase64){
+    const user = await User.existsUser({email, roleId, name})
+    if(!user){
         const err = notices._500
         res.status(err.code).json(err)
         return next('route')
     }
-    // UPLOAD AVATAR MOI LEN
-    const dataFile = await DriverGoogle.uploadFile(config.googledriver.avatarFolder, imageBase64, Slug.slugNameImage(name))
-    if(!dataFile){
-        const error = notices._500
-        res.status(error.code).json(error)
-        return next('route')
-    }
-    // XOA FILE CU NEU CO   
-    const {fileId} = user.avatar
-    if(fileId){
-        const status = await DriverGoogle.deleteFile(fileId)
-        // Loi ko xoa duoc
-        if(!status){
-            const error = notices._500
-            res.status(error.code).json(error)
-            return next('route')
-        }
-    }
-    // CAP NHAT FILE CHO USER NAY
-    const updated = await User.updateUser(
-        {avatar: {webViewLink: dataFile.webViewLink, webContentLink: dataFile.webContentLink, thumbnailLink: dataFile.thumbnailLink, fileId: dataFile.fileId}},
-        {email}
-    )
-    if(updated){
-        const message = notices._203("Ảnh đại diện", updated)
-        res.status(message.code).json(message)
-        return next()
-    }
-    const error = notices._500
-    res.status(error.code).json(error)
-    return next('route')
+    return next()
 }
 
 /**
@@ -150,11 +122,110 @@ const checkNotAdmin = async (req, res, next) => {
     return next()
 }
 
+/**
+ * MIDDLEWARE DU LIEU TAO MOI POST
+ * @param {'title', 'imageBase64', 'desc', 'readTime', 'content', 'authorId', 'categoryId'} = req.body
+ * @return {next | next('route')}
+ */
+const checkNewPost = async (req, res, next) => {
+    const {title} = req.body
+    // // Kiem tra dinh dang du lieu
+    // const error = generalValidation.checkNewPost(req)
+    // if(error){
+    //     res.status(error.code).send(error)
+    //     return next('route')
+    // }
+    // Tieu de bai viet khong trung nhau
+    const post = await Post.getOnePost({title})
+    if(post){
+        const duplicate = notices.fieldNotDuplicate('title', "Tên bài viết")
+        res.status(duplicate.code).send(duplicate)
+        return next('route')
+    }
+    // // Co ton tai danh muc nay khong
+    // const category = await Category.getCategory({id: categoryId})
+    // if(!category){
+    //     const duplicate = notices.notFound('danh mục này')
+    //     res.status(duplicate.code).send(duplicate)
+    //     return next('route')
+    // }
+    return next()
+}
+
+/**
+ * MIDDLEWARE DU LIEU KICH HOAT POST
+ * @param {id, active} = req.body
+ * @return {next | next('route')}
+ */
+const checkActivePost = async (req, res, next) => {
+    const {id, active} = req.body
+    // Kiem tra dinh dang du lieu
+    if(typeof(active) !== 'boolean'){
+        const error = notices.fieldNotFormat("active", "Dữ liệu active(true or false)")
+        res.status(error.code).send(error)
+        return next('route')
+    }
+    // Co ton tai bai viet nay khong
+    const post = await Post.getOnePost({id})
+    if(!post){
+        const duplicate = notices.notFound('Bài viết này')
+        res.status(duplicate.code).send(duplicate)
+        return next('route')
+    }
+    return next()
+}
+
+/**
+ * MIDDLEWARE DU LIEU UPDATE POST
+ * @param {id, title, desc, categoryId, imageId} = req.body
+ * @return {next | next('route')}
+ */
+const checkUpdatePost = async (req, res, next) => {
+    const {id, title} = req.body
+    const exists = await Post.getOnePost({id})
+    if(!exists){
+        const duplicate = notices.notFound('bài viết')
+        res.status(duplicate.code).send(duplicate)
+        return next('route')
+    }
+    const post = await Post.isPostDuplicate(id, title)
+    if(post){
+        const duplicate = notices.fieldNotDuplicate('title', 'Tên bài viết')
+        res.status(duplicate.code).send(duplicate)
+        return next('route')
+    }
+    return next()
+}
+
+/**
+ * KIEM TRA KHONG DE KHI THEM LIKE COMMENT KHONG BI TRUNG LAP LAI
+ * @param {commentId} = req.body
+ * @return {next | next('route')}
+ */
+const notDuplicateLikeComment = async (req, res, next) => {
+    const {commentId, level} = req.body
+    const {id} = req.user
+    const exists = await Comments.getOneLikeComment({commentId, userId: id})
+    if(exists && typeof level !== "number"){
+        const duplicate = notices.fieldNotDuplicate('like', 'Lượt like!')
+        res.status(duplicate.code).send(duplicate)
+        return next('route')
+    }
+    return next()
+}
+
+
+
 module.exports={
     login,
     register,
-    updateAvatar,
+    checkUpdateImage,
     checkUserBasicInfo,
     checkUpdatePassword,
-    checkNotAdmin
+    checkNotAdmin,
+    checkNewPost,
+    checkActivePost,
+    checkUpdatePost,
+
+    notDuplicateLikeComment
 }

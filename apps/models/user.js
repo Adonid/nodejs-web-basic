@@ -1,6 +1,49 @@
-const {User, Role, Province, District, Commune, Post, CommentsPost, FavouritesPost} = require('../../models')
+const {User, Role, Province, District, Commune, Post, CommentsPost, FavouritesPost, UserImage} = require('../../models')
+const {ImageUser} = require('../models')
+const config = require('../../config/config.json')
 
-/** KIEM TRA SU TON TAI CUA TAI KHOAN THEO EMAIL 
+/** KIEM TRA DAY CO DUNG LA 1 TAI KHOAN KHONG
+ * 
+ * @param index options - {email: "123hello@gmail.com"}...
+ * 
+ * @return boolean
+*/
+const existsUser = index => {
+    const user = User.findOne({
+            attributes: ['id'],
+            where: index
+        })
+        .then(u => {
+            // console.log(u)
+            return u?u.dataValues.id:false
+        })
+        .catch(err => {
+            // console.log(err)
+            return false
+        })
+
+    return user
+}
+
+/** LAY THONG TIN CO BAN CUA USER KHI DOI CHIEU THONG TIN DANG NHAP
+ * 
+ * @param obj options - {email: "123hello@gmail.com"}...
+ * 
+ * @return boolean or OBJECT = {id, password,}
+*/
+const getUserBasic = obj => {
+    return new Promise( async (resolve, reject) => {
+        const data = await User.findOne({
+            where: obj,
+            attributes:  ['id', 'name', 'email', 'password', 'codeReset', 'active', 'roleId', 'updatedAt']
+        })
+        if(data)
+            resolve(data.dataValues)
+        else
+            reject(false)
+    })
+}
+/** LAY THONG TIN CHI TIET CUA 1 USER BAT KY
  * 
  * @param obj options - {email: "123hello@gmail.com"}...
  * 
@@ -9,14 +52,33 @@ const {User, Role, Province, District, Commune, Post, CommentsPost, FavouritesPo
 const getUser = obj => {
     return new Promise( async (resolve, reject) => {
         const data = await User.findOne({
-            // attributes: ['id', 'roleId', 'name', 'fullName', 'avatar'],
             where: obj,
-            include: [Role, Province, District, Commune],
+            attributes:{
+                exclude: ['password', 'codeReset', 'provinceId', 'districtId', 'communeId', 'createdAt', 'updatedAt']
+            },
+            include: [
+                {
+                    model: Role,
+                    attributes: ['id', 'roleName']
+                }, 
+                {
+                    model: Province,
+                    attributes: ['id', 'name']
+                }, 
+                {
+                    model: District,
+                    attributes: ['id', 'name']
+                }, 
+                {
+                    model: Commune,
+                    attributes: ['id', 'name']
+                },  
+                {
+                    model: UserImage,
+                    attributes: ['type', 'name', 'original', 'thumbnail']
+                }
+            ],
         })
-        // console.log(data.dataValues.Role.dataValues)
-        // console.log(data.dataValues.Province.dataValues)
-        // console.log(data.dataValues.District.dataValues)
-        // console.log(data.dataValues.Commune.dataValues)
         if(data)
             resolve(data.dataValues)
         else
@@ -81,13 +143,12 @@ const createEditor = async (name, email, password) => {
  * 
  * @returns boolean
  */
-const createUser = async (user) => {
+const createUser = async ({provider, name, email, profile_picture, meta}) => {
     const resuft = await User.create({
-        name        : user.name,
-        email       : user.email,
-        provider    : user.provider,
-        avatar      : {webViewLink: user.profile_picture, webContentLink: "", thumbnailLink: "", fileId: ""},
-        social      : user.meta,
+        name,
+        email,
+        provider,
+        social      : meta,
         password    : "aa@A88",
         roleId      : 3,
         active      : true
@@ -101,7 +162,15 @@ const createUser = async (user) => {
         return false
     })
     // console.log(resuft)
-    return resuft
+    // Anh avatar cho user
+    const newAvatar = {type: config.image.typeAvatar, name, userId: resuft.id, original: profile_picture}
+    try {
+        await ImageUser.createImage(newAvatar)
+        return true
+    } catch (error) {
+        // console.log(err)
+        return false
+    }
 }
 
 /** CAP NHAT FIELD(s) TRONG BANG USER
@@ -121,20 +190,10 @@ const updateUser = async (value, index, indexPrimary=false) => {
         return data||false
     })
     .catch(err => {
-        // console.log(err)
+        console.log(err)
         return false
     })
-    if(user){
-        const data = await getUser(indexPrimary||index)
-                           .then(u => u)
-                           .catch(err => false)
-        if(data){
-            const {name, fullName, avatar} = data
-            return {name, fullName, avatar}
-        }
-        return false
-    }
-    return false
+    return user
 }
 
 /** ADMINISTRATORs
@@ -147,7 +206,13 @@ const updateUser = async (value, index, indexPrimary=false) => {
  */
 const paginationUser = async (offset=0, limit=5) => {
     const users = await User.findAll({
-        attributes: ['id', 'name', 'email', 'active', 'provider', 'fullName', 'phoneNumber', 'avatar', 'createdAt' ],
+        attributes: ['id', 'name', 'email', 'active', 'provider', 'fullName', 'phoneNumber', 'createdAt' ],
+        include: [
+            {
+                model: UserImage,
+                attributes: ['name', 'original', 'thumbnail']
+            }
+        ],
         where: {roleId: 3},
         offset,
         limit
@@ -167,15 +232,21 @@ const paginationUser = async (offset=0, limit=5) => {
  * LAY TAT CA EDITORs
  * 
  * @param {*} none
- * @returns {*} editors
+ * @returns {*} array
  */
 const paginationEditor = async () => {
     const editors = await User.findAll({
-        attributes: ['id', 'name', 'email', 'active', 'fullName', 'phoneNumber', 'avatar', 'createdAt' ],
+        attributes: ['id', 'name', 'email', 'active', 'fullName', 'phoneNumber', 'createdAt' ],
+        include: [
+            {
+                model: UserImage,
+                attributes: ['name', 'original', 'thumbnail']
+            }
+        ],
         where: {roleId: 2}
     })
     .then(u => {
-        return u
+        return u||false
     })
     .catch(err => {
         // console.log(err)
@@ -196,9 +267,30 @@ const getUserDetail = async (email, roleId) => {
     if(roleId===1)
         return false
     const user = await User.findOne({
-        attributes: ['id', 'name', 'email', 'active', 'fullName', 'phoneNumber', 'avatar', 'createdAt' ],
+        attributes: ['id', 'name', 'email', 'active', 'fullName', 'phoneNumber', 'createdAt' ],
         where: {email, roleId},
-        include: [Role, Province, District, Commune, Post, CommentsPost, FavouritesPost],
+        include: [
+            {
+                model: Role,
+                attributes: ['id', 'roleName']
+            }, 
+            {
+                model: Province,
+                attributes: ['id', 'name']
+            }, 
+            {
+                model: District,
+                attributes: ['id', 'name']
+            }, 
+            {
+                model: Commune,
+                attributes: ['id', 'name']
+            },  
+            {
+                model: UserImage,
+                attributes: ['type', 'name', 'original', 'thumbnail']
+            },
+            Post, CommentsPost, FavouritesPost],
     })
     .then(u => {
         return u
@@ -210,7 +302,43 @@ const getUserDetail = async (email, roleId) => {
     return user
 }
 
+/** LAY TAT CA TAC GIA
+ * 
+ * @param {}
+ * 
+ * @return boolean or OBJECT
+*/
+const getAuthors = async () => {
+    const authors = await User.findAll({
+        attributes: ['id', 'name', 'fullName' ],
+        where: {roleId: 2}
+    })
+    .then(u => {
+        return u
+    })
+    .catch(err => {
+        console.log(err)
+        return false
+    })
+    return authors
+}
+
+/** DEM SO LUONG TAC GIA - KHONG CO ADMIN
+ * 
+ * @param {index}
+ * 
+ * @return boolean or OBJECT
+*/
+const countPeople = async index => {
+    const authors = await User.count({
+        where: index
+    })
+    return authors
+}
+
 module.exports={
+    getUserBasic,
+    existsUser,
     getUser,
     createAdmin,
     createEditor,
@@ -218,5 +346,7 @@ module.exports={
     updateUser,
     paginationUser,
     paginationEditor,
-    getUserDetail
+    getUserDetail,
+    getAuthors,
+    countPeople
 }

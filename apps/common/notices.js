@@ -21,6 +21,15 @@ const _201 = (name, as=null) => {
     }
 }
 
+const _201_data = (name, datas) => {
+    return {
+        code: 201,
+        error: false,
+        msg: `${name} thành công!`,
+        datas
+    }
+}
+
 const _202 = (name, as=null) => {
     return {
         code: 200,
@@ -47,12 +56,14 @@ const _204 = datas => {
     }
 }
 
-const loginSuccess = token => {
+const loginSuccess = (token, myself, provinces) => {
     return {
         code: 200,
         error: false,
         msg: "Đăng nhập thành công!",
-        token
+        token,
+        myself, 
+        provinces
     }
 }
 
@@ -78,6 +89,22 @@ const reqSuccess = datas => {
 const _403 = {
     code: 403,
     error: "Úi. Tải trọng quá lớn!"
+}
+
+/** Lỗi tham số thao tăc */
+const _400 = msg => {
+    return{
+        code: 400,
+        error: msg
+    }
+}
+
+/** Các tham số yêu cầu không có trên máy chủ */
+const _404 = (name="") => {
+    return{
+        code: 404,
+        error: `Không tìm thấy ${name||"đối tượng"} này!`
+    }
 }
 
 const _422 = {
@@ -109,12 +136,12 @@ const fieldEmpty = (name, as=null) => {
     return {
         code: 411,
         field: name,
-        error: `Uh ${as||name} không để trống nhé!`
+        error: `Uh! ${as||name} không để trống nhé!`
     }
 }
 
 /** BAO LOI DINH DANG CUA TRUONG */
-const fieldNotFormat = (filed, fieldName) => {
+const fieldNotFormat = (filed, fieldName='') => {
     return {
         code: 411,
         field: filed,
@@ -165,7 +192,14 @@ const formatError = err => {
     }
 }
 
-
+/** DU LIEU DA TON TAI - KHONG DUOC TAO RA TRUNG NHAU */
+const fieldNotDuplicate = (filed, fieldName) => {
+    return {
+        code: 411,
+        field: filed,
+        error: `Uh! ${fieldName||filed} đã tồn tại rồi`
+    }
+}
 
 /** BAO LOI USERNAME */
 const usernamedNotFormat = {
@@ -233,6 +267,30 @@ const notDataResetPassword = {
     error: "Uh! Mã xác minh chưa đúng hoặc không phải dành cho email này"
 }
 
+/** KHONG TON TAI DOI TUONG MUON KIEM TRA HOAC THAO TAC */
+const notFound = name => {
+    return {
+        code: 404,
+        error: `Uh! Không tìm thấy ${name}`
+    }
+}
+
+/** KHONG CO QUYEN THAO TAC NAY */
+const notHavePermission = name => {
+    return {
+        code: 403,
+        error: `Uh! Bạn không có quyền ${name}`
+    }
+}
+
+/** THONG BAO CHUNG CHO LOI DINH DANG VALIDATE CAC FIELDs */
+const errorField = (filed, err) => {
+    return {
+        code: 422,
+        field: filed,
+        error: err
+    }
+}
 
 module.exports={
     fieldEmpty,
@@ -248,11 +306,13 @@ module.exports={
     fieldNotTrue,
     fieldNotMatch,
     fieldError,
+    fieldNotDuplicate,
     notValidEmail,
     notDataResetPassword,
     notEmail,
     _200,
     _201,
+    _201_data,
     _202,
     _203,
     _204,
@@ -261,8 +321,14 @@ module.exports={
     reqSuccess,
     requestError,
     formatError,
+    notFound,
+    _400,
     _403,
+    _404,
     _422,
     _500,
     _599,
+    notHavePermission,
+
+    errorField
 }

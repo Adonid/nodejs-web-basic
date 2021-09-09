@@ -28,6 +28,11 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         allowNull: false,
       },
+      member: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
       codeReset: {
         type: Sequelize.STRING,
         allowNull: true,
@@ -50,11 +55,19 @@ module.exports = {
         allowNull: true,
         len: [10,12],               // Ex: 0987654321 or 84987654321 or +84987654321
       },
-      avatar: {
-        type: Sequelize.JSON,
+      bio: {
+        type: Sequelize.TEXT,
         allowNull: true,
       },
-      bio: {
+      age: {
+        type: Sequelize.TEXT,
+        allowNull: true,
+      },
+      genre: {
+        type: Sequelize.TEXT,
+        allowNull: true,
+      },
+      work: {
         type: Sequelize.TEXT,
         allowNull: true,
       },
@@ -65,6 +78,10 @@ module.exports = {
       address: {
         type: Sequelize.TEXT,
         allowNull: true,
+      },
+      marker: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: true
       },
       provinceId: {
         type: Sequelize.INTEGER,

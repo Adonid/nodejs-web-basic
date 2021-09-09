@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   PostsContent.init({
     postId: DataTypes.INTEGER,
     content: DataTypes.TEXT,
+    marker: DataTypes.BOOLEAN,
   }, {
     sequelize,
     modelName: 'PostsContent',

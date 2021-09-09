@@ -21,6 +21,8 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.FavouritesComment, {foreignKey: 'userId'})
       User.hasMany(models.ReplysComment, {foreignKey: 'userId'})
       User.hasMany(models.FavouritesReplyComment, {foreignKey: 'userId'})
+      User.hasMany(models.UserImage, {foreignKey: 'userId'})
+      User.hasMany(models.PostImage, {foreignKey: 'userId'})
     }
   };
   User.init({
@@ -34,15 +36,19 @@ module.exports = (sequelize, DataTypes) => {
     },
     name: DataTypes.STRING,
     active: DataTypes.BOOLEAN,
+    member: DataTypes.BOOLEAN,
     provider: DataTypes.STRING,
     social: DataTypes.JSON,
     fullName: DataTypes.STRING,
     codeReset: DataTypes.STRING,
     phoneNumber: DataTypes.STRING,
-    avatar: DataTypes.JSON,
     bio: DataTypes.TEXT,
+    age: DataTypes.STRING,
+    genre: DataTypes.STRING,
+    work: DataTypes.STRING,
     linkSocials: DataTypes.JSON,
     address: DataTypes.TEXT,
+    marker: DataTypes.BOOLEAN,
     provinceId: DataTypes.INTEGER,
     districtId: DataTypes.INTEGER,
     communeId: DataTypes.INTEGER,

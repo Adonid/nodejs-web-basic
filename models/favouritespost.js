@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     userId: DataTypes.INTEGER,
     postId: DataTypes.INTEGER,
     level: DataTypes.INTEGER,
+    marker: DataTypes.BOOLEAN,
   }, {
     sequelize,
     modelName: 'FavouritesPost',

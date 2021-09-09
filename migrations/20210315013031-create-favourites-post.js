@@ -10,6 +10,7 @@ module.exports = {
       },
       userId: {
         allowNull: false,
+        onDelete: "CASCADE",
         type: Sequelize.INTEGER,
         references: {
           model: 'users',
@@ -18,6 +19,7 @@ module.exports = {
       },
       postId: {
         allowNull: false,
+        onDelete: "CASCADE",
         type: Sequelize.INTEGER,
         references: {
           model: 'posts',
@@ -29,6 +31,10 @@ module.exports = {
         defaultValue: 0,
         min: 0,
         max: 5
+      },
+      marker: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: true
       },
       createdAt: {
         allowNull: false,

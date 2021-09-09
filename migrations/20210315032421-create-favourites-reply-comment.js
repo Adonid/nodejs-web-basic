@@ -10,6 +10,7 @@ module.exports = {
       },
       replyCommentId: {
         allowNull: false,
+        onDelete: "CASCADE",
         type: Sequelize.INTEGER,
         references: {
           model: 'replysComments',
@@ -18,6 +19,7 @@ module.exports = {
       },
       userId: {
         allowNull: false,
+        onDelete: "CASCADE",
         type: Sequelize.INTEGER,
         references: {
           model: 'users',
@@ -27,7 +29,7 @@ module.exports = {
       level: {
         type: Sequelize.INTEGER,
         defaultValue: 1,
-        min: 1,
+        min: 0,
         max: 5
       },
     });

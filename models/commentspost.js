@@ -20,7 +20,8 @@ module.exports = (sequelize, DataTypes) => {
   CommentsPost.init({
     postId: DataTypes.INTEGER,
     userId: DataTypes.INTEGER,
-    comment: DataTypes.TEXT
+    comment: DataTypes.TEXT,
+    marker: DataTypes.BOOLEAN,
   }, {
     sequelize,
     modelName: 'CommentsPost',

@@ -1,6 +1,14 @@
-const {notices, bcrypt} = require('../common')
+const {notices, regex, bcrypt} = require('../common')
 const {User} = require('../models')
-const {emailCheckBase, isResetPassword, login, register} = require('./general')
+const {
+    emailCheckBase, 
+    isResetPassword, 
+    login, 
+    register, 
+    checkHexColorCode,
+    checkBase64String,
+    checkBase64StringRequire
+} = require('./general')
 
 const roleId = 1
 
@@ -20,7 +28,7 @@ const roleId = 1
         return notices.notEmail
     }
     // Check email is valid in database 
-    const user = await User.getUser({email, roleId: 1})
+    const user = await User.existsUser({email, roleId: 1})
                         .then(data => data)
                         .catch(err=>err)
     if(!user)
@@ -41,7 +49,7 @@ const roleId = 1
         return isPreRegister
 
     //  email nay phai CHUA dang ky
-    const user = await User.getUser({email, roleId})
+    const user = await User.existsUser({email, roleId})
                         .then(data => data)
                         .catch(err=>err)
     if(user)
@@ -62,7 +70,7 @@ const roleId = 1
         return isPreLogin
 
     // email nay phai dang ky ROI
-    const user = await User.getUser({email, roleId})
+    const user = await User.getUserBasic({email, roleId})
                         .then(data => data)
                         .catch(err=>err)
     if(!user)
@@ -92,7 +100,7 @@ const roleId = 1
         return isReset
 
     // Du lieu yeu cau reset password phai khop voi du lieu da luu tru CUA ADMIN
-    const user = await User.getUser({email, codeReset, roleId})
+    const user = await User.existsUser({email, codeReset})
                         .then(data => data)
                         .catch(err=>err)
     if(!user)
@@ -101,10 +109,64 @@ const roleId = 1
     return false
 }
 
+/** KIEM TRA XEM req nay co du tieu chuan de create DANH MUC
+ * @params req
+ * @returns errors
+ */
+ const checkCategory = ({name, color}) => {
+    if(!name || !name.trim()){
+        return notices.fieldEmpty('name', 'tên danh mục')
+    }
+    const image64 = checkBase64StringRequire(imageBase64)
+    if(image64){
+        return image64
+    }
+    const colorCode = checkHexColorCode(color)
+    if(colorCode){
+        return colorCode
+    }
+    if(description || description.trim()){
+        if(regex.textNormal(description)){
+            return notices.fieldNotFormat("description", "Mô tả danh mục")
+        }
+        return false
+    }
+    return false
+}
+
+/** KIEM TRA XEM req nay co du tieu chuan de update DANH MUC
+ * @params req
+ * @returns errors
+ */
+ const checkUpdateCategory = req => {
+    const {name, imageBase64, color, description} = req.body
+    // Kiem tra so bo req
+    if(!name || !name.trim()){
+        return notices.fieldEmpty('name', 'tên danh mục')
+    }
+    const image64 = checkBase64String(imageBase64)
+    if(image64){
+        return image64
+    }
+    const colorCode = checkHexColorCode(color)
+    if(colorCode){
+        return colorCode
+    }
+    if(description || description.trim()){
+        if(regex.textNormal(description)){
+            return notices.fieldNotFormat("description", "Mô tả danh mục")
+        }
+        return false
+    }
+    return false
+}
+
 
 module.exports={
     isValidEmailAdmin,
     isRegisterAdmin,
     isLoginAdmin,
-    isResetPasswordAdmin
+    isResetPasswordAdmin,
+    checkCategory,
+    checkUpdateCategory
 }
