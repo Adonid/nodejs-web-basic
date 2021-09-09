@@ -1,0 +1,93 @@
+{
+  "server": {
+    "host": "localhost",
+    "port": 3001
+  },
+  "mysql":{
+      "host":"localhost",
+      "user":"hieuld",
+      "password":"ldhSQL@321",
+      "database":"blogger",
+      "port":3306
+  },
+  "development": {
+    "username": "hieuld",
+    "password": "ldhSQL@321",
+    "database": "blog-sungold",
+    "host": "localhost",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "root",
+    "password": null,
+    "database": "database_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": null,
+    "database": "database_production",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "saltRounds": 10,
+  "passport": {
+    "secret": "11002@88A0oA",
+    "expiresIn": 10800
+  },
+  "underscoreId": "id",
+  "mailler": {
+    "user": "noreply.hieule@gmail.com",
+    "password": "NoReply$2O21",
+    "host": "smtp.gmail.com",
+    "port": 587
+
+  },
+  "image": {
+    "quality": 80,
+    "thumbnail": {"width": 300, "height": 300},
+    "chromaSubsampling": "4:4:4",
+    "moz": true,
+    "avatarThumbnail": "public/images/users/avatars/thumbnail/",
+    "avatarOriginal": "public/images/users/avatars/original/",
+    "bgOriginal": "public/images/users/backgrounds/",
+    "postPreviewThumbnail": "public/images/posts/preview/thumbnail/",
+    "postPreviewOriginal": "public/images/posts/preview/original/",
+    "postInOriginal": "public/images/posts/in-post/original/",
+    "categoryOriginal": "public/images/system/category/",
+    "fragmentOriginal": "public/images/system/fragment/",
+    
+    "typeAvatar": "avatar",
+    "typeBackground": "background",
+    "typePost": "preview",
+    "typeInPost": "in-post",
+    "typeCategory": "category",
+    "typeSystem": "fragment"
+  },
+  "facebook": {
+    "clientID": "285879649660395",
+    "clientSecret": "cb5d8694a406d5734754aff895d9b3b1",
+    "callbackURL": "http://localhost:3000/blog/auth/facebook"
+  },
+  "google": {
+    "clientID": "717606975820-o0g514lpmm9m683oneaj23qmn7t5qbin.apps.googleusercontent.com",
+    "clientSecret": "M8U37prmUM6TL4guZiqAU2Fa",
+    "callbackURL": "http://localhost:3000/blog/auth/google/callback"
+  },
+  "twitter": {
+    "clientID": "fd9fli2Q99uPn3Y8pLmlivegb",
+    "clientSecret": "eGmyZbaB3Ptgk8KeZY3EsxyTDudYumIJHq01f8yUz8NQESS9ru",
+    "callbackURL": "http://localhost:3000/blog/auth/twitter/callback"
+  },
+  "googledriver": {
+    "clientID": "713623232191-3uko86dnaabmg3tt27ng74002h13e3kv.apps.googleusercontent.com",
+    "clientSecret": "F-of4dVe5_hUYyJbtaSz_KA_",
+    "callbackURL": "https://developers.google.com/oauthplayground",
+    "refeshtoken": "1//04TKvNEKr2yuUCgYIARAAGAQSNwF-L9IrNWKBobdfp9gnq6VLM0h9mOYs4adt3HhaMPt2r-ZjGr82pXORxfVm2k4C2_ZGp8WoU4U",
+
+    "avatarFolder": "16uiB4MYAYWzYQizZKShjErx7nGJq-DcF",
+    "categoryFolder": "1eB_vHd8GQ12DTsjaMARjwccJM_ZOpOY3",
+    "postFolder": "1glzEeeX-WdVb5Ar1ElX5bQk8s7PWr9UI"
+  }
+}
