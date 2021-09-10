@@ -11,9 +11,9 @@
       "port":3306
   },
   "development": {
-    "username": "hieuld",
-    "password": "ldhSQL@321",
-    "database": "blog-sungold",
+    "username": "root",
+    "password": "LHDatabase@92",
+    "database": "blog_sungold",
     "host": "localhost",
     "dialect": "mysql"
   },

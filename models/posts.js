@@ -26,10 +26,6 @@ module.exports = (sequelize, DataTypes) => {
   };
   Post.init({
     title: DataTypes.STRING,
-<<<<<<< HEAD
-    image: DataTypes.JSON,
-=======
->>>>>>> admin
     desc: DataTypes.TEXT,
     readTime: DataTypes.TEXT,
     draft: DataTypes.BOOLEAN,
