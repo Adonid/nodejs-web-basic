@@ -4,7 +4,7 @@
   "description": "Su dung sharp de resize anh upload",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon  app",
+    "dev": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "LeeHieu",
