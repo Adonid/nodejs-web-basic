@@ -7,7 +7,7 @@
       "host":"localhost",
       "user":"root",
       "password":"LHDatabase@92",
-      "database":"blog_sungold",
+      "database":"blog-sungold",
       "port":3306
   },
   "development": {
@@ -27,7 +27,7 @@
   "production": {
     "username": "root",
     "password": "LHDatabase@92",
-    "database": "blog_sungold",
+    "database": "blog-sungold",
     "host": "localhost",
     "dialect": "mysql"
   },
