@@ -1,5 +1,5 @@
 {
-  "name": "Sungold-blog",
+  "name": "sungold-blog",
   "version": "2.0.0",
   "description": "Source cho admin deploy vps",
   "main": "app.js",
