@@ -1,7 +1,7 @@
 {
-  "name": "expressjs-basic",
-  "version": "1.0.2",
-  "description": "Su dung sharp de resize anh upload",
+  "name": "Sungold-blog",
+  "version": "2.0.0",
+  "description": "Source cho admin deploy vps",
   "main": "app.js",
   "scripts": {
     "dev": "node app.js",
