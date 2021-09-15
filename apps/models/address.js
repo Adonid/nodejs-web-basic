@@ -57,13 +57,13 @@ const getCommunes = async (districtId) => {
             attributes: ['id', 'name'],
             where: {
                 districtId: {
-                    [Op.eq]: districtId
+                    [Op.eq]: districtId||1
                 }
             }
         })
         return data
     } catch (error) {
-        // console.log(error)
+        console.log(error)
         return false
     }
 }
