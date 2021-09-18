@@ -50,7 +50,7 @@ const getContentPost = async obj => {
 */
 const getPosts = async (search="", index={}, offset=0, limit=12) => {
     try {
-        const data = await Post.findAll({
+        const data = await post.findAll({
             attributes: ['id', 'title', 'desc', 'readTime', 'active', 'updatedAt'],
             include: [
                 {
@@ -113,7 +113,7 @@ const getPosts = async (search="", index={}, offset=0, limit=12) => {
 */
 const getPostsAuthor = async (index={}, offset=0, limit=12) => {
     try {
-        const data = await Post.findAll({
+        const data = await post.findAll({
             attributes: ['id', 'title', 'desc', 'readTime', 'active', 'updatedAt'],
             include: [
                 {
@@ -230,7 +230,7 @@ const getPostsDraftAuthor = async (index) => {
 */
 const getDetailedPost = async obj => {
     try {
-        const data = await Post.findOne({
+        const data = await post.findOne({
             attributes: ['id', 'title', 'desc', 'readTime', 'active', 'updatedAt'],
             include: [
                 {
@@ -292,7 +292,7 @@ const getDetailedPost = async obj => {
                                     attributes: ['userId', 'level'],
                                     include: [
                                         {
-                                            model: User,
+                                            model: user,
                                             attributes: ['name', 'fullName']
                                         }
                                     ]
@@ -304,7 +304,7 @@ const getDetailedPost = async obj => {
                             attributes: ['userId', 'level'],
                             include: [
                                 {
-                                    model: User,
+                                    model: user,
                                     attributes: ['name', 'fullName']
                                 }
                             ]
@@ -340,7 +340,7 @@ const getDetailedPost = async obj => {
 */
 const getEditPost = async obj => {
     try {
-        const data = await Post.findOne({
+        const data = await post.findOne({
             attributes: ['id', 'title', 'desc', 'readTime', 'active'],
             include: [
                 {

@@ -1,4 +1,4 @@
-const {category, Post, PostImage} = require('../../models')
+const {category, post, post_image} = require('../../models')
 const { Op } = require("sequelize");
 
 /** LAY DANH SACH TAT CA CAC DANH MUC NGAN GON
@@ -33,11 +33,11 @@ const getCategories = async () => {
             attributes: ['id', 'name', 'color', 'description'],
             include: [
                 {
-                    model: PostImage,
+                    model: post_image,
                     attributes: ['id', 'name', 'original', 'userId']
                 },
                 {
-                    model: Post,
+                    model: post,
                     attributes: ['id', 'active']
                 }
             ],
@@ -64,7 +64,7 @@ const getCategory = async obj => {
             attributes: ['id', 'name','color', 'description'],
             include: [
                 {
-                    model: PostImage,
+                    model: post_image,
                     attributes: ['id', 'type', 'name', 'original', 'thumbnail', 'userId']
                 },
             ],
