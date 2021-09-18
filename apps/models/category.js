@@ -1,4 +1,4 @@
-const {Category, Post, PostImage} = require('../../models')
+const {category, Post, PostImage} = require('../../models')
 const { Op } = require("sequelize");
 
 /** LAY DANH SACH TAT CA CAC DANH MUC NGAN GON
@@ -9,7 +9,7 @@ const { Op } = require("sequelize");
 */
 const getCategoriesSorft = async () => {
     try {
-        const categories = await Category.findAll({
+        const categories = await category.findAll({
             attributes: ['id', 'name'],
             order: [
                 ['id', 'DESC']
@@ -29,7 +29,7 @@ const getCategoriesSorft = async () => {
 */
 const getCategories = async () => {
     try {
-        const categories = await Category.findAll({
+        const categories = await category.findAll({
             attributes: ['id', 'name', 'color', 'description'],
             include: [
                 {
@@ -60,7 +60,7 @@ const getCategories = async () => {
 */
 const getCategory = async obj => {
     try {
-        const data = await Category.findOne({
+        const data = await category.findOne({
             attributes: ['id', 'name','color', 'description'],
             include: [
                 {
@@ -86,7 +86,7 @@ const getCategory = async obj => {
  * @returns boolean
  */
  const createCategory = async (payload) => {
-    const cat = await Category.create(payload)
+    const cat = await category.create(payload)
     .then(cat => {
         return cat?true:false
     })
@@ -103,7 +103,7 @@ const getCategory = async obj => {
  * @return {array | false}
  */
  const updateCategory = async (value, index) => {
-    const cat = await Category.update(value, {
+    const cat = await category.update(value, {
         where: index    
     })
     .then( data => {
@@ -123,7 +123,7 @@ const getCategory = async obj => {
  * @return {array | false}
  */
  const deleteCategory = async (id) => {
-    const resuft = await Category.destroy({
+    const resuft = await category.destroy({
         where: {
             id: {
                 [Op.eq]: id,
@@ -148,7 +148,7 @@ const getCategory = async obj => {
 */
 const isCategoryDuplicate = async (id, name) => {
     try {
-        const data = await Category.findAll({
+        const data = await category.findAll({
             attributes: ['id', 'name'],
             where: {
                 id: {
@@ -175,7 +175,7 @@ const isCategoryDuplicate = async (id, name) => {
 */
 const countCategories = async index => {
     try {
-        const cats = await Category.count()
+        const cats = await category.count()
         return cats
     } catch (error) {
         console.log(error)

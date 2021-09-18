@@ -1,5 +1,5 @@
-const {User, Role, Province, District, Commune, Post, CommentsPost, FavouritesPost, UserImage} = require('../../models')
-const {ImageUser} = require('../models')
+const {user, role, province, district, commune, post, comments_post, favourites_post, user_image} = require('../../models')
+const {image_user} = require('../models')
 const config = require('../../config/config.json')
 
 /** KIEM TRA DAY CO DUNG LA 1 TAI KHOAN KHONG
@@ -8,8 +8,8 @@ const config = require('../../config/config.json')
  * 
  * @return boolean
 */
-const existsUser = index => {
-    const user = User.findOne({
+const existsUser = async index => {
+    const user = await user.findOne({
             attributes: ['id'],
             where: index
         })
@@ -33,7 +33,7 @@ const existsUser = index => {
 */
 const getUserBasic = obj => {
     return new Promise( async (resolve, reject) => {
-        const data = await User.findOne({
+        const data = await user.findOne({
             where: obj,
             attributes:  ['id', 'name', 'email', 'password', 'codeReset', 'active', 'roleId', 'updatedAt']
         })
@@ -51,30 +51,30 @@ const getUserBasic = obj => {
 */
 const getUser = obj => {
     return new Promise( async (resolve, reject) => {
-        const data = await User.findOne({
+        const data = await user.findOne({
             where: obj,
             attributes:{
                 exclude: ['password', 'codeReset', 'provinceId', 'districtId', 'communeId', 'createdAt', 'updatedAt']
             },
             include: [
                 {
-                    model: Role,
+                    model: role,
                     attributes: ['id', 'roleName']
                 }, 
                 {
-                    model: Province,
+                    model: province,
                     attributes: ['id', 'name']
                 }, 
                 {
-                    model: District,
+                    model: district,
                     attributes: ['id', 'name']
                 }, 
                 {
-                    model: Commune,
+                    model: commune,
                     attributes: ['id', 'name']
                 },  
                 {
-                    model: UserImage,
+                    model: user_image,
                     attributes: ['type', 'name', 'original', 'thumbnail']
                 }
             ],
@@ -95,7 +95,7 @@ const getUser = obj => {
  * @returns boolean
  */
 const createAdmin = async (name, email, password) => {
-    const user = await User.create({
+    const user = await user.create({
         name    : name,
         email   : email,
         password: password,
@@ -120,7 +120,7 @@ const createAdmin = async (name, email, password) => {
  * @returns boolean
  */
 const createEditor = async (name, email, password) => {
-    const user = await User.create({
+    const user = await user.create({
         name    : name,
         email   : email,
         password: password,
@@ -144,7 +144,7 @@ const createEditor = async (name, email, password) => {
  * @returns boolean
  */
 const createUser = async ({provider, name, email, profile_picture, meta}) => {
-    const resuft = await User.create({
+    const resuft = await user.create({
         name,
         email,
         provider,
@@ -165,7 +165,7 @@ const createUser = async ({provider, name, email, profile_picture, meta}) => {
     // Anh avatar cho user
     const newAvatar = {type: config.image.typeAvatar, name, userId: resuft.id, original: profile_picture}
     try {
-        await ImageUser.createImage(newAvatar)
+        await image_user.createImage(newAvatar)
         return true
     } catch (error) {
         // console.log(err)
@@ -182,7 +182,7 @@ const createUser = async ({provider, name, email, profile_picture, meta}) => {
  * @returns code
  */
 const updateUser = async (value, index, indexPrimary=false) => {
-    const user = await User.update(value, {
+    const user = await user.update(value, {
         where: index    
     })
     .then( data => {
@@ -205,11 +205,11 @@ const updateUser = async (value, index, indexPrimary=false) => {
  * @returns array
  */
 const paginationUser = async (offset=0, limit=5) => {
-    const users = await User.findAll({
+    const users = await user.findAll({
         attributes: ['id', 'name', 'email', 'active', 'provider', 'fullName', 'phoneNumber', 'createdAt' ],
         include: [
             {
-                model: UserImage,
+                model: user_image,
                 attributes: ['name', 'original', 'thumbnail']
             }
         ],
@@ -235,11 +235,11 @@ const paginationUser = async (offset=0, limit=5) => {
  * @returns {*} array
  */
 const paginationEditor = async () => {
-    const editors = await User.findAll({
+    const editors = await user.findAll({
         attributes: ['id', 'name', 'email', 'active', 'fullName', 'phoneNumber', 'createdAt' ],
         include: [
             {
-                model: UserImage,
+                model: user_image,
                 attributes: ['name', 'original', 'thumbnail']
             }
         ],
@@ -266,31 +266,31 @@ const getUserDetail = async (email, roleId) => {
     // Khong lay admin
     if(roleId===1)
         return false
-    const user = await User.findOne({
+    const user = await user.findOne({
         attributes: ['id', 'name', 'email', 'active', 'fullName', 'phoneNumber', 'createdAt' ],
         where: {email, roleId},
         include: [
             {
-                model: Role,
+                model: role,
                 attributes: ['id', 'roleName']
             }, 
             {
-                model: Province,
+                model: province,
                 attributes: ['id', 'name']
             }, 
             {
-                model: District,
+                model: district,
                 attributes: ['id', 'name']
             }, 
             {
-                model: Commune,
+                model: commune,
                 attributes: ['id', 'name']
             },  
             {
-                model: UserImage,
+                model: user_image,
                 attributes: ['type', 'name', 'original', 'thumbnail']
             },
-            Post, CommentsPost, FavouritesPost],
+            post, comments_post, favourites_post],
     })
     .then(u => {
         return u
@@ -309,7 +309,7 @@ const getUserDetail = async (email, roleId) => {
  * @return boolean or OBJECT
 */
 const getAuthors = async () => {
-    const authors = await User.findAll({
+    const authors = await user.findAll({
         attributes: ['id', 'name', 'fullName' ],
         where: {roleId: 2}
     })
@@ -330,7 +330,7 @@ const getAuthors = async () => {
  * @return boolean or OBJECT
 */
 const countPeople = async index => {
-    const authors = await User.count({
+    const authors = await user.count({
         where: index
     })
     return authors

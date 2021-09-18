@@ -1,4 +1,4 @@
-const {UserImage} = require('../../models')
+const {user_image} = require('../../models')
 
 /** LAY VE 1 DOI TUONG ANH
  * 
@@ -11,7 +11,7 @@ const {UserImage} = require('../../models')
  * @returns boolean
  */
 const getImage = async (index) => {
-    const image = await UserImage.findOne({
+    const image = await user_image.findOne({
         attributes: ['id', 'name','original', 'thumbnail'],
         where: index
     })
@@ -38,7 +38,7 @@ const getImage = async (index) => {
  * @returns boolean
  */
 const createImage = async ({type, name, userId, original, thumbnail}) => {
-    const image = await UserImage.create({
+    const image = await user_image.create({
         type,
         name,
         userId,
@@ -66,7 +66,7 @@ const createImage = async ({type, name, userId, original, thumbnail}) => {
  * @returns boolean
  */
 const updateImage = async (value, index) => {
-    const user = await UserImage.update(value, {
+    const user = await user_image.update(value, {
         where: index
     })
     .then( u => {

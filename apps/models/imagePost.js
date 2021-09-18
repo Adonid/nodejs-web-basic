@@ -1,4 +1,4 @@
-const {PostImage, User, UserImage} = require('../../models')
+const {post_image, user, user_image} = require('../../models')
 
 /** LAY VE 1 DOI TUONG ANH
  * 
@@ -11,15 +11,15 @@ const {PostImage, User, UserImage} = require('../../models')
  * @returns boolean
  */
 const getImage = async (index) => {
-    const image = await PostImage.findOne({
+    const image = await post_image.findOne({
         attributes: ['id', 'type', 'name','original', 'thumbnail', 'updatedAt'],
         include: [
             {
-                model: User,
+                model: user,
                 attributes: ['name', 'fullName'],
                 include: [
                     {
-                        model: UserImage,
+                        model: user_image,
                         where: {type: 'avatar'},
                         attributes: ['name', 'thumbnail'],
                     }
@@ -49,7 +49,7 @@ const getImage = async (index) => {
  * @returns {categories} = array
  */
 const getImages = async (index) => {
-    const images = await PostImage.findAll({
+    const images = await post_image.findAll({
         attributes: ['id', 'type', 'name','original', 'thumbnail'],
         where: index
     })
@@ -76,15 +76,15 @@ const getImages = async (index) => {
  * @returns {images} = array
  */
  const queryImages = async (index, offset=0, limit=12) => {
-    const images = await PostImage.findAll({
+    const images = await post_image.findAll({
         attributes: ['id', 'type', 'name','original', 'thumbnail', 'updatedAt'],
         include: [
             {
-                model: User,
+                model: user,
                 attributes: ['name', 'fullName'],
                 include: [
                     {
-                        model: UserImage,
+                        model: user_image,
                         where: {type: 'avatar'},
                         attributes: ['name', 'thumbnail'],
                     }
@@ -121,7 +121,7 @@ const getImages = async (index) => {
  * @returns boolean
  */
 const createImage = async ({type, name, userId, original, thumbnail}) => {
-    const image = await PostImage.create({
+    const image = await post_image.create({
         type,
         name,
         userId,
@@ -149,7 +149,7 @@ const createImage = async ({type, name, userId, original, thumbnail}) => {
  * @returns boolean
  */
 const updateImage = async (value, index) => {
-    const user = await PostImage.update(value, {
+    const user = await post_image.update(value, {
         where: index
     })
     .then( u => {
@@ -170,7 +170,7 @@ const updateImage = async (value, index) => {
 */
 const countImages = async index => {
     try {
-        const images = await PostImage.count({
+        const images = await post_image.count({
             where: index
         })
         return images

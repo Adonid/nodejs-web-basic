@@ -1,9 +1,9 @@
 const {
-    CommentsPost, 
-    ReplysComment, 
-    FavouritesComment, 
-    FavouritesReplyComment, 
-    User, UserImage
+    comments_post, 
+    replys_comment, 
+    favourites_comment, 
+    favourites_reply_comment, 
+    user, user_image
 } = require('../../models')
 
 /** LAY 1 COMMENT POST
@@ -13,7 +13,7 @@ const {
  * @return {*}
 */
 const getComment = async index => {
-    const comment = await CommentsPost.findOne({
+    const comment = await comments_post.findOne({
         attributes: ['id', 'marker'],
         where: index
     })
@@ -35,39 +35,39 @@ const getComment = async index => {
  * @return {*}
 */
 const getCommentsPost = async index => {
-    const comments = await CommentsPost.findAll({
+    const comments = await comments_post.findAll({
         attributes: ['id', 'comment', 'updatedAt'],
         include: [
             {
-                model: User,
+                model: user,
                 attributes: ['id', 'name', 'fullName'],
                 include: [
                     {
-                        model: UserImage,
+                        model: user_image,
                         attributes: ['type', 'name', 'thumbnail']
                     }
                 ]
             },
             {
-                model: ReplysComment,
+                model: replys_comment,
                 attributes: ['id', 'reply', 'updatedAt'],
                 include: [
                     {
-                        model: User,
+                        model: user,
                         attributes: ['name', 'fullName'],
                         include: [
                             {
-                                model: UserImage,
+                                model: user_image,
                                 attributes: ['type', 'name', 'thumbnail']
                             }
                         ]
                     },
                     {
-                        model: FavouritesReplyComment,
+                        model: favourites_reply_comment,
                         attributes: ['userId', 'level'],
                         include: [
                             {
-                                model: User,
+                                model: user,
                                 attributes: ['name', 'fullName']
                             }
                         ]
@@ -75,11 +75,11 @@ const getCommentsPost = async index => {
                 ]
             },
             {
-                model: FavouritesComment,
+                model: favourites_comment,
                 attributes: ['userId', 'level'],
                 include: [
                     {
-                        model: User,
+                        model: user,
                         attributes: ['name', 'fullName']
                     }
                 ]
@@ -105,7 +105,7 @@ const getCommentsPost = async index => {
  * @return {*}
 */
 const addNewComment = async payload => {
-    const commentId = await CommentsPost.create(payload)
+    const commentId = await comments_post.create(payload)
     .then(comment => {
         // console.log(comment)
         return comment ? comment.dataValues.id : false
@@ -125,7 +125,7 @@ const addNewComment = async payload => {
 */
 const removeComment = async index => {
     try {
-        await CommentsPost.destroy({
+        await comments_post.destroy({
             where: index
           })
         return true
@@ -143,7 +143,7 @@ const removeComment = async index => {
 */
 const getOneLikeComment = async obj => {
     try {
-        const data = await FavouritesComment.findOne({
+        const data = await favourites_comment.findOne({
             attributes: ['id', 'commentId', 'userId', 'level'],
             where: obj
         })
@@ -163,7 +163,7 @@ const getOneLikeComment = async obj => {
 */
 const likeComment = async payload => {
     try {
-        await FavouritesComment.create(payload)
+        await favourites_comment.create(payload)
         return true
     } catch (error) {
         console.log(error)
@@ -179,7 +179,7 @@ const likeComment = async payload => {
 */
 const updateLikeComment = async (value, index) => {
     try {
-        await FavouritesComment.update(value, {
+        await favourites_comment.update(value, {
             where: index
         })
         return true
@@ -198,7 +198,7 @@ const updateLikeComment = async (value, index) => {
  * @return {*}
 */
 const addNewReply = async payload => {
-    const commentId = await ReplysComment.create(payload)
+    const commentId = await replys_comment.create(payload)
     .then(comment => {
         // console.log(comment)
         return comment ? comment.dataValues.id : false
@@ -218,7 +218,7 @@ const addNewReply = async payload => {
 */
 const removeReply = async index => {
     try {
-        await ReplysComment.destroy({
+        await replys_comment.destroy({
             where: index
           })
         return true
@@ -236,7 +236,7 @@ const removeReply = async index => {
 */
 const getOneLikeReply = async obj => {
     try {
-        const data = await FavouritesReplyComment.findOne({
+        const data = await favourites_reply_comment.findOne({
             attributes: ['id', 'replyCommentId', 'userId', 'level'],
             where: obj
         })
@@ -256,7 +256,7 @@ const getOneLikeReply = async obj => {
 */
 const likeReply = async payload => {
     try {
-        await FavouritesReplyComment.create(payload)
+        await favourites_reply_comment.create(payload)
         return true
     } catch (error) {
         console.log(error)
@@ -272,7 +272,7 @@ const likeReply = async payload => {
 */
 const updateLikeReply = async (value, index) => {
     try {
-        await FavouritesReplyComment.update(value, {
+        await favourites_reply_comment.update(value, {
             where: index
         })
         return true
@@ -290,7 +290,7 @@ const updateLikeReply = async (value, index) => {
 */
 const updateComment = async (value, index) => {
     try {
-        await CommentsPost.update(value, {
+        await comments_post.update(value, {
             where: index
         })
         return true

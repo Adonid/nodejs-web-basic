@@ -1,4 +1,4 @@
-const {CompanyDescription} = require('../../models')
+const {company_description} = require('../../models')
 
 /** LAY DANH SACH TAT CA CAC MO TA TRANG
  * 
@@ -8,7 +8,7 @@ const {CompanyDescription} = require('../../models')
 */
 const getCompanysDescription = async () => {
     try {
-        const description = await CompanyDescription.findAll({
+        const description = await company_description.findAll({
             attributes: ['id', 'name', 'color', 'icon', 'description']
         })
         // console.log(description)
@@ -27,7 +27,7 @@ const getCompanysDescription = async () => {
 */
 const getCompanyDescription = async obj => {
     try {
-        const data = await CompanyDescription.findOne({
+        const data = await company_description.findOne({
             attributes: ['id', 'name','color'],
             where: obj
         })
@@ -47,7 +47,7 @@ const getCompanyDescription = async obj => {
  * @returns boolean
  */
  const createCompanyDescription = async (payload) => {
-    const description = await CompanyDescription.create(payload)
+    const description = await company_description.create(payload)
     .then(description => {
         return description?true:false
     })
@@ -64,7 +64,7 @@ const getCompanyDescription = async obj => {
  * @return {array | false}
  */
  const updateCompanyDescription = async (value, index) => {
-    const description = await CompanyDescription.update(value, {
+    const description = await company_description.update(value, {
         where: index    
     })
     .then( data => {
@@ -84,7 +84,7 @@ const getCompanyDescription = async obj => {
  * @return {array | false}
  */
  const deleteCompanyDescription = async (id) => {
-    const resuft = await CompanyDescription.destroy({
+    const resuft = await company_description.destroy({
         where: {id}
     })
     .catch(err => {

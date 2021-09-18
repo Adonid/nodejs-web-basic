@@ -1,4 +1,4 @@
-const {Province, District, Commune} = require('../../models')
+const {province, district, commune} = require('../../models')
 const { Op } = require("sequelize")
 
 /** LAY DANH SACH CAC TINH/THANH PHO
@@ -10,7 +10,7 @@ const { Op } = require("sequelize")
 */
 const getProvinces = async () => {
     try {
-        const provinces = await Province.findAll({
+        const provinces = await province.findAll({
             attributes: ['id', 'name']
         })
         return provinces
@@ -29,7 +29,7 @@ const getProvinces = async () => {
 */
 const getDistricts = async (provinceId) => {
     try {
-        const data = await District.findAll({
+        const data = await district.findAll({
             attributes: ['id', 'name'],
             where: {
                 provinceId: {
@@ -53,7 +53,7 @@ const getDistricts = async (provinceId) => {
 */
 const getCommunes = async (districtId) => {
     try {
-        const data = await Commune.findAll({
+        const data = await commune.findAll({
             attributes: ['id', 'name'],
             where: {
                 districtId: {

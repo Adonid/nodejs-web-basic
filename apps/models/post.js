@@ -1,4 +1,4 @@
-const {Post, User, UserImage, Category, PostsContent, CommentsPost, ReplysComment, FavouritesPost, FavouritesComment, FavouritesReplyComment, PostImage, Tag, PostTags} = require('../../models')
+const {post, user, user_image, category, posts_content, comments_post, replys_comment, favourites_post, favourites_comment, favourites_reply_comment, post_image, tag, post_tags} = require('../../models')
 const { Op } = require("sequelize")
 
 /** LAY 1 BAI VIET THEO DIEU KIEN - KIEM TRA SU TON TAI CUA POST
@@ -9,7 +9,7 @@ const { Op } = require("sequelize")
 */
 const getOnePost = async obj => {
     try {
-        const data = await Post.findOne({
+        const data = await post.findOne({
             attributes: ['id', 'title', 'marker'],
             where: obj
         })
@@ -28,7 +28,7 @@ const getOnePost = async obj => {
 */
 const getContentPost = async obj => {
     try {
-        const data = await PostsContent.findOne({
+        const data = await posts_content.findOne({
             attributes: ['id', 'marker'],
             where: obj
         })
@@ -54,35 +54,35 @@ const getPosts = async (search="", index={}, offset=0, limit=12) => {
             attributes: ['id', 'title', 'desc', 'readTime', 'active', 'updatedAt'],
             include: [
                 {
-                    model: User,
+                    model: user,
                     attributes: ['id', 'name', 'fullName'],
                     include: [
                         {
-                            model: UserImage,
+                            model: user_image,
                             attributes: ['type', 'name', 'thumbnail']
                         }
                     ]
                 },
                 {
-                    model: Category,
+                    model: category,
                     attributes: ['id', 'name', 'color']
                 },
                 {
-                    model: CommentsPost,
+                    model: comments_post,
                     attributes: ['userId'],
                 },
                 {
-                    model: FavouritesPost,
+                    model: favourites_post,
                     attributes: ['userId'],
                     include: [
                         {
-                            model: User,
+                            model: user,
                             attributes: ['name', 'fullName']
                         }
                     ]
                 },
                 {
-                    model: PostImage,
+                    model: post_image,
                     attributes: ['name', 'original', 'thumbnail']
                 }
             ],
@@ -117,35 +117,35 @@ const getPostsAuthor = async (index={}, offset=0, limit=12) => {
             attributes: ['id', 'title', 'desc', 'readTime', 'active', 'updatedAt'],
             include: [
                 {
-                    model: User,
+                    model: user,
                     attributes: ['id', 'name', 'fullName'],
                     include: [
                         {
-                            model: UserImage,
+                            model: user_image,
                             attributes: ['type', 'name', 'thumbnail']
                         }
                     ]
                 },
                 {
-                    model: Category,
+                    model: category,
                     attributes: ['id', 'name', 'color']
                 },
                 {
-                    model: CommentsPost,
+                    model: comments_post,
                     attributes: ['userId'],
                 },
                 {
-                    model: FavouritesPost,
+                    model: favourites_post,
                     attributes: ['userId'],
                     include: [
                         {
-                            model: User,
+                            model: user,
                             attributes: ['name', 'fullName']
                         }
                     ]
                 },
                 {
-                    model: PostImage,
+                    model: post_image,
                     attributes: ['name', 'original', 'thumbnail']
                 }
             ],
@@ -173,39 +173,39 @@ const getPostsAuthor = async (index={}, offset=0, limit=12) => {
 */
 const getPostsDraftAuthor = async (index) => {
     try {
-        const data = await Post.findAll({
+        const data = await post.findAll({
             attributes: ['id', 'title', 'desc', 'readTime', 'active', 'updatedAt'],
             include: [
                 {
-                    model: User,
+                    model: user,
                     attributes: ['id', 'name', 'fullName'],
                     include: [
                         {
-                            model: UserImage,
+                            model: user_image,
                             attributes: ['type', 'name', 'thumbnail']
                         }
                     ]
                 },
                 {
-                    model: Category,
+                    model: category,
                     attributes: ['id', 'name', 'color']
                 },
                 {
-                    model: CommentsPost,
+                    model: comments_post,
                     attributes: ['userId'],
                 },
                 {
-                    model: FavouritesPost,
+                    model: favourites_post,
                     attributes: ['userId'],
                     include: [
                         {
-                            model: User,
+                            model: user,
                             attributes: ['name', 'fullName']
                         }
                     ]
                 },
                 {
-                    model: PostImage,
+                    model: post_image,
                     attributes: ['name', 'original', 'thumbnail']
                 }
             ],
@@ -234,61 +234,61 @@ const getDetailedPost = async obj => {
             attributes: ['id', 'title', 'desc', 'readTime', 'active', 'updatedAt'],
             include: [
                 {
-                    model: User,
+                    model: user,
                     attributes: ['name', 'fullName'],
                     include: [
                         {
-                            model: UserImage,
+                            model: user_image,
                             attributes: ['type', 'name', 'thumbnail']
                         }
                     ]
                 },
                 {
-                    model: Category,
+                    model: category,
                     attributes: ['name', 'imageId', 'color']
                 },
                 {
-                    model: Tag,
+                    model: tag,
                     attributes: ['name', 'color']
                 },
                 {
-                    model: PostsContent,
+                    model: posts_content,
                     attributes: ['content']
                 },
                 {
-                    model: PostImage,
+                    model: post_image,
                     attributes: ['type', 'name', 'original']
                 },
                 {
-                    model: CommentsPost,
+                    model: comments_post,
                     attributes: ['id', 'comment', 'updatedAt'],
                     include: [
                         {
-                            model: User,
+                            model: user,
                             attributes: ['id', 'name', 'fullName'],
                             include: [
                                 {
-                                    model: UserImage,
+                                    model: user_image,
                                     attributes: ['type', 'name', 'thumbnail']
                                 }
                             ]
                         },
                         {
-                            model: ReplysComment,
+                            model: replys_comment,
                             attributes: ['id', 'reply', 'updatedAt'],
                             include: [
                                 {
-                                    model: User,
+                                    model: user,
                                     attributes: ['name', 'fullName'],
                                     include: [
                                         {
-                                            model: UserImage,
+                                            model: user_image,
                                             attributes: ['type', 'name', 'thumbnail']
                                         }
                                     ]
                                 },
                                 {
-                                    model: FavouritesReplyComment,
+                                    model: favourites_reply_comment,
                                     attributes: ['userId', 'level'],
                                     include: [
                                         {
@@ -300,7 +300,7 @@ const getDetailedPost = async obj => {
                             ]
                         },
                         {
-                            model: FavouritesComment,
+                            model: favourites_comment,
                             attributes: ['userId', 'level'],
                             include: [
                                 {
@@ -312,11 +312,11 @@ const getDetailedPost = async obj => {
                     ]
                 },
                 {
-                    model: FavouritesPost,
+                    model: favourites_post,
                     attributes: ['id', 'level'],
                     include: [
                         {
-                            model: User,
+                            model: user,
                             attributes: ['name', 'fullName']
                         }
                     ]
@@ -344,29 +344,29 @@ const getEditPost = async obj => {
             attributes: ['id', 'title', 'desc', 'readTime', 'active'],
             include: [
                 {
-                    model: User,
+                    model: user,
                     attributes: ['name', 'fullName'],
                     include: [
                         {
-                            model: UserImage,
+                            model: user_image,
                             attributes: ['type', 'name', 'thumbnail']
                         }
                     ]
                 },
                 {
-                    model: Category,
+                    model: category,
                     attributes: ['id', 'name', 'imageId', 'color']
                 },
                 {
-                    model: Tag,
+                    model: tag,
                     attributes: ['id', 'name', 'color']
                 },
                 {
-                    model: PostsContent,
+                    model: posts_content,
                     attributes: ['id', 'content']
                 },
                 {
-                    model: PostImage,
+                    model: post_image,
                     attributes: ['id', 'type', 'name', 'original']
                 },
             ],
@@ -389,7 +389,7 @@ const getEditPost = async obj => {
  * @return {true | false}
  */
 const createNewPost = async dataPost => {
-    const postId = await Post.create(dataPost)
+    const postId = await post.create(dataPost)
     .then(post => {
         // console.log(post)
         return post ? post.dataValues.id : false
@@ -408,7 +408,7 @@ const createNewPost = async dataPost => {
  * @return {array || false}
  */
  const updatePost = async (value, index) => {
-    const post = await Post.update(value, {
+    const post = await post.update(value, {
         where: index
     })
     .then( data => {
@@ -429,7 +429,7 @@ const createNewPost = async dataPost => {
  * @return {id}
  */
  const createNewContent = async dataContent => {
-    const content = await PostsContent.create(dataContent)
+    const content = await posts_content.create(dataContent)
     .then(content => {
         return content ? content.dataValues.id : false
     })
@@ -447,7 +447,7 @@ const createNewPost = async dataPost => {
  * @return {true | false}
  */
  const updateContent = async (value, index) => {
-    const content = await PostsContent.update(value, {
+    const content = await posts_content.update(value, {
         where: index
     })
     .then( data => {
@@ -471,13 +471,13 @@ const createNewPost = async dataPost => {
  */
  const addTags = async (tagsId, index) => {
      // Xoa toan bo the tag da gan cua bai viet nay truoc
-    await PostTags.destroy({
+    await post_tags.destroy({
         where: {
             postId: index.id
         }
     })
     // Lay doi tuong tags
-    const tags = await Tag.findAll({
+    const tags = await tag.findAll({
         attributes: ['id', 'name'],
         where: {
             id: {
@@ -494,9 +494,9 @@ const createNewPost = async dataPost => {
     })
     // Neu tags ton tai thi cho luu
     if(tags){
-        return await Post.findOne({
+        return await post.findOne({
             attributes: ['id', 'title'],
-            include: [{model: Tag}],
+            include: [{model: tag}],
             where: index
         })
         .then( post => {
@@ -521,7 +521,7 @@ const createNewPost = async dataPost => {
  * @return {array || false}
  */
  const updatePreviewPost = async (value, index) => {
-    const post = await Post.update(value, {
+    const post = await post.update(value, {
         where: index
     })
     .then( data => {
@@ -545,7 +545,7 @@ const createNewPost = async dataPost => {
 */
 const isPostDuplicate = async (id, title) => {
     try {
-        const data = await Post.findAll({
+        const data = await post.findAll({
             attributes: ['id', 'title'],
             where: {
                 id: {
@@ -572,7 +572,7 @@ const isPostDuplicate = async (id, title) => {
 */
 const countPosts = async index => {
     try {
-        const posts = await Post.count({
+        const posts = await post.count({
             where: {...index, draft: false}
         })
         return posts

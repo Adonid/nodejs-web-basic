@@ -1,4 +1,4 @@
-const {DistributedData} = require('../../models')
+const {distributed_data} = require('../../models')
 
 /** LAY DANH SACH TAT CA CAC DU LIEU PHAN TAN
  * 
@@ -8,7 +8,7 @@ const {DistributedData} = require('../../models')
 */
 const getDistributedDatas = async () => {
     try {
-        const data = await DistributedData.findAll({
+        const data = await distributed_data.findAll({
             attributes: ['id', 'type', 'content']
         })
         // console.log(data)
@@ -27,7 +27,7 @@ const getDistributedDatas = async () => {
 */
 const getDistributedData = async obj => {
     try {
-        const data = await DistributedData.findOne({
+        const data = await distributed_data.findOne({
             attributes: ['id', 'type','content'],
             where: obj
         })
@@ -47,7 +47,7 @@ const getDistributedData = async obj => {
  * @returns boolean
  */
  const createDistributedData = async (payload) => {
-    const obj = await DistributedData.create(payload)
+    const obj = await distributed_data.create(payload)
     .then(obj => {
         return obj?true:false
     })
@@ -64,7 +64,7 @@ const getDistributedData = async obj => {
  * @return {array | false}
  */
  const updateDistributedData = async (value, index) => {
-    const data = await DistributedData.update(value, {
+    const data = await distributed_data.update(value, {
         where: index    
     })
     .then( data => {
@@ -84,7 +84,7 @@ const getDistributedData = async obj => {
  * @return {array | false}
  */
  const deleteDistributedData = async (id) => {
-    const resuft = await DistributedData.destroy({
+    const resuft = await distributed_data.destroy({
         where: {id}
     })
     .catch(err => {

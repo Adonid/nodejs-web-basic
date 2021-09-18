@@ -1,4 +1,4 @@
-const {Category, Post,  Tag} = require('../../models')
+const {category, post,  tag} = require('../../models')
 const { Op } = require("sequelize");
 
 /** LAY DANH SACH TAT CA CAC THE TAG
@@ -9,11 +9,11 @@ const { Op } = require("sequelize");
 */
 const getTags = async () => {
     try {
-        const tags = await Tag.findAll({
+        const tags = await tag.findAll({
             attributes: ['id', 'name', 'color'],
             include: [
                 {
-                    model: Post,
+                    model: post,
                     attributes: ['id', 'active']
                 }
             ]
@@ -34,11 +34,11 @@ const getTags = async () => {
 */
 const getTag = async obj => {
     try {
-        const data = await Category.findOne({
+        const data = await category.findOne({
             attributes: ['id', 'name','color'],
             include: [
                 {
-                    model: Post,
+                    model: post,
                     attributes: ['id', 'active']
                 },
             ],
@@ -60,7 +60,7 @@ const getTag = async obj => {
  * @returns boolean
  */
  const createTag = async (payload) => {
-    const cat = await Tag.create(payload)
+    const cat = await tag.create(payload)
     .then(cat => {
         return cat?true:false
     })
@@ -77,7 +77,7 @@ const getTag = async obj => {
  * @return {array | false}
  */
  const updateTag = async (value, index) => {
-    const cat = await Tag.update(value, {
+    const cat = await tag.update(value, {
         where: index    
     })
     .then( data => {
@@ -97,7 +97,7 @@ const getTag = async obj => {
  * @return {array | false}
  */
  const deleteTag = async (id) => {
-    const resuft = await Tag.destroy({
+    const resuft = await tag.destroy({
         where: {
             id: {
                 [Op.eq]: id,
@@ -122,7 +122,7 @@ const getTag = async obj => {
 */
 const isTagDuplicate = async (id, name) => {
     try {
-        const data = await Tag.findAll({
+        const data = await tag.findAll({
             attributes: ['id', 'name'],
             where: {
                 id: {
@@ -149,7 +149,7 @@ const isTagDuplicate = async (id, name) => {
 */
 const countTags = async index => {
     try {
-        const tags = await Tag.count()
+        const tags = await tag.count()
         return tags
     } catch (error) {
         console.log(error)
