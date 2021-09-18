@@ -3,29 +3,29 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
+  class user extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      User.belongsTo(models.Role, {foreignKey: 'roleId'})
-      User.belongsTo(models.Province, {foreignKey: 'provinceId'})
-      User.belongsTo(models.District, {foreignKey: 'districtId'})
-      User.belongsTo(models.Commune, {foreignKey: 'communeId'})
+      user.belongsTo(models.role, {foreignKey: 'roleId'})
+      user.belongsTo(models.province, {foreignKey: 'provinceId'})
+      user.belongsTo(models.district, {foreignKey: 'districtId'})
+      user.belongsTo(models.commune, {foreignKey: 'communeId'})
 
-      User.hasMany(models.Post, {foreignKey: 'authorId'})
-      User.hasMany(models.FavouritesPost, {foreignKey: 'userId'})
-      User.hasMany(models.CommentsPost, {foreignKey: 'userId'})
-      User.hasMany(models.FavouritesComment, {foreignKey: 'userId'})
-      User.hasMany(models.ReplysComment, {foreignKey: 'userId'})
-      User.hasMany(models.FavouritesReplyComment, {foreignKey: 'userId'})
-      User.hasMany(models.UserImage, {foreignKey: 'userId'})
-      User.hasMany(models.PostImage, {foreignKey: 'userId'})
+      user.hasMany(models.post, {foreignKey: 'authorId'})
+      user.hasMany(models.favourites_post, {foreignKey: 'userId'})
+      user.hasMany(models.comments_post, {foreignKey: 'userId'})
+      user.hasMany(models.favourites_comment, {foreignKey: 'userId'})
+      user.hasMany(models.replys_comment, {foreignKey: 'userId'})
+      user.hasMany(models.favourites_reply_comment, {foreignKey: 'userId'})
+      user.hasMany(models.user_image, {foreignKey: 'userId'})
+      user.hasMany(models.post_image, {foreignKey: 'userId'})
     }
   };
-  User.init({
+  user.init({
     email: {
       type: DataTypes.STRING,
       allowNull: false
@@ -56,7 +56,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       references:{
-        model: 'Role',
+        model: 'role',
         key: 'id',
       }
     },
@@ -70,7 +70,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
-    modelName: 'User',
+    modelName: 'user',
   });
-  return User;
+  return user;
 };

@@ -3,24 +3,24 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Commune extends Model {
+  class commune extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Commune.belongsTo(models.District, {foreignKey: 'districtId'})
-      Commune.hasMany(models.User, {foreignKey: 'communeId'})
+      commune.belongsTo(models.district, {foreignKey: 'districtId'})
+      commune.hasMany(models.user, {foreignKey: 'communeId'})
     }
   };
-  Commune.init({
+  commune.init({
     name: DataTypes.STRING,
     type: DataTypes.STRING,
   }, {
     sequelize,
-    modelName: 'Commune',
+    modelName: 'commune',
     timestamps: false
   });
-  return Commune;
+  return commune;
 };

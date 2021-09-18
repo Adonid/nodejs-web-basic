@@ -3,26 +3,26 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class ReplysComment extends Model {
+  class replys_comment extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      ReplysComment.belongsTo(models.CommentsPost, {foreignKey: 'commentId'})
-      ReplysComment.belongsTo(models.User, {foreignKey: 'userId'})
+      replys_comment.belongsTo(models.comments_post, {foreignKey: 'commentId'})
+      replys_comment.belongsTo(models.user, {foreignKey: 'userId'})
 
-      ReplysComment.hasMany(models.FavouritesReplyComment, {foreignKey: 'replyCommentId'})
+      replys_comment.hasMany(models.favourites_reply_comment, {foreignKey: 'replyCommentId'})
     }
   };
-  ReplysComment.init({
+  replys_comment.init({
     commentId: DataTypes.INTEGER,
     userId: DataTypes.INTEGER,
     reply: DataTypes.TEXT,
   }, {
     sequelize,
-    modelName: 'ReplysComment',
+    modelName: 'replys_comment',
   });
-  return ReplysComment;
+  return replys_comment;
 };

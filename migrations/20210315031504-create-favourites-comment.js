@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('favouritesComments', {
+    await queryInterface.createTable('favourites_comments', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -13,7 +13,7 @@ module.exports = {
         onDelete: "CASCADE",
         type: Sequelize.INTEGER,
         references: {
-          model: 'commentsposts',
+          model: 'comments_posts',
           key: 'id',
         }
       },
@@ -35,6 +35,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('favouritesComments');
+    await queryInterface.dropTable('favourites_comments');
   }
 };

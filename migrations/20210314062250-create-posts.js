@@ -12,13 +12,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
-<<<<<<< HEAD
-      image: {
-        allowNull: false,
-        type: Sequelize.JSON
-      },
-=======
->>>>>>> admin
       desc: {
         allowNull: false,
         type: Sequelize.TEXT
@@ -47,7 +40,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: 'postImages',
+          model: 'post_images',
           key: 'id',
         }
       },

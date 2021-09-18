@@ -3,19 +3,19 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class PostImage extends Model {
+  class post_image extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      PostImage.belongsTo(models.User, {foreignKey: 'userId'})
+      post_image.belongsTo(models.user, {foreignKey: 'userId'})
 
-      PostImage.hasMany(models.Post, {foreignKey: 'imageId'})
+      post_image.hasMany(models.post, {foreignKey: 'imageId'})
     }
   };
-  PostImage.init({
+  post_image.init({
     type: {
       type: DataTypes.STRING,
       allowNull: false
@@ -36,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       references:{
-        model: 'User',
+        model: 'user',
         key: 'id',
       }
     },
@@ -50,7 +50,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
-    modelName: 'PostImage',
+    modelName: 'post_image',
   });
-  return PostImage;
+  return post_image;
 };

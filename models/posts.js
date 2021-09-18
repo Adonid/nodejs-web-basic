@@ -3,28 +3,28 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Post extends Model {
+  class post extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Post.belongsTo(models.Category, {foreignKey: 'categoryId'})
-      Post.belongsTo(models.User, {foreignKey: 'authorId'})
-      Post.belongsTo(models.PostImage, {foreignKey: 'imageId'})
+      post.belongsTo(models.category, {foreignKey: 'categoryId'})
+      post.belongsTo(models.user, {foreignKey: 'authorId'})
+      post.belongsTo(models.post_image, {foreignKey: 'imageId'})
 
-      Post.hasMany(models.PostsContent, {foreignKey: 'postId'})
-      Post.hasMany(models.FavouritesPost, {foreignKey: 'postId'})
-      Post.hasMany(models.CommentsPost, {foreignKey: 'postId'})
+      post.hasMany(models.posts_content, {foreignKey: 'postId'})
+      post.hasMany(models.favourites_post, {foreignKey: 'postId'})
+      post.hasMany(models.comments_post, {foreignKey: 'postId'})
 
-      Post.belongsToMany(models.Tag, {
-        through: "PostTags",
+      post.belongsToMany(models.tag, {
+        through: "post_tags",
         foreignKey: 'postId'
       })
     }
   };
-  Post.init({
+  post.init({
     title: DataTypes.STRING,
     desc: DataTypes.TEXT,
     readTime: DataTypes.TEXT,
@@ -38,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
     marker: DataTypes.BOOLEAN,
   }, {
     sequelize,
-    modelName: 'Post',
+    modelName: 'post',
   });
-  return Post;
+  return post;
 };
