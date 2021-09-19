@@ -1,7 +1,7 @@
 {
   "server": {
     "host": "localhost",
-    "port": 3001
+    "port": 3000
   },
   "mysql":{
       "host":"localhost",
@@ -25,9 +25,9 @@
     "dialect": "mysql"
   },
   "production": {
-    "username": "hieuld",
-    "password": "ldhSQL@321",
-    "database": "blog-sungold",
+    "username": "root",
+    "password": "LHDatabase@92",
+    "database": "blog_data",
     "host": "localhost",
     "dialect": "mysql"
   },
