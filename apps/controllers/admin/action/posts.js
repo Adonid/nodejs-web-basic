@@ -236,6 +236,7 @@ router.post('/active', async (req, res) => {
         const message = notices._201(active?"Duyệt bài":"Dừng bài viết")
         return res.status(message.code).json(message)
     } catch (error) {
+        console.log(error)
         return res.status(notices._500.code).json(notices._500)  
     }
 })

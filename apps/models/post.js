@@ -412,7 +412,7 @@ const createNewPost = async dataPost => {
         where: index
     })
     .then( data => {
-        // console.log(data)
+        console.log(data)
         return data||false
     })
     .catch(err => {
