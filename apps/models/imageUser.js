@@ -66,7 +66,7 @@ const createImage = async ({type, name, userId, original, thumbnail}) => {
  * @returns boolean
  */
 const updateImage = async (value, index) => {
-    const user = await user_image.update(value, {
+    const userData = await user_image.update(value, {
         where: index
     })
     .then( u => {
@@ -76,7 +76,7 @@ const updateImage = async (value, index) => {
         // console.log(err)
         return false
     })
-    return user
+    return userData
 }
 
 module.exports={
