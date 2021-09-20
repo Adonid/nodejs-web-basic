@@ -60,7 +60,7 @@ const getTag = async obj => {
  * @returns boolean
  */
  const createTag = async (payload) => {
-    const cat = await tag.create(payload)
+    const data = await tag.create(payload)
     .then(cat => {
         return cat?true:false
     })
@@ -68,7 +68,7 @@ const getTag = async obj => {
         console.log(err)
         return false
     })
-    return cat
+    return data
 }
 
 /** CAP NHAT FIELD(s) TRONG BANG TAG
@@ -77,7 +77,7 @@ const getTag = async obj => {
  * @return {array | false}
  */
  const updateTag = async (value, index) => {
-    const cat = await tag.update(value, {
+    const data = await tag.update(value, {
         where: index    
     })
     .then( data => {
@@ -88,7 +88,7 @@ const getTag = async obj => {
         console.log(err)
         return false
     })
-    return cat
+    return data
 }
 
 /** XOA 1 TAG NGOAI TRU CAT DAU TIEN - MAC DINH
