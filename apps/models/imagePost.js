@@ -132,7 +132,7 @@ const createImage = async ({type, name, userId, original, thumbnail}) => {
         return img?img.dataValues.id:false
     })
     .catch(err => {
-        // console.log(err)
+        console.log(err)
         return false
     })
     return image
@@ -149,17 +149,17 @@ const createImage = async ({type, name, userId, original, thumbnail}) => {
  * @returns boolean
  */
 const updateImage = async (value, index) => {
-    const user = await post_image.update(value, {
+    const userData = await post_image.update(value, {
         where: index
     })
     .then( u => {
         return u?true:false
     })
     .catch(err => {
-        // console.log(err)
+        console.log(err)
         return false
     })
-    return user
+    return userData
 }
 
 /** DEM ANH UPLOAD CUA TAC GIA
