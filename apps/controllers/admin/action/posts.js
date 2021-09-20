@@ -169,7 +169,7 @@ router.post('/update-content', async (req, res) => {
     const {contentId, content} = req.body
     // TAO NOI DUNG
     let contentPost = false
-    contentPost = await Post.updateContent({...content, marker: true}, {id: contentId})
+    contentPost = await Post.updateContent({content, marker: true}, {id: contentId})
     if(contentPost){
         const message = notices._203("Nội dung bài viết", {contentPost})
         return res.status(message.code).json(message)
