@@ -9,7 +9,7 @@ const config = require('../../config/config.json')
  * @return boolean
 */
 const existsUser = async index => {
-    const user = await user.findOne({
+    const userData = await user.findOne({
             attributes: ['id'],
             where: index
         })
@@ -22,7 +22,7 @@ const existsUser = async index => {
             return false
         })
 
-    return user
+    return userData
 }
 
 /** LAY THONG TIN CO BAN CUA USER KHI DOI CHIEU THONG TIN DANG NHAP
@@ -95,7 +95,7 @@ const getUser = obj => {
  * @returns boolean
  */
 const createAdmin = async (name, email, password) => {
-    const user = await user.create({
+    const userData = await user.create({
         name    : name,
         email   : email,
         password: password,
@@ -108,7 +108,7 @@ const createAdmin = async (name, email, password) => {
     .catch(err => {
         return false
     })
-    return user
+    return userData
 }
 
 /** LUU TAI KHOAN EDITOR DANG KY
@@ -120,7 +120,7 @@ const createAdmin = async (name, email, password) => {
  * @returns boolean
  */
 const createEditor = async (name, email, password) => {
-    const user = await user.create({
+    const userData = await user.create({
         name    : name,
         email   : email,
         password: password,
@@ -134,7 +134,7 @@ const createEditor = async (name, email, password) => {
         // console.log(err)
         return false
     })
-    return user
+    return userData
 }
 
 /** LUU TAI KHOAN USER DANG KY BANG MANG SOCIALs
@@ -182,7 +182,7 @@ const createUser = async ({provider, name, email, profile_picture, meta}) => {
  * @returns code
  */
 const updateUser = async (value, index, indexPrimary=false) => {
-    const user = await user.update(value, {
+    const userData = await user.update(value, {
         where: index    
     })
     .then( data => {
@@ -193,7 +193,7 @@ const updateUser = async (value, index, indexPrimary=false) => {
         console.log(err)
         return false
     })
-    return user
+    return userData
 }
 
 /** ADMINISTRATORs
@@ -266,7 +266,7 @@ const getUserDetail = async (email, roleId) => {
     // Khong lay admin
     if(roleId===1)
         return false
-    const user = await user.findOne({
+    const userData = await user.findOne({
         attributes: ['id', 'name', 'email', 'active', 'fullName', 'phoneNumber', 'createdAt' ],
         where: {email, roleId},
         include: [
@@ -299,7 +299,7 @@ const getUserDetail = async (email, roleId) => {
         // console.log(err)
         return false
     })
-    return user
+    return userData
 }
 
 /** LAY TAT CA TAC GIA
