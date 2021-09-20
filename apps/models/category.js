@@ -87,8 +87,8 @@ const getCategory = async obj => {
  */
  const createCategory = async (payload) => {
     const cat = await category.create(payload)
-    .then(cat => {
-        return cat?true:false
+    .then(data => {
+        return data?true:false
     })
     .catch(err => {
         console.log(err)
