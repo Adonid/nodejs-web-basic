@@ -408,7 +408,7 @@ const createNewPost = async dataPost => {
  * @return {array || false}
  */
  const updatePost = async (value, index) => {
-    const post = await post.update(value, {
+    const postData = await post.update(value, {
         where: index
     })
     .then( data => {
@@ -419,7 +419,7 @@ const createNewPost = async dataPost => {
         console.log(err)
         return false
     })
-    return post
+    return postData
 }
 
 /** CREATE CONTENT TO POST
@@ -485,8 +485,8 @@ const createNewPost = async dataPost => {
             }
         }
     })
-    .then( tag => {
-        return tag||false
+    .then( tagData => {
+        return tagData||false
     })
     .catch(err => {
         console.log(err)
@@ -521,7 +521,7 @@ const createNewPost = async dataPost => {
  * @return {array || false}
  */
  const updatePreviewPost = async (value, index) => {
-    const post = await post.update(value, {
+    const postData = await post.update(value, {
         where: index
     })
     .then( data => {
@@ -532,7 +532,7 @@ const createNewPost = async dataPost => {
         // console.log(err)
         return false
     })
-    return post
+    return postData
 }
 
 /** POST IS DUPLICATE (title)?
