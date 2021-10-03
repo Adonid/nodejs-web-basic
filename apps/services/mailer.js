@@ -24,11 +24,11 @@ const sendMail = async (to, subject, htmlContent) => {
     // hàm transporter.sendMail() này sẽ trả về cho chúng ta một Promise
     const resuft = await transporter.sendMail(options)
                                     .then(send => {
-                                        // console.log(send)
+                                        console.log(send)
                                         return true
                                     })
                                     .catch(err => {
-                                        // console.log(err)
+                                        console.log(err)
                                         return false
                                     })
     return resuft

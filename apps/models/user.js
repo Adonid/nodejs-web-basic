@@ -35,7 +35,7 @@ const getUserBasic = obj => {
     return new Promise( async (resolve, reject) => {
         const data = await user.findOne({
             where: obj,
-            attributes:  ['id', 'name', 'email', 'password', 'codeReset', 'active', 'roleId', 'updatedAt']
+            attributes:  ['id', 'name', 'fullName', 'email', 'password', 'codeReset', 'active', 'roleId', 'updatedAt']
         })
         if(data)
             resolve(data.dataValues)
@@ -181,7 +181,7 @@ const createUser = async ({provider, name, email, profile_picture, meta}) => {
  * indexPrimary: nameField - dung khi cap nhat luon ca truong index
  * @returns code
  */
-const updateUser = async (value, index, indexPrimary=false) => {
+const updateUser = async (value, index) => {
     const userData = await user.update(value, {
         where: index    
     })

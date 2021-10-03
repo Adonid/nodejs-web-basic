@@ -39,7 +39,7 @@
   "underscoreId": "id",
   "mailler": {
     "user": "noreply.hieule@gmail.com",
-    "password": "NoReply$2O21",
+    "password": "NoReply$2o21",
     "host": "smtp.gmail.com",
     "port": 587
 
