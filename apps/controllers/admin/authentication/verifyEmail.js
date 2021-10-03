@@ -26,9 +26,9 @@ router.post('/', adminMiddleware.verifyEmailAdmin, async (req, res) => {
         if(isSendMail)
             return res.status(201).json(notices.resetCodeSuccess(email))
         else
-            return res.status(500).json(notices._500)
+            return res.status(notices._500.code).json(notices._500)
     } else {
-        return res.status(500).json(notices._500)
+        return res.status(notices._500.code).json(notices._500)
     }
 })
 
