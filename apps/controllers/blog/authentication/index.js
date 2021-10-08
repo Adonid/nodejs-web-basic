@@ -1,15 +1,22 @@
 const express = require('express')
 const router = express.Router()
 const register = require("./register")
+const verifyEmail = require("./verifyEmail")
 const facebook = require("./facebook")
 const google = require("./google")
 // const twitter = require("./twitter")
 
 
-// /**
-//  * Gioi han so lan request dang ky
-//  */
+/**
+ * Gioi han so lan request dang ky
+ */
 router.use('/register', register)
+
+/**
+ * Xac thuc email doi mat khau
+ */
+ router.use('/verify-email', verifyEmail)
+
 
 /**
  *  Route nay dung cho user dang nhap | dang ky bang FACBOOK
