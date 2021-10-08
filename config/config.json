@@ -12,8 +12,8 @@
   },
   "development": {
     "username": "hieuld",
-    "password": "ldhSQL@321",
-    "database": "blog_data",
+    "password":"LHDatabase@92",
+    "database":"blog_sungold",
     "host": "localhost",
     "dialect": "mysql"
   },
