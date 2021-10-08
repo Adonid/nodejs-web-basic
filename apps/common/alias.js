@@ -2,10 +2,10 @@
 const alias = [
     {
         name: "name", 
-        alias: "Tên tài khoản",
-        empty: "Tên tài khoản không để trống nhé!",
-        duplicate: "Tên tài khoản đã có người dùng rồi!",
-        notFormat: "Chứa 6-12 ký tự A-Za-z, 0-9",
+        alias: "Username",
+        empty: "Username không để trống nhé!",
+        duplicate: "Username đã có người dùng rồi!",
+        notFormat: "Username chứa 6-12 ký tự A-Za-z, 0-9",
     },
     {
         name: "email", 
@@ -21,7 +21,7 @@ const alias = [
         alias: "mật khẩu",
         empty: "Mật khẩu không được trống!",
         errorLogin: "Email hoặc mật khẩu không đúng",
-        notFormat: "Ít nhất 8 ký tự A-Za-z, 0-9, 1 ký tự đặc biệt"
+        notFormat: "Mật khẩu chứa ít nhất 8 ký tự A-Za-z, 0-9 và 1 ký tự đặc biệt"
     },
     {
         name: "appro", 
@@ -38,8 +38,8 @@ const alias = [
         name: "fullName", 
         alias: "Tên đầy đủ",
         empty: "Hãy nhập tên đầy đủ!",
-        notFormat: "Tên không chứa ký tự đặc biệt!",
-        limited: "Tối thiểu 5 và tối đa 32 ký tự!"
+        notFormat: "Tên đầy đủ không chứa ký tự đặc biệt!",
+        limited: "Tên đầy đủ tối thiểu 5 và tối đa 32 ký tự!"
     },
     {
         name: "phoneNumber", 
