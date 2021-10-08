@@ -1,5 +1,5 @@
 const {userValidation} = require('../validator')
-const {notices} = require('../common')
+const {notices, bcrypt} = require('../common')
 const {User} = require('../models')
 const roleId = 3
 
@@ -63,9 +63,41 @@ const verifyFormResetPassword = async (req, res, next) => {
     return next()
 }
 
+/** XAC MINH FORM LOGIN AS EMAIL & PASSWORD */
+const verifyLoginUser = async (req, res, next) => {
+    const {email, password} = req.body
+
+    const errors = userValidation.checkFormLogin(email, password)
+    if(errors){
+        const msg = notices.errorField('any', "Uhm! Email hoặc mật khẩu không đúng.")
+        res.status(msg.code).send(msg)
+        return next('route')
+    }
+    /** CHECK IN DATABASE */
+    const user = await User.getUserBasic({email, roleId})
+                        .then(data => data)
+                        .catch(err=>err)
+    // Email cua USER nay phai TON TAI
+    if(!user){
+        const msg = notices.notValidEmail
+        res.status(msg.code).send(msg)
+        return next('route')
+    }
+    // Mat khau phai trung khop
+    const compare = bcrypt.comparePassword(password, user.password)
+    if(!compare){
+        const msg = notices.loginFailed
+        res.status(msg.code).send(msg)
+        return next('route')
+    }
+    
+    return next()
+}
+
 
 module.exports={
     verifyUserRegister,
     verifyFormResetPassword,
-    verifyEmailForgetPassword
+    verifyEmailForgetPassword,
+    verifyLoginUser
 }

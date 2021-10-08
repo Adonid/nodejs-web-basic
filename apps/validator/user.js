@@ -95,10 +95,36 @@ const checkRequireField = (name, value) => {
     
 }
 
+/** CHECK FORMAT FORM LOGIN AS EMAIL & PASSWORD
+ * 
+ * @param {email, password} 
+ * @returns boolean | json
+ */
+ const checkFormLogin = (email, password) => {
+    // Validate Email
+    const isEmail = checkFormatEmail(email)
+    if(isEmail){
+        return isEmail
+    }
+    // Validate PASSWORD
+    const passwordNotEmpty = regex.requireField('password', password)
+    if(passwordNotEmpty){
+        return passwordNotEmpty
+    }
+    const passwordFormat = regex.requirePassword('password', password)
+    if(passwordFormat){
+        return passwordFormat
+    }
+    
+    return false
+    
+}
+
 
 module.exports={
     checkFormatEmail,
     checkRequireField,
     checkFormRegister,
     checkFormResetPassword,
+    checkFormLogin
 }

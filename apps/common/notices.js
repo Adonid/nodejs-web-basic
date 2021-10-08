@@ -232,7 +232,7 @@ const notEmail = {
 const loginFailed = {
     code: 400,
     field: "login",
-    error: "Uh! email hoặc mật khẩu chưa đúng!"
+    error: "Uhm! Email hoặc mật khẩu không đúng."
 }
 const userNotActive = {
     code: 401,
