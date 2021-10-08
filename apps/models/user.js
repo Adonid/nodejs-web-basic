@@ -173,6 +173,30 @@ const createUser = async ({provider, name, email, profile_picture, meta}) => {
     }
 }
 
+/** LUU TAI KHOAN ADMIN DANG KY
+ * 
+ * @param {name, email, password}
+ * 
+ * @returns boolean
+ */
+ const createUserWithEmailPassword = async (name, email, password) => {
+    const userData = await user.create({
+        name    : name,
+        email   : email,
+        password: password,
+        roleId  : 3,
+        active  : true
+    })
+    .then(data => {
+        return data?true:false
+    })
+    .catch(err => {
+        console.log(err)
+        return false
+    })
+    return userData
+}
+
 /** CAP NHAT FIELD(s) TRONG BANG USER
  * 
  * @params {value, index, indexPrimary=false}
@@ -343,6 +367,7 @@ module.exports={
     createAdmin,
     createEditor,
     createUser,
+    createUserWithEmailPassword,
     updateUser,
     paginationUser,
     paginationEditor,

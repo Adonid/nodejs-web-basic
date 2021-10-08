@@ -14,14 +14,14 @@ const {notices} = require('../../../common')
  */
 router.post('/', userMiddleware.verifyUserRegister, async (req, res) => {
     const {name, email, password} = req.body
-    return res.status(500).json({name, email, password})
-    // const hash = bcrypt.hashPassword(password)
-    // const created = await User.createAdmin(name, email, hash)
-    // if (created!==false) {
-    //     return res.status(201).json(notices._201('createManager', 'Đăng ký tài khoản admin'))
-    // } else {
-    //     return res.status(500).json(notices.duplicationAccount)
-    // }
+    const hash = bcrypt.hashPassword(password)
+    try {
+        await User.createUserWithEmailPassword(name, email, hash)
+        return res.status(201).json(notices._201('user', 'Đăng ký tài khoản'))
+    } catch (error) {
+        console.log(error)
+        return res.status(notices._500.code).json(notices._500)
+    }
     
 })
 
