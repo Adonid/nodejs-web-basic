@@ -32,7 +32,7 @@ const alias = [
         name: "codeReset", 
         alias: "Mã xác minh",
         empty: "Hãy nhập mã xác minh!",
-        notFormat: "Mã xác minh gồm 5 số gửi trong email đăng ký của bạn!"
+        notFormat: "Mã xác minh không đúng!"
     },
     {
         name: "fullName", 

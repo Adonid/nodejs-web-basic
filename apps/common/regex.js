@@ -27,7 +27,7 @@ const hexColorCode = str => /^#([0-9A-Fa-f]{3}){1,2}$/i.test(str) ? false : true
 const requireField = (name, value) => {
     const field = alias.filter(item => item.name === name)[0]
     let error = false
-    if(value === false || typeof value === "undefined" || value.trim() === "")
+    if(value === false || typeof value === "undefined" || value.toString().trim() === "")
         error = field.empty
     return error
 }
@@ -69,10 +69,10 @@ const isChecked = (name, value) => {
 }
 
 /** PHAI LA MA XAC MINH */
-const isCodeReset = (name, value) => {
+const isCodeReset = (name, value, sizeNumber=5) => {
     const field = alias.filter(item => item.name === name)[0]
     let error = false
-    if(!/^[0-9]+$/i.test(value) || value.toString().length !== 5)
+    if(!/^[0-9]+$/i.test(value) || value.toString().length !== sizeNumber)
         error = field.notFormat
     return error
 }

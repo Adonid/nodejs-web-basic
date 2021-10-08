@@ -7,7 +7,7 @@ const roleId = 3
 const verifyUserRegister = async (req, res, next) => {
     const {email} = req.body
     // Validate form data
-    const errors = await userValidation.checkFormRegister(req)
+    const errors = userValidation.checkFormRegister(req)
     if(errors){
         const msg = notices.errorField('any', errors)
         res.status(msg.code).send(msg)
@@ -24,10 +24,10 @@ const verifyUserRegister = async (req, res, next) => {
 }
 
 /** XAC MINH EMAIL TO RESET PASSWORD */
-const verifyEmailUser = async (req, res, next) => {
+const verifyEmailForgetPassword = async (req, res, next) => {
     const {email} = req.body
     // Validate Email
-    const errors = await userValidation.checkFormatEmail(email)
+    const errors = userValidation.checkFormatEmail(email)
     if(errors){
         const msg = notices.errorField('email', errors)
         res.status(msg.code).send(msg)
@@ -43,8 +43,29 @@ const verifyEmailUser = async (req, res, next) => {
     return next()
 }
 
+/** XAC MINH FORM RESET PASSWORD */
+const verifyFormResetPassword = async (req, res, next) => {
+    const {email, password, codeReset} = req.body
+    // Validate form data
+    const errors = userValidation.checkFormResetPassword(email, password, codeReset)
+    if(errors){
+        const msg = notices.errorField('any', errors)
+        res.status(msg.code).send(msg)
+        return next('route')
+    }
+    // SU TON TAI CUA TAI KHOAN VA CODERESET
+    const userValid = await User.existsUser({email, codeReset, roleId})
+    if(!userValid){
+        const msg = notices.errorField('any', "Uhm! Email hoặc mã xác minh không đúng")
+        res.status(msg.code).send(msg)
+        return next('route')
+    }
+    return next()
+}
+
 
 module.exports={
     verifyUserRegister,
-    verifyEmailUser,
+    verifyFormResetPassword,
+    verifyEmailForgetPassword
 }
