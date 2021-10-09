@@ -26,9 +26,9 @@ router.get('/', passport.authenticate('twitter', { scope: ['profile', 'email']})
  */
 router.get('/callback', passport.authenticate('twitter'), async (req, res) => {
     // user la object duoc passport tra ve qua 2 phuong thuc serializeUser  |  deserializeUser trong ham done
-    const {user} = req
+    const {email} = req.user
     // Tra ve MA JWT cho USER
-    const token = await JwtStrategy.generateToken(user.email)
+    const token = await JwtStrategy.generateToken(email)
     const info = notices.loginSuccess(token)
     return res.status(info.code).json(info)
 })
