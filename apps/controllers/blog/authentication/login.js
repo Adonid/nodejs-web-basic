@@ -18,14 +18,14 @@ router.post('/', userMiddleware.verifyLoginUser, async (req, res) => {
     // Tra ve MA JWT cho ADMIN
     const token = await JwtStrategy.generateToken(email)
     // Lay thong tin chi tiet user nay
-    // const myself = await User.getUser({email})
-    //                          .then(user => user)
-    //                          .catch(err => err)
+    const myself = await User.getUser({email})
+                             .then(user => user)
+                             .catch(err => err)
     // Lay toan bo cac tinh/thanh pho
     // const provinces = await Address.getProvinces()
     // Tra ve cho user
-    if(token){
-        const info = notices.loginSuccess(token)
+    if(token&&myself){
+        const info = notices.loginSuccess(token, myself)
         return res.status(info.code).json(info) 
     }
     return res.status(notices._500.code).json(notices._500) 
