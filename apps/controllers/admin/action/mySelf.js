@@ -72,7 +72,7 @@ router.get('/', async (req, res) => {
                                 .then(user => user)
                                 .catch(err => err)
 
-        const message = notices._203("Ảnh avatar đã", myself)
+        const message = notices._203("Ảnh avatar", myself)
         return res.status(message.code).json(message)
      } catch (error) {
         console.log(error)
@@ -120,7 +120,7 @@ router.get('/', async (req, res) => {
                                 .then(user => user)
                                 .catch(err => err)
 
-        const message = notices._203("Ảnh nền đã", myself)
+        const message = notices._203("Ảnh nền", myself)
         return res.status(message.code).json(message)
      } catch (error) {
         console.log(error)
