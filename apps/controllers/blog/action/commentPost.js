@@ -89,7 +89,7 @@ router.post('/like-comment', async (req, res) => {
             await Comments.likeComment({commentId, userId: id})
         }
         const comments = await Comments.getCommentsPost({postId})
-        const message = notices._201_data("Like bình luận", comments)
+        const message = notices._201_data("Like bình luận!", comments)
         return res.status(message.code).json(message)
     } catch (error) {
         return res.status(notices._500.code).json(notices._500)  
@@ -133,7 +133,7 @@ router.post('/like-comment', async (req, res) => {
     try {
         await Comments.removeReply({id: replyCommentId})
         const comments = await Comments.getCommentsPost({postId})
-        const message = notices._201_data("Xóa phản hồi!", comments)
+        const message = notices._201_data("Xóa phản hồi", comments)
         return res.status(message.code).json(message)
     } catch (error) {
         return res.status(notices._500.code).json(notices._500)  
@@ -164,7 +164,7 @@ router.post('/like-comment', async (req, res) => {
             await Comments.likeReply({replyCommentId, userId: id})
         }
         const comments = await Comments.getCommentsPost({postId})
-        const message = notices._201_data("Like phản hồi!", comments)
+        const message = notices._201_data("Like phản hồi", comments)
         return res.status(message.code).json(message)
     } catch (error) {
         return res.status(notices._500.code).json(notices._500)  
