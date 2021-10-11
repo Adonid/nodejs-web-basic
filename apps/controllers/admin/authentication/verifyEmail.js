@@ -18,7 +18,7 @@ const {ResetPassword} = require('../../../../views')
  */
 router.post('/', adminMiddleware.verifyEmailAdmin, async (req, res) => {
     const {email} = req.body
-    const codeReset = Random.makeCodeReset(5, true)
+    const codeReset = Random.makeCodeReset(6, true)
     const update = await User.updateUser({codeReset}, {email})
     if (update) {
         // Gui email chua codereset
