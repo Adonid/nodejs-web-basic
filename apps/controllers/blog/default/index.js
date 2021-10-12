@@ -1,11 +1,99 @@
 const express = require('express')
 const router = express.Router()
+const {Post, Tag, User} = require('../../../models')
+const {notices} = require('../../../common')
+const { Op } = require("sequelize")
+
 
 /**
  * To HOME PAGE
+ * 
+ * @params null
+ * 
+ * @returns {posts}
  */
  router.get('/', async (req, res) => {
-     // Lay danh sach
+    // Lay 9 bai viet moi nhat
+    const postsFirst = await Post.getPosts("", {active: true}, 0, 9)
+    // Lay 3 chu de co bai viet nhieu nhat
+
+    if(postsFirst){
+        const data = notices.reqSuccess(postsFirst)
+        return res.status(data.code).json(data)
+    }
+    const err = notices._500
+    return res.status(err.code).json(err)
+ })
+
+ /**
+ * TOI TRANG CHU DE
+ * 
+ * @params {id}
+ * 
+ * @returns {posts}
+ */
+  router.get('/category', async (req, res) => {
+    const id = req.query.id
+    // Lay danh sach bai viet tu danh muc
+    const mainPosts = await Post.getPosts("", {active: true, categoryId: id}, 0, 10)
+    // Lay tat ca danh muc
+    const tags = await Tag.getTags()
+    // Lay cac bai viet cua danh muc khac
+    const otherPosts = await Post.getPosts("", {active: true, categoryId: {[Op.not]: id,}}, 0, 15)
+    if(mainPosts){
+        const data = notices.reqSuccess({mainPosts, tags, otherPosts})
+        return res.status(data.code).json(data)
+    }
+    const err = notices._500
+    return res.status(err.code).json(err)
+ })
+
+ /**
+ * TOI TRANG TAC GIA
+ * 
+ * @params {id}
+ * 
+ * @returns {posts}
+ */
+  router.get('/author', async (req, res) => {
+    const id = req.query.id
+    // Lay thong tin tac gia
+    const author = await User.getUser({id, roleId: {[Op.not]: 3}})
+                              .then(user => user)
+                              .catch(err => err)
+    // Lay danh sach bai viet tu tac gia nay
+    const mainPosts = await Post.getPosts("", {active: true, authorId: id}, 0, 10)
+    // Lay tat ca the tag
+    const tags = await Tag.getTags()
+    // Lay cac bai viet cua tac gia khac
+    const otherPosts = await Post.getPosts("", {active: true, authorId: {[Op.not]: id}}, 0, 15)
+    if(author){
+        const data = notices.reqSuccess({author, mainPosts, tags, otherPosts})
+        return res.status(data.code).json(data)
+    }
+    const err = notices._500
+    return res.status(err.code).json(err)
+ })
+
+ /**
+ * DOC BAI VIET
+ * 
+ * @params {id}
+ * 
+ * @returns {content}
+ */
+  router.get('/post', async (req, res) => {
+      const {id} = req.query
+    // Lay chi tiet tat ca cua bai viet
+    const post = await Post.getDetailedPost({id, active: true, draft: false, remove: false})
+    // Lay cac bai viet co cung the tag nay duoc gan vao
+    const relativePosts = await Post.getPosts(post.title, {active: true, id: {[Op.not]: id}}, 0, 15)
+    if(post){
+        const data = notices.reqSuccess({post, relativePosts})
+        return res.status(data.code).json(data)
+    }
+    const err = notices._500
+    return res.status(err.code).json(err)
  })
 
 
