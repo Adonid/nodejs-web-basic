@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.23, for Win64 (x86_64)
 --
--- Host: localhost    Database: blog_data
+-- Host: localhost    Database: blog-sungold
 -- ------------------------------------------------------
 -- Server version	8.0.23
 
@@ -16,28 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `categories`
---
-
-DROP TABLE IF EXISTS `categories`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `categories` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `imageId` int NOT NULL,
-  `color` varchar(255) DEFAULT NULL,
-  `description` varchar(255) DEFAULT NULL,
-  `createdAt` datetime NOT NULL,
-  `updatedAt` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name_UNIQUE` (`name`),
-  KEY `imageId` (`imageId`),
-  CONSTRAINT `categories_ibfk_1` FOREIGN KEY (`imageId`) REFERENCES `post_images` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `categories`
 --
 
@@ -48,55 +26,14 @@ INSERT INTO `categories` VALUES (1,'Chưa phân mục',4,'#ff00a2',NULL,'2021-07
 UNLOCK TABLES;
 
 --
--- Table structure for table `comments_posts`
---
-
-DROP TABLE IF EXISTS `comments_posts`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `comments_posts` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `postId` int NOT NULL,
-  `userId` int NOT NULL,
-  `comment` text NOT NULL,
-  `marker` tinyint DEFAULT '1',
-  `createdAt` datetime NOT NULL,
-  `updatedAt` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `postId` (`postId`),
-  KEY `userId` (`userId`),
-  CONSTRAINT `comments_posts_ibfk_1` FOREIGN KEY (`postId`) REFERENCES `posts` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `comments_posts_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `comments_posts`
 --
 
 LOCK TABLES `comments_posts` WRITE;
 /*!40000 ALTER TABLE `comments_posts` DISABLE KEYS */;
-INSERT INTO `comments_posts` VALUES (5,21,3,'. quan tâm',1,'2021-08-26 03:26:11','2021-08-26 03:26:11'),(8,21,3,'Hoàn thiện chức năng bình luận',1,'2021-08-28 04:36:26','2021-08-28 04:36:26'),(13,20,3,'Xin chào!',0,'2021-09-01 02:03:25','2021-09-08 02:36:36');
+INSERT INTO `comments_posts` VALUES (5,21,3,'. quan tâm',1,'2021-08-26 03:26:11','2021-08-26 03:26:11'),(8,21,3,'Hoàn thiện chức năng bình luận',1,'2021-08-28 04:36:26','2021-08-28 04:36:26'),(13,20,3,'Xin chào!',0,'2021-09-01 02:03:25','2021-09-08 02:36:36'),(14,1,6,'Đây là comment của người dùng đầu tiên!',1,'2021-10-11 07:56:46','2021-10-11 07:56:46');
 /*!40000 ALTER TABLE `comments_posts` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `communes`
---
-
-DROP TABLE IF EXISTS `communes`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `communes` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `type` varchar(255) NOT NULL,
-  `districtId` int NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `districtId` (`districtId`),
-  CONSTRAINT `communes_ibfk_1` FOREIGN KEY (`districtId`) REFERENCES `districts` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10616 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `communes`
@@ -109,25 +46,6 @@ INSERT INTO `communes` VALUES (1,'Phường Phúc Xá','Phường',1),(2,'Phư�
 UNLOCK TABLES;
 
 --
--- Table structure for table `company_descriptions`
---
-
-DROP TABLE IF EXISTS `company_descriptions`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `company_descriptions` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `color` varchar(255) NOT NULL,
-  `icon` varchar(255) NOT NULL,
-  `description` text NOT NULL,
-  `createdAt` datetime NOT NULL,
-  `updatedAt` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `company_descriptions`
 --
 
@@ -136,24 +54,6 @@ LOCK TABLES `company_descriptions` WRITE;
 INSERT INTO `company_descriptions` VALUES (1,'SEO thân thiện','#e1ff00','ni ni-air-baloon','+ Giúp cho trang web của bạn nhanh chóng leo tốp của google + Đảm bảo các bài viết thân thiện với người đọc hơn bao giờ hết\n','2021-07-28 15:15:08','2021-07-29 03:26:07'),(4,'Dễ dàng sử dụng','#fa007d','ni ni-favourite-28','Giao diện đẹp, trang nhã cho quý vị có thơi gian trải nghiệm tốt nhất, đáp ứng được các khách hàng khó tính nhất','2021-07-29 03:40:24','2021-07-29 03:49:00'),(5,'Công nghệ tối tân nhất','#fe3816','ni ni-spaceship','Áp dụng các công cụ lập trình hot nhất hiện nay như: Nodejs, Nextjs, HTML5, CSS4.. làm cho trang web của quý vị không chỉ lung linh mà còn mạnh mẽ hơn, nhanh hơn so với công cụ lập trình thông thường.','2021-07-29 03:46:56','2021-07-29 03:46:56'),(6,'Bảo mật cao','#0078e0','ni ni-lock-circle-open','Khả năng bảo mật cao, với dữ liệu đầu vào được kiểm duyệt chặt chẽ. Miễn phí bảo mật SSL trọn đời tăng độ tin cậy đối với mọi khách hàng','2021-07-29 03:55:00','2021-07-29 03:55:00'),(7,'Responsive - Đa thiết bị','#01d552','ni ni-tablet-button','Phù hợp với kích cỡ mọi màn hình, desktop, pc, máy tính bảng, điện thoại di động, giúp bạn thao tác như trên 1 thiết bị thôi vậy.','2021-07-29 03:58:35','2021-07-29 03:58:35');
 /*!40000 ALTER TABLE `company_descriptions` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `distributed_data`
---
-
-DROP TABLE IF EXISTS `distributed_data`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `distributed_data` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `type` varchar(255) NOT NULL,
-  `content` text,
-  `createdAt` datetime NOT NULL,
-  `updatedAt` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `type` (`type`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `distributed_data`
@@ -166,24 +66,6 @@ INSERT INTO `distributed_data` VALUES (1,'policy','<div class=\"md-contents arti
 UNLOCK TABLES;
 
 --
--- Table structure for table `districts`
---
-
-DROP TABLE IF EXISTS `districts`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `districts` (
-  `id` int NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `type` varchar(255) NOT NULL,
-  `provinceId` int NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `provinceId` (`provinceId`),
-  CONSTRAINT `districts_ibfk_1` FOREIGN KEY (`provinceId`) REFERENCES `provinces` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `districts`
 --
 
@@ -194,57 +76,14 @@ INSERT INTO `districts` VALUES (0,'-','-',0),(1,'Quận Ba Đình','Quận',1),(
 UNLOCK TABLES;
 
 --
--- Table structure for table `favourites_comments`
---
-
-DROP TABLE IF EXISTS `favourites_comments`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `favourites_comments` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `commentId` int NOT NULL,
-  `userId` int NOT NULL,
-  `level` int DEFAULT '1',
-  PRIMARY KEY (`id`),
-  KEY `commentId` (`commentId`),
-  KEY `userId` (`userId`),
-  CONSTRAINT `favourites_comments_ibfk_1` FOREIGN KEY (`commentId`) REFERENCES `comments_posts` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `favourites_comments_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `favourites_comments`
 --
 
 LOCK TABLES `favourites_comments` WRITE;
 /*!40000 ALTER TABLE `favourites_comments` DISABLE KEYS */;
-INSERT INTO `favourites_comments` VALUES (2,5,3,1),(4,8,3,0),(6,13,3,1);
+INSERT INTO `favourites_comments` VALUES (2,5,3,1),(4,8,3,0),(6,13,3,1),(7,14,6,1),(8,14,3,1);
 /*!40000 ALTER TABLE `favourites_comments` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `favourites_posts`
---
-
-DROP TABLE IF EXISTS `favourites_posts`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `favourites_posts` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `userId` int NOT NULL,
-  `postId` int NOT NULL,
-  `level` int DEFAULT '1',
-  `marker` tinyint DEFAULT '1',
-  `createdAt` datetime NOT NULL,
-  `updatedAt` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `userId` (`userId`),
-  KEY `postId` (`postId`),
-  CONSTRAINT `favourites_posts_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `favourites_posts_ibfk_2` FOREIGN KEY (`postId`) REFERENCES `posts` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `favourites_posts`
@@ -256,56 +95,14 @@ LOCK TABLES `favourites_posts` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `favourites_reply_comments`
---
-
-DROP TABLE IF EXISTS `favourites_reply_comments`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `favourites_reply_comments` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `replyCommentId` int NOT NULL,
-  `userId` int NOT NULL,
-  `level` int DEFAULT '1',
-  PRIMARY KEY (`id`),
-  KEY `replyCommentId` (`replyCommentId`),
-  KEY `userId` (`userId`),
-  CONSTRAINT `favourites_reply_comments_ibfk_1` FOREIGN KEY (`replyCommentId`) REFERENCES `replys_comments` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `favourites_reply_comments_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `favourites_reply_comments`
 --
 
 LOCK TABLES `favourites_reply_comments` WRITE;
 /*!40000 ALTER TABLE `favourites_reply_comments` DISABLE KEYS */;
-INSERT INTO `favourites_reply_comments` VALUES (1,4,3,0),(3,5,3,0),(6,11,3,1);
+INSERT INTO `favourites_reply_comments` VALUES (1,4,3,0),(3,5,3,0),(6,11,3,1),(7,13,3,1);
 /*!40000 ALTER TABLE `favourites_reply_comments` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `post_images`
---
-
-DROP TABLE IF EXISTS `post_images`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `post_images` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `type` varchar(255) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `original` varchar(255) NOT NULL,
-  `thumbnail` varchar(255) DEFAULT NULL,
-  `userId` int NOT NULL,
-  `createdAt` datetime NOT NULL,
-  `updatedAt` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `userId` (`userId`),
-  CONSTRAINT `post_images_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `post_images`
@@ -318,25 +115,6 @@ INSERT INTO `post_images` VALUES (1,'category','An Nhien 98-rweo3.jpg','public/i
 UNLOCK TABLES;
 
 --
--- Table structure for table `post_tags`
---
-
-DROP TABLE IF EXISTS `post_tags`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `post_tags` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `postId` int NOT NULL,
-  `tagId` int NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `postId` (`postId`),
-  KEY `tagId` (`tagId`),
-  CONSTRAINT `post_tags_ibfk_1` FOREIGN KEY (`postId`) REFERENCES `posts` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `post_tags_ibfk_2` FOREIGN KEY (`tagId`) REFERENCES `tags` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `post_tags`
 --
 
@@ -347,65 +125,14 @@ INSERT INTO `post_tags` VALUES (6,1,1),(7,1,2),(8,21,3),(15,20,4),(16,20,5),(17,
 UNLOCK TABLES;
 
 --
--- Table structure for table `posts`
---
-
-DROP TABLE IF EXISTS `posts`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `posts` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) NOT NULL,
-  `desc` text NOT NULL,
-  `readTime` text,
-  `draft` tinyint(1) NOT NULL,
-  `remove` tinyint(1) DEFAULT '0',
-  `active` tinyint(1) DEFAULT '0',
-  `marker` tinyint DEFAULT '1',
-  `imageId` int NOT NULL,
-  `authorId` int NOT NULL,
-  `categoryId` int NOT NULL,
-  `createdAt` datetime NOT NULL,
-  `updatedAt` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `imageId` (`imageId`),
-  KEY `authorId` (`authorId`),
-  KEY `categoryId` (`categoryId`),
-  CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`imageId`) REFERENCES `post_images` (`id`),
-  CONSTRAINT `posts_ibfk_2` FOREIGN KEY (`authorId`) REFERENCES `users` (`id`),
-  CONSTRAINT `posts_ibfk_3` FOREIGN KEY (`categoryId`) REFERENCES `categories` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `posts`
 --
 
 LOCK TABLES `posts` WRITE;
 /*!40000 ALTER TABLE `posts` DISABLE KEYS */;
-INSERT INTO `posts` VALUES (1,'Chiếc MacBook được yêu thích nhất sắp có thiết kế mới','MacBook Air 2021 có thể được Apple ra mắt vào cuối năm với nhiều tùy chọn màu sắc và chip xử lý mạnh hơn.','7',0,0,1,1,13,3,11,'2021-08-18 02:35:12','2021-09-08 03:00:35'),(19,'Lý Thuyết Hóa 12 : Tổng Hợp Các Dạng Giải Bài Tập Kim Loại','Tổng hợp lý thuyết hóa 12 do Kiến Guru biên soạn. Tổng hợp về các dạng giải bài tập về kim loại: Phần đầu gồm 7 phương pháp hay mà Kiến Guru sưu tầm, phần thứ 2 là các bài tập áp dụng các phương pháp, kết hợp nhiều phương pháp để giải bài. Các bạn cùng học với Kiến Guru nhé! ',NULL,1,0,0,0,9,3,11,'2021-08-19 13:57:00','2021-09-12 03:12:33'),(20,'Lý thuyết Hóa 12 thi đại học thường xuất hiện trong đề thi','Với giải bài tập Hóa học lớp 12 [có kèm video bài giải] hay nhất, chi tiết giúp học sinh dễ dàng làm bài tập về nhà môn Hóa học 12. Bên cạnh đó là các bài tóm tắt lý thuyết Hóa học lớp 12 [có kèm video bài giảng] và bộ bài tập trắc nghiệm theo bài học cùng với trên 100 dạng bài tập Hóa học 12 với đầy đủ phương pháp giải giúp bạn ôn luyện để đạt điểm cao trong các bài thi môn Hóa lớp 12.','3',0,0,0,1,9,3,13,'2021-08-21 01:48:46','2021-09-08 03:00:30'),(21,'Tóm tắt lý thuyết Hóa học lớp 12 cho thí sinh thi THPT quốc gia','Tuyển sinh số xin gửi tới các thí sinh tóm tắt toàn bộ lý thuyết Hóa học lớp 12 một cách đơn giản, dễ hiểu nhất để tiện ôn tập. ','3',0,0,1,1,15,3,1,'2021-08-21 02:03:18','2021-09-08 03:00:52');
+INSERT INTO `posts` VALUES (1,'Chiếc MacBook được yêu thích nhất sắp có thiết kế mới','MacBook Air 2021 có thể được Apple ra mắt vào cuối năm với nhiều tùy chọn màu sắc và chip xử lý mạnh hơn.','7',0,0,1,1,13,3,11,'2021-08-18 02:35:12','2021-09-19 15:45:47'),(19,'Lý Thuyết Hóa 12 : Tổng Hợp Các Dạng Giải Bài Tập Kim Loại','Tổng hợp lý thuyết hóa 12 do Kiến Guru biên soạn. Tổng hợp về các dạng giải bài tập về kim loại: Phần đầu gồm 7 phương pháp hay mà Kiến Guru sưu tầm, phần thứ 2 là các bài tập áp dụng các phương pháp, kết hợp nhiều phương pháp để giải bài. Các bạn cùng học với Kiến Guru nhé! ',NULL,1,0,0,0,9,3,11,'2021-08-19 13:57:00','2021-09-12 03:12:33'),(20,'Lý thuyết Hóa 12 thi đại học thường xuất hiện trong đề thi','Với giải bài tập Hóa học lớp 12 [có kèm video bài giải] hay nhất, chi tiết giúp học sinh dễ dàng làm bài tập về nhà môn Hóa học 12. Bên cạnh đó là các bài tóm tắt lý thuyết Hóa học lớp 12 [có kèm video bài giảng] và bộ bài tập trắc nghiệm theo bài học cùng với trên 100 dạng bài tập Hóa học 12 với đầy đủ phương pháp giải giúp bạn ôn luyện để đạt điểm cao trong các bài thi môn Hóa lớp 12.','3',0,0,0,1,9,3,13,'2021-08-21 01:48:46','2021-09-08 03:00:30'),(21,'Tóm tắt lý thuyết Hóa học lớp 12 cho thí sinh thi THPT quốc gia','Tuyển sinh số xin gửi tới các thí sinh tóm tắt toàn bộ lý thuyết Hóa học lớp 12 một cách đơn giản, dễ hiểu nhất để tiện ôn tập. ','3',0,0,1,1,15,3,1,'2021-08-21 02:03:18','2021-09-08 03:00:52');
 /*!40000 ALTER TABLE `posts` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `posts_contents`
---
-
-DROP TABLE IF EXISTS `posts_contents`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `posts_contents` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `postId` int NOT NULL,
-  `content` text,
-  `marker` tinyint DEFAULT '1',
-  `createdAt` datetime NOT NULL,
-  `updatedAt` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `postId` (`postId`),
-  CONSTRAINT `posts_contents_ibfk_1` FOREIGN KEY (`postId`) REFERENCES `posts` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `posts_contents`
@@ -418,21 +145,6 @@ INSERT INTO `posts_contents` VALUES (1,19,'<h2><strong>I. Tổng hợp l&yacute;
 UNLOCK TABLES;
 
 --
--- Table structure for table `provinces`
---
-
-DROP TABLE IF EXISTS `provinces`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `provinces` (
-  `id` int NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `type` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `provinces`
 --
 
@@ -443,58 +155,14 @@ INSERT INTO `provinces` VALUES (0,'-','-'),(1,'Thành phố Hà Nội','Thành p
 UNLOCK TABLES;
 
 --
--- Table structure for table `replys_comments`
---
-
-DROP TABLE IF EXISTS `replys_comments`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `replys_comments` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `commentId` int NOT NULL,
-  `userId` int NOT NULL,
-  `reply` text NOT NULL,
-  `createdAt` datetime NOT NULL,
-  `updatedAt` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `commentId` (`commentId`),
-  KEY `userId` (`userId`),
-  CONSTRAINT `replys_comments_ibfk_1` FOREIGN KEY (`commentId`) REFERENCES `comments_posts` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `replys_comments_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `replys_comments`
 --
 
 LOCK TABLES `replys_comments` WRITE;
 /*!40000 ALTER TABLE `replys_comments` DISABLE KEYS */;
-INSERT INTO `replys_comments` VALUES (4,5,3,'This is first reply in this comment','2021-08-27 08:47:41','2021-08-27 08:47:41'),(5,5,3,'Second reply','2021-08-27 12:46:38','2021-08-27 12:46:38'),(11,8,3,'Chúc mừng bạn!','2021-08-28 04:36:55','2021-08-28 04:36:55');
+INSERT INTO `replys_comments` VALUES (4,5,3,'This is first reply in this comment','2021-08-27 08:47:41','2021-08-27 08:47:41'),(5,5,3,'Second reply','2021-08-27 12:46:38','2021-08-27 12:46:38'),(11,8,3,'Chúc mừng bạn!','2021-08-28 04:36:55','2021-08-28 04:36:55'),(13,14,6,'Tôi cũng tự reply vào đấy','2021-10-11 07:59:35','2021-10-11 07:59:35');
 /*!40000 ALTER TABLE `replys_comments` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `roles`
---
-
-DROP TABLE IF EXISTS `roles`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `roles` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `roleName` varchar(255) NOT NULL,
-  `configSys` tinyint(1) NOT NULL,
-  `addPost` tinyint(1) NOT NULL,
-  `delPost` tinyint(1) NOT NULL,
-  `writePost` tinyint(1) NOT NULL,
-  `addUser` tinyint(1) NOT NULL,
-  `delUser` tinyint(1) NOT NULL,
-  `writeUser` tinyint(1) NOT NULL,
-  `delComment` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `roles`
@@ -507,20 +175,6 @@ INSERT INTO `roles` VALUES (1,'administrator',1,1,1,1,1,1,1,1),(2,'editor',0,1,0
 UNLOCK TABLES;
 
 --
--- Table structure for table `sequelizemeta`
---
-
-DROP TABLE IF EXISTS `sequelizemeta`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `sequelizemeta` (
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`name`),
-  UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `sequelizemeta`
 --
 
@@ -529,23 +183,6 @@ LOCK TABLES `sequelizemeta` WRITE;
 INSERT INTO `sequelizemeta` VALUES ('20210312020711-create-roles.js'),('20210312075950-create-users.js'),('20210313025802-create-provinces.js'),('20210313030633-create-districts.js'),('20210313031518-create-communes.js'),('20210314061232-create-categories.js'),('20210314062250-create-posts.js'),('20210315011903-create-posts-content.js'),('20210315013031-create-favourites-post.js'),('20210315030108-create-comments-post.js'),('20210315030442-create-replys-comment.js'),('20210315031504-create-favourites-comment.js'),('20210315032421-create-favourites-reply-comment.js'),('20210713102432-create-user-image.js'),('20210713102455-create-post-image.js'),('20210727011812-create-tags.js'),('20210728014738-create-post-tags.js'),('20210728143927-create-company-description.js'),('20210729083350-create-distributed-data.js');
 /*!40000 ALTER TABLE `sequelizemeta` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `tags`
---
-
-DROP TABLE IF EXISTS `tags`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `tags` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `color` varchar(255) NOT NULL,
-  `createdAt` datetime NOT NULL,
-  `updatedAt` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `tags`
@@ -558,81 +195,14 @@ INSERT INTO `tags` VALUES (1,'Lá Phong','#fe0b0b','2021-07-28 02:05:25','2021-0
 UNLOCK TABLES;
 
 --
--- Table structure for table `user_images`
---
-
-DROP TABLE IF EXISTS `user_images`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `user_images` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `type` varchar(255) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `original` varchar(255) NOT NULL,
-  `thumbnail` varchar(255) DEFAULT NULL,
-  `userId` int NOT NULL,
-  `createdAt` datetime NOT NULL,
-  `updatedAt` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `userId` (`userId`),
-  CONSTRAINT `user_images_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `user_images`
 --
 
 LOCK TABLES `user_images` WRITE;
 /*!40000 ALTER TABLE `user_images` DISABLE KEYS */;
-INSERT INTO `user_images` VALUES (1,'avatar','An Nhien 98','public/images/users/avatars/original/an-nhien-98-ld.jpg','public/images/users/avatars/thumbnail/an-nhien-98-ld.jpg',3,'2021-07-16 14:58:01','2021-08-16 03:26:29'),(2,'background','An Nhien 98','public/images/users/backgrounds/an-nhien-98-im.jpg',NULL,3,'2021-07-16 15:37:16','2021-08-30 14:52:50');
+INSERT INTO `user_images` VALUES (1,'avatar','An Nhien 98','public/images/users/avatars/original/an-nhien-98-rj.jpg','public/images/users/avatars/thumbnail/an-nhien-98-rj.jpg',3,'2021-07-16 14:58:01','2021-10-11 08:05:52'),(2,'background','An Nhien 98','public/images/users/backgrounds/an-nhien-98-sl.jpg',NULL,3,'2021-07-16 15:37:16','2021-10-11 08:05:58'),(3,'avatar','Hieu Nghia','public/images/users/avatars/original/hieu-nghia-ue.jpg','public/images/users/avatars/thumbnail/hieu-nghia-ue.jpg',6,'2021-10-11 02:00:21','2021-10-11 02:03:59'),(4,'background','Hieu Nghia','public/images/users/backgrounds/hieu-nghia-8e.jpg',NULL,6,'2021-10-11 02:12:13','2021-10-11 02:13:19');
 /*!40000 ALTER TABLE `user_images` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `users`
---
-
-DROP TABLE IF EXISTS `users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `users` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `email` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `active` tinyint(1) NOT NULL,
-  `member` tinyint DEFAULT '0',
-  `codeReset` varchar(255) DEFAULT NULL,
-  `provider` varchar(255) DEFAULT NULL,
-  `social` json DEFAULT NULL,
-  `fullName` varchar(255) DEFAULT NULL,
-  `phoneNumber` varchar(255) DEFAULT NULL,
-  `bio` text,
-  `age` text,
-  `genre` text,
-  `work` text,
-  `linkSocials` json DEFAULT NULL,
-  `marker` tinyint DEFAULT '1',
-  `address` text,
-  `provinceId` int DEFAULT '0',
-  `districtId` int DEFAULT '0',
-  `communeId` int DEFAULT '10615',
-  `roleId` int NOT NULL,
-  `createdAt` datetime NOT NULL,
-  `updatedAt` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `email` (`email`),
-  KEY `provinceId` (`provinceId`),
-  KEY `districtId` (`districtId`),
-  KEY `communeId` (`communeId`),
-  KEY `roleId` (`roleId`),
-  CONSTRAINT `users_ibfk_1` FOREIGN KEY (`provinceId`) REFERENCES `provinces` (`id`),
-  CONSTRAINT `users_ibfk_2` FOREIGN KEY (`districtId`) REFERENCES `districts` (`id`),
-  CONSTRAINT `users_ibfk_3` FOREIGN KEY (`communeId`) REFERENCES `communes` (`id`),
-  CONSTRAINT `users_ibfk_4` FOREIGN KEY (`roleId`) REFERENCES `roles` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `users`
@@ -640,7 +210,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'xavan912@gmail.com','aa@A88','Lê Đình Hiệu',1,0,'','facebook','{\"id\": \"2940499762900755\", \"token\": \"EAAEEAYr3besBAIrCc6dV99ACI8vHrXhoaoTKASdotHNNT4MR83k8cFfoZC52iGcDEA2QQwBQCIChZAEnoMLgSMsEDRQsM4W506EdaZC3IOdLemxrV034CfUB8B6ofjHJA5AVzlk0ZBbpWw4pZAu4QhxYvTWOQj4I8DhjoQBnLhgZDZD\", \"provider\": \"facebook\"}','','','','26','Nam','Công nghệ - thông tin','{}',1,'',0,0,10615,3,'2021-04-01 07:22:11','2021-09-10 00:44:20'),(2,'noreply.hieule@gmail.com','aa@A88','SunRise78',0,0,'','google','{\"id\": \"106638709110591378229\", \"token\": \"ya29.a0AfH6SMBQLrTAgFqZa8EhI9L_DhKDPfcSTMiIPBrPqd24QM-S2n9B-3PQiiVcAPgUdZfA9K2WSGV0A9cRcxVTGv2hpKe93bgCIHIsgcZnHp68vki8T8IhUvz77BQeUa8uF3kBcSLrWY_i_yQFbIyon2qsMwvJ\", \"provider\": \"google\"}','Bình Minh','0867234448','Cám ơn đời mỗi sớm mai thức dậy để ta biết còn yêu thương!','24','Nữ','Kiến trúc và xây dựng','{}',1,'89 Nguyễn Bỉnh Khiêm',1,7,88,3,'2021-04-02 04:53:50','2021-09-10 00:44:23'),(3,'facebook.test.passport@gmail.com','$2b$10$o1CFAIgpjv94w48.W9rFAeJuTamTp6P39Gir7yBqByJL08JyFlgSO','An Nhien 98',1,0,'03292','','{}','Đặng An Nhiên','0988763327','Chuyên cần làm ta thành công  chuyên tâm làm ta giải thoát','29','Nam','Kiến trúc và xây dựng','{}',1,'Khu phố 4',91,911,10170,1,'2021-04-05 03:48:03','2021-07-24 01:45:52'),(4,'hieuvtdt912@gmail.com','$2b$10$3mp6NA1zU9ADL12G49daxuIL9GzDXPUszeSAQrffJa9BEN9IgDxKS','Editor11',1,1,'','','{}','Nhật Long','0922374444','Hãy vui lên vì đây là cuộc sống của chúng ta mà!','38','Nam','Khoa học cơ bản','{}',1,'23 Phạm Văn Đồng',1,3,34,2,'2021-04-05 11:50:34','2021-09-03 09:53:19'),(5,'lehieu.contact@gmail.com','$2b$10$XRCWY5zs429QPrg2229aee12K.0wWoXClSsCTui8ujQC22l22Lopa','AdminSaga1',0,0,'','','{}','','','','36','Nam','Công nghệ - thông tin','{}',1,'',0,0,10615,1,'2021-07-05 07:05:27','2021-07-05 09:44:46');
+INSERT INTO `users` VALUES (1,'xavan912@gmail.com','aa@A88','Lê Đình Hiệu',1,0,'','facebook','{\"id\": \"2940499762900755\", \"token\": \"EAAEEAYr3besBAIrCc6dV99ACI8vHrXhoaoTKASdotHNNT4MR83k8cFfoZC52iGcDEA2QQwBQCIChZAEnoMLgSMsEDRQsM4W506EdaZC3IOdLemxrV034CfUB8B6ofjHJA5AVzlk0ZBbpWw4pZAu4QhxYvTWOQj4I8DhjoQBnLhgZDZD\", \"provider\": \"facebook\"}','','','','26','Nam','Công nghệ - thông tin','{}',1,'',0,0,10615,3,'2021-04-01 07:22:11','2021-09-10 00:44:20'),(2,'noreply.hieule@gmail.com','aa@A88','SunRise78',0,0,'','google','{\"id\": \"106638709110591378229\", \"token\": \"ya29.a0AfH6SMBQLrTAgFqZa8EhI9L_DhKDPfcSTMiIPBrPqd24QM-S2n9B-3PQiiVcAPgUdZfA9K2WSGV0A9cRcxVTGv2hpKe93bgCIHIsgcZnHp68vki8T8IhUvz77BQeUa8uF3kBcSLrWY_i_yQFbIyon2qsMwvJ\", \"provider\": \"google\"}','Bình Minh','0867234448','Cám ơn đời mỗi sớm mai thức dậy để ta biết còn yêu thương!','24','Nữ','Kiến trúc và xây dựng','{}',1,'89 Nguyễn Bỉnh Khiêm',1,7,88,3,'2021-04-02 04:53:50','2021-09-10 00:44:23'),(3,'facebook.test.passport@gmail.com','$2b$10$GDuP7o5.eNzRfKTbNy9Jo.Hs3hH.JsUDY71LZ7aCnPa9n0Ootop26','An Nhien 98',1,0,NULL,'','{}','Đặng An Nhiên','0988763327','Chuyên cần làm ta thành công  chuyên tâm làm ta giải thoát','29','Nam','Kiến trúc và xây dựng','{}',1,'Khu phố 4',91,911,10170,1,'2021-04-05 03:48:03','2021-10-11 08:04:22'),(4,'hieuvtdt912@gmail.com','$2b$10$3mp6NA1zU9ADL12G49daxuIL9GzDXPUszeSAQrffJa9BEN9IgDxKS','Editor11',1,1,'','','{}','Nhật Long','0922374444','Hãy vui lên vì đây là cuộc sống của chúng ta mà!','38','Nam','Khoa học cơ bản','{}',1,'23 Phạm Văn Đồng',1,3,34,2,'2021-04-05 11:50:34','2021-09-03 09:53:19'),(5,'lehieu.contact@gmail.com','$2b$10$XRCWY5zs429QPrg2229aee12K.0wWoXClSsCTui8ujQC22l22Lopa','AdminSaga1',0,0,'','','{}','','','','36','Nam','Công nghệ - thông tin','{}',1,'',0,0,10615,1,'2021-07-05 07:05:27','2021-07-05 09:44:46'),(6,'hieunghia.contact@gmail.com','$2b$10$rqAAuK3w9n0ksHdjhpwTfuKzFIqsOg58wzOpgp9HuLyG6vYOM.ku2','Hieu Nghia',1,0,NULL,NULL,NULL,'Hiếu Lê','0888988898','Nơi nào có ý chí nơi đó có con đường!','30',NULL,NULL,NULL,1,'200 Nguyễn Văn Cừ',1,21,212,3,'2021-10-08 02:53:14','2021-10-11 08:37:03');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -653,4 +223,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-09-18 16:02:58
+-- Dump completed on 2021-10-12  8:16:16
