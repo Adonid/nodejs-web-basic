@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const {Post, Tag, User} = require('../../../models')
+const {Post, Tag, User, CompanyDescription, DistributedData} = require('../../../models')
 const {notices} = require('../../../common')
 const { Op } = require("sequelize")
 
@@ -95,6 +95,44 @@ const { Op } = require("sequelize")
     const err = notices._500
     return res.status(err.code).json(err)
  })
+
+ /**
+ * TRANG ABOUT US - GIOI THIEU CONG TY
+ * 
+ * @params null
+ * 
+ * @returns {data}
+ */
+  router.get('/about-us', async (req, res) => {
+    try {
+        // Lay danh sach cac dac vu
+        const agent = await CompanyDescription.getCompanysDescription()
+        // Danh sach cac thanh vien
+        const members = await User.getUsers({active: true, member: true, roleId: {[Op.not]: 3}})
+        const data = notices.reqSuccess({agent, members})
+        return res.status(data.code).json(data)
+    } catch (error) {
+        return res.status(notices._500.code).json(notices._500)
+    }   
+ })
+
+  /**
+ * TRANG DIEU KHOAN CONG TY
+ * 
+ * @params null
+ * 
+ * @returns {data}
+ */
+   router.get('/policy', async (req, res) => {
+    try {
+        const fox = await DistributedData.getDistributedData({type:"policy"})
+        const data = notices.reqSuccess(fox)
+        return res.status(data.code).json(data)
+    } catch (error) {
+        return res.status(notices._500.code).json(notices._500)
+    }   
+ })
+
 
 
 module.exports = router

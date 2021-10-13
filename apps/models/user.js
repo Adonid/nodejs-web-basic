@@ -86,6 +86,39 @@ const getUser = obj => {
     })
 }
 
+/** LAY THONG TIN CHI TIET CUA USERS
+ * 
+ * @param obj options - {email: "123hello@gmail.com"}...
+ * 
+ * @return {array}
+*/
+const getUsers = async obj => {
+    const userss = await user.findAll({
+        where: obj,
+        attributes:{
+            exclude: ['password', 'codeReset', 'provider', 'active', 'member', 'roleId', 'marker', 'address', 'provinceId', 'districtId', 'communeId', 'createdAt', 'updatedAt']
+        },
+        include: [
+            {
+                model: role,
+                attributes: ['id', 'roleName']
+            }, 
+            {
+                model: user_image,
+                attributes: ['type', 'name', 'original', 'thumbnail']
+            }
+        ],
+    })
+    .then(data => {
+        return data
+    })
+    .catch(error => {
+        console.log(error)
+        return false
+    })
+    return userss
+}
+
 /** LUU TAI KHOAN ADMIN DANG KY
  * 
  * @param {*} name 
@@ -364,6 +397,7 @@ module.exports={
     getUserBasic,
     existsUser,
     getUser,
+    getUsers,
     createAdmin,
     createEditor,
     createUser,
