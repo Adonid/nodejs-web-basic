@@ -63,5 +63,46 @@ router.post('/policy/update', async (req, res) => {
 //     }
 // })
 
+ /**
+ * LAY CAC QUAN TAM CUA KHACH HANG
+ * 
+ * @param {null}
+ * 
+ * @return {array}
+ * 
+ */
+  router.get('/cares', async (req, res) => {
+    try {
+        const datas = await DistributedData.getDistributedDatas({type: 'care'})
+        // JSON.parse(datas[0].content)
+        const notify = notices.reqSuccess(datas)
+        return res.status(notify.code).json(notify)
+    } catch (error) {
+        return res.status(notices._500.code).json(notices._500)
+    }
+})
+
+ /**
+ * XOA QUAN TAM CUA KHACH HANG
+ * 
+ * @param {id}
+ * 
+ * @return {array}
+ * 
+ */
+  router.post('/care/delete', async (req, res) => {
+    const {id} = req.body
+    try {
+        // Xoa
+        await DistributedData.deleteDistributedData(id)
+        // Lay lai danh sach
+        const datas = await DistributedData.getDistributedDatas({type: 'care'})
+        const resuft = notices._204(datas)
+        return res.status(resuft.code).json(resuft)
+    } catch (error) {
+        return res.status(notices._500.code).json(notices._500)
+    }
+})
+
 
 module.exports = router

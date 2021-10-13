@@ -6,10 +6,11 @@ const {distributed_data} = require('../../models')
  * 
  * @return array [{'id', 'type', 'content'}]
 */
-const getDistributedDatas = async () => {
+const getDistributedDatas = async (obj={}) => {
     try {
         const data = await distributed_data.findAll({
-            attributes: ['id', 'type', 'content']
+            attributes: ['id', 'type', 'content'],
+            where: obj
         })
         // console.log(data)
         return data

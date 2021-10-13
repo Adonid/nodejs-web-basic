@@ -133,6 +133,25 @@ const { Op } = require("sequelize")
     }   
  })
 
+ /**
+ * THEM QUAN TAM CUA KHACH HANG
+ * 
+ * @param {name, email, message}
+ * 
+ * @return {*} object JSON
+ * 
+ */
+  router.post('/care/create', async (req, res) => {
+    const {payload} = req.body
+    const content = JSON.stringify(payload)
+    try {
+        await DistributedData.createDistributedData({type: 'care', content})
+        const notify = notices._201("Phản hồi")
+        return res.status(notify.code).json(notify)
+    } catch (error) {
+        return res.status(notices._500.code).json(notices._500)
+    }
+})
 
 
 module.exports = router
