@@ -235,7 +235,7 @@ const getDetailedPost = async obj => {
             include: [
                 {
                     model: user,
-                    attributes: ['name', 'fullName'],
+                    attributes: ['id', 'name', 'fullName'],
                     include: [
                         {
                             model: user_image,
@@ -245,7 +245,7 @@ const getDetailedPost = async obj => {
                 },
                 {
                     model: category,
-                    attributes: ['name', 'imageId', 'color']
+                    attributes: ['id', 'name', 'imageId', 'color']
                 },
                 {
                     model: tag,
