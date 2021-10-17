@@ -249,7 +249,7 @@ const getDetailedPost = async obj => {
                 },
                 {
                     model: tag,
-                    attributes: ['name', 'color']
+                    attributes: ['id', 'name', 'color']
                 },
                 {
                     model: posts_content,
@@ -279,7 +279,7 @@ const getDetailedPost = async obj => {
                             include: [
                                 {
                                     model: user,
-                                    attributes: ['name', 'fullName'],
+                                    attributes: ['id', 'name', 'fullName'],
                                     include: [
                                         {
                                             model: user_image,
@@ -293,7 +293,7 @@ const getDetailedPost = async obj => {
                                     include: [
                                         {
                                             model: user,
-                                            attributes: ['name', 'fullName']
+                                            attributes: ['id', 'name', 'fullName']
                                         }
                                     ]
                                 }
@@ -305,7 +305,7 @@ const getDetailedPost = async obj => {
                             include: [
                                 {
                                     model: user,
-                                    attributes: ['name', 'fullName']
+                                    attributes: ['id', 'name', 'fullName']
                                 }
                             ]
                         }
@@ -317,7 +317,7 @@ const getDetailedPost = async obj => {
                     include: [
                         {
                             model: user,
-                            attributes: ['name', 'fullName']
+                            attributes: ['id', 'name', 'fullName']
                         }
                     ]
                 },
