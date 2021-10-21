@@ -1,4 +1,4 @@
-const {category, post,  tag} = require('../../models')
+const {category, post,  tag, colors} = require('../../models')
 const { Op } = require("sequelize");
 
 /** LAY DANH SACH TAT CA CAC THE TAG
@@ -10,11 +10,15 @@ const { Op } = require("sequelize");
 const getTags = async () => {
     try {
         const tags = await tag.findAll({
-            attributes: ['id', 'name', 'color'],
+            attributes: ['id', 'name'],
             include: [
                 {
                     model: post,
                     attributes: ['id', 'active']
+                },
+                {
+                    model: colors,
+                    attributes: ['id', 'name', 'alias', 'code']
                 }
             ]
         })
@@ -35,12 +39,16 @@ const getTags = async () => {
 const getTag = async obj => {
     try {
         const data = await category.findOne({
-            attributes: ['id', 'name','color'],
+            attributes: ['id', 'name'],
             include: [
                 {
                     model: post,
                     attributes: ['id', 'active']
                 },
+                {
+                    model: colors,
+                    attributes: ['id', 'name', 'alias', 'code']
+                }
             ],
             where: obj
         })

@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const {ImageMannager} = require('../../../services')
-const {Category, Post, Tag, ImagePost} = require('../../../models')
+const {Colors, Category, Post, Tag, ImagePost} = require('../../../models')
 const {notices} = require('../../../common')
 const {Slug, Random} = require('../../../helpers')
 const config = require('../../../../config/config.json')
@@ -23,7 +23,8 @@ router.get('/', async (req, res) => {
         const images = await ImagePost.getImages({type: "category"})
         const categories = await Category.getCategories()
         const tags = await Tag.getTags()
-        const data = notices.reqSuccess({images, categories, tags})
+        const colors = await Colors.getColors()
+        const data = notices.reqSuccess({images, categories, tags, colors})
         return res.status(data.code).json(data)
     } catch (error) {
         return res.status(notices._500.code).json(notices._500)
@@ -39,15 +40,15 @@ router.get('/', async (req, res) => {
  * 
  */
 router.post('/category', adminMiddleware.checkCategory, async (req, res) => {
-    const {id, name, color, imageId} = req.body
+    const {id, name, colorId, imageId} = req.body
     try {
         // CO ID->UPDATE
         if(id){
-            await Category.updateCategory({name, color, imageId}, {id})
+            await Category.updateCategory({name, colorId, imageId}, {id})
         }
         // KO CO ID->ADD NEW
         else{
-            await Category.createCategory({name, color, imageId})
+            await Category.createCategory({name, colorId, imageId})
         }
         // Lay lai danh sach categories
         const categories = await Category.getCategories()
@@ -91,15 +92,15 @@ router.post('/category/del', adminMiddleware.checkDelCategory, async (req, res) 
  * 
  */
  router.post('/tag', async (req, res) => {
-    const {id, name, color} = req.body
+    const {id, name, colorId} = req.body
     try {
         // CO ID->UPDATE
         if(id){
-            await Tag.updateTag({name, color}, {id})
+            await Tag.updateTag({name, colorId}, {id})
         }
         // KO CO ID->ADD NEW
         else{
-            await Tag.createTag({name, color})
+            await Tag.createTag({name, colorId})
         }
         // Lay lai danh sach tags
         const tags = await Tag.getTags()

@@ -1,4 +1,4 @@
-const {category, post, post_image} = require('../../models')
+const {category, post, post_image, colors} = require('../../models')
 const { Op } = require("sequelize");
 
 /** LAY DANH SACH TAT CA CAC DANH MUC NGAN GON
@@ -30,7 +30,7 @@ const getCategoriesSorft = async () => {
 const getCategories = async () => {
     try {
         const categories = await category.findAll({
-            attributes: ['id', 'name', 'color', 'description'],
+            attributes: ['id', 'name', 'description'],
             include: [
                 {
                     model: post_image,
@@ -39,6 +39,10 @@ const getCategories = async () => {
                 {
                     model: post,
                     attributes: ['id', 'active']
+                },
+                {
+                    model: colors,
+                    attributes: ['id', 'name', 'alias', 'code']
                 }
             ],
             order: [
@@ -61,12 +65,16 @@ const getCategories = async () => {
 const getCategory = async obj => {
     try {
         const data = await category.findOne({
-            attributes: ['id', 'name','color', 'description'],
+            attributes: ['id', 'name', 'description'],
             include: [
                 {
                     model: post_image,
                     attributes: ['id', 'type', 'name', 'original', 'thumbnail', 'userId']
                 },
+                {
+                    model: colors,
+                    attributes: ['id', 'name', 'alias', 'code']
+                }
             ],
             where: obj
         })
