@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const {CompanyDescription} = require('../../../models')
+const {CompanyDescription, Colors} = require('../../../models')
 const {notices} = require('../../../common')
 const {Slug, Random} = require('../../../helpers')
 const config = require('../../../../config/config.json')
@@ -16,7 +16,8 @@ const config = require('../../../../config/config.json')
 router.get('/', async (req, res) => {
     try {
         const fox = await CompanyDescription.getCompanysDescription()
-        const data = notices.reqSuccess(fox)
+        const colors = await Colors.getColors()
+        const data = notices.reqSuccess({fox, colors})
         return res.status(data.code).json(data)
     } catch (error) {
         return res.status(notices._500.code).json(notices._500)
