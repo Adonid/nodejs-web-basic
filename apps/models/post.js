@@ -1,4 +1,4 @@
-const {post, user, user_image, category, posts_content, comments_post, replys_comment, favourites_post, favourites_comment, favourites_reply_comment, post_image, tag, post_tags} = require('../../models')
+const {post, colors, user, user_image, category, posts_content, comments_post, replys_comment, favourites_post, favourites_comment, favourites_reply_comment, post_image, tag, post_tags} = require('../../models')
 const { Op } = require("sequelize")
 
 /** LAY 1 BAI VIET THEO DIEU KIEN - KIEM TRA SU TON TAI CUA POST
@@ -65,7 +65,13 @@ const getPosts = async (search="", index={}, offset=0, limit=12) => {
                 },
                 {
                     model: category,
-                    attributes: ['id', 'name', 'color']
+                    attributes: ['id', 'name'],
+                    include: [
+                        {
+                            model: colors,
+                            attributes: ['id', 'name', 'alias', 'code'],
+                        }   
+                    ]
                 },
                 {
                     model: comments_post,
@@ -128,7 +134,13 @@ const getPostsAuthor = async (index={}, offset=0, limit=12) => {
                 },
                 {
                     model: category,
-                    attributes: ['id', 'name', 'color']
+                    attributes: ['id', 'name'],
+                    include: [
+                        {
+                            model: colors,
+                            attributes: ['id', 'name', 'alias', 'code'],
+                        }   
+                    ]
                 },
                 {
                     model: comments_post,
@@ -188,7 +200,13 @@ const getPostsDraftAuthor = async (index) => {
                 },
                 {
                     model: category,
-                    attributes: ['id', 'name', 'color']
+                    attributes: ['id', 'name'],
+                    include: [
+                        {
+                            model: colors,
+                            attributes: ['id', 'name', 'alias', 'code'],
+                        }   
+                    ]
                 },
                 {
                     model: comments_post,
@@ -245,11 +263,23 @@ const getDetailedPost = async obj => {
                 },
                 {
                     model: category,
-                    attributes: ['id', 'name', 'imageId', 'color']
+                    attributes: ['id', 'name', 'imageId'],
+                    include: [
+                        {
+                            model: colors,
+                            attributes: ['id', 'name', 'alias', 'code'],
+                        }   
+                    ]
                 },
                 {
                     model: tag,
-                    attributes: ['id', 'name', 'color']
+                    attributes: ['id', 'name'],
+                    include: [
+                        {
+                            model: colors,
+                            attributes: ['id', 'name', 'alias', 'code'],
+                        }   
+                    ]
                 },
                 {
                     model: posts_content,
@@ -355,11 +385,23 @@ const getEditPost = async obj => {
                 },
                 {
                     model: category,
-                    attributes: ['id', 'name', 'imageId', 'color']
+                    attributes: ['id', 'name', 'imageId'],
+                    include: [
+                        {
+                            model: colors,
+                            attributes: ['id', 'name', 'alias', 'code'],
+                        }   
+                    ]
                 },
                 {
                     model: tag,
-                    attributes: ['id', 'name', 'color']
+                    attributes: ['id', 'name'],
+                    include: [
+                        {
+                            model: colors,
+                            attributes: ['id', 'name', 'alias', 'code'],
+                        }   
+                    ]
                 },
                 {
                     model: posts_content,
