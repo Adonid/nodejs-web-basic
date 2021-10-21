@@ -13,7 +13,7 @@ module.exports = {
         onDelete: "CASCADE",
         type: Sequelize.INTEGER,
         references: {
-          model: 'commentsposts',
+          model: 'comments_posts',
           key: 'id',
         }
       },
