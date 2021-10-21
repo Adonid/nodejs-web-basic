@@ -14,11 +14,19 @@ module.exports = (sequelize, DataTypes) => {
         through: "post_tags",
         foreignKey: 'tagId'
       })
+      tag.belongsTo(models.colors, {foreignKey: 'colorId'})
     }
   };
   tag.init({
     name: DataTypes.STRING,
-    color: DataTypes.STRING,
+    colorId: {
+      allowNull: false,
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'colors',
+        key: 'id',
+      }
+    },
   }, {
     sequelize,
     modelName: 'tag',

@@ -20,9 +20,13 @@ module.exports = {
           key: 'id',
         }
       },
-      color: {
-        allowNull: true,
-        type: Sequelize.STRING
+      colorId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'colors',
+          key: 'id',
+        }
       },
       description: {
         allowNull: true,

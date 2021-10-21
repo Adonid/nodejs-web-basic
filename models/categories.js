@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       category.belongsTo(models.post_image, {foreignKey: 'imageId'})
+      category.belongsTo(models.colors, {foreignKey: 'colorId'})
 
       category.hasMany(models.post, {foreignKey: 'categoryId'})
     }
@@ -25,7 +26,14 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id',
       }
     },
-    color: DataTypes.STRING,
+    colorId: {
+      allowNull: false,
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'colors',
+        key: 'id',
+      }
+    },
     description: DataTypes.STRING,
   }, {
     sequelize,
