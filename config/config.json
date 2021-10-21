@@ -7,7 +7,7 @@
       "host":"localhost",
       "user":"root",
       "password":"LHDatabase@92",
-      "database":"blog_sungold",
+      "database":"anhduong_blog",
       "port":3306
   },
   "development": {
