@@ -13,7 +13,7 @@
   "development": {
     "username": "hieuld",
     "password": "ldhSQL@321",
-    "database": "blog-sungold",
+    "database": "anhduong_blog",
     "host": "localhost",
     "dialect": "mysql"
   },
@@ -27,7 +27,7 @@
   "production": {
     "username": "root",
     "password": "LHDatabase@92",
-    "database": "blog_data",
+    "database": "anhduong_blog",
     "host": "localhost",
     "dialect": "mysql"
   },
