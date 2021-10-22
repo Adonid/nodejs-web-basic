@@ -1,5 +1,5 @@
 const User = require('./user')
-const Colors = require('./colors')
+const ColorsIcons = require('./colorsIcons')
 const Category = require('./category')
 const Post = require('./post')
 const Tag = require('./tag')
@@ -12,7 +12,7 @@ const Comments = require('./comments')
 
 module.exports={
     User,
-    Colors,
+    ColorsIcons,
     Category,
     Post,
     Tag,
