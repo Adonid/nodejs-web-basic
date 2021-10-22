@@ -1,4 +1,4 @@
-const {post, colors, user, user_image, category, posts_content, comments_post, replys_comment, favourites_post, favourites_comment, favourites_reply_comment, post_image, tag, post_tags} = require('../../models')
+const {post, colors_icons, user, user_image, category, posts_content, comments_post, replys_comment, favourites_post, favourites_comment, favourites_reply_comment, post_image, tag, post_tags} = require('../../models')
 const { Op } = require("sequelize")
 
 /** LAY 1 BAI VIET THEO DIEU KIEN - KIEM TRA SU TON TAI CUA POST
@@ -68,7 +68,7 @@ const getPosts = async (search="", index={}, offset=0, limit=12) => {
                     attributes: ['id', 'name'],
                     include: [
                         {
-                            model: colors,
+                            model: colors_icons_icons,
                             attributes: ['id', 'name', 'alias', 'code'],
                         }   
                     ]
@@ -137,7 +137,7 @@ const getPostsAuthor = async (index={}, offset=0, limit=12) => {
                     attributes: ['id', 'name'],
                     include: [
                         {
-                            model: colors,
+                            model: colors_icons,
                             attributes: ['id', 'name', 'alias', 'code'],
                         }   
                     ]
@@ -203,7 +203,7 @@ const getPostsDraftAuthor = async (index) => {
                     attributes: ['id', 'name'],
                     include: [
                         {
-                            model: colors,
+                            model: colors_icons,
                             attributes: ['id', 'name', 'alias', 'code'],
                         }   
                     ]
@@ -266,7 +266,7 @@ const getDetailedPost = async obj => {
                     attributes: ['id', 'name', 'imageId'],
                     include: [
                         {
-                            model: colors,
+                            model: colors_icons,
                             attributes: ['id', 'name', 'alias', 'code'],
                         }   
                     ]
@@ -276,7 +276,7 @@ const getDetailedPost = async obj => {
                     attributes: ['id', 'name'],
                     include: [
                         {
-                            model: colors,
+                            model: colors_icons,
                             attributes: ['id', 'name', 'alias', 'code'],
                         }   
                     ]
@@ -388,7 +388,7 @@ const getEditPost = async obj => {
                     attributes: ['id', 'name', 'imageId'],
                     include: [
                         {
-                            model: colors,
+                            model: colors_icons,
                             attributes: ['id', 'name', 'alias', 'code'],
                         }   
                     ]
@@ -398,7 +398,7 @@ const getEditPost = async obj => {
                     attributes: ['id', 'name'],
                     include: [
                         {
-                            model: colors,
+                            model: colors_icons,
                             attributes: ['id', 'name', 'alias', 'code'],
                         }   
                     ]

@@ -1,4 +1,4 @@
-const {company_description} = require('../../models')
+const {company_description, colors_icons} = require('../../models')
 
 /** LAY DANH SACH TAT CA CAC MO TA TRANG
  * 
@@ -9,7 +9,13 @@ const {company_description} = require('../../models')
 const getCompanysDescription = async () => {
     try {
         const description = await company_description.findAll({
-            attributes: ['id', 'name', 'color', 'icon', 'description']
+            attributes: ['id', 'name', 'description'],
+            include: [
+                {
+                    model: colors_icons,
+                    attributes: ['id', 'type', 'name', 'alias', 'code']
+                }
+            ]
         })
         // console.log(description)
         return description
@@ -28,7 +34,13 @@ const getCompanysDescription = async () => {
 const getCompanyDescription = async obj => {
     try {
         const data = await company_description.findOne({
-            attributes: ['id', 'name','color'],
+            attributes: ['id', 'name'],
+            include: [
+                {
+                    model: colors_icons,
+                    attributes: ['id', 'type', 'name', 'alias', 'code']
+                }
+            ],
             where: obj
         })
         // console.log(data)

@@ -1,15 +1,16 @@
-const {colors} = require('../../models')
+const {colors_icons} = require('../../models')
 
-/** LAY DANH SACH TAT CA CAC MAU
+/** LAY DANH SACH TAT CA CAC DOI TUONG
  * 
- * @param none
+ * @param {obj}
  * 
  * @return {[]}
 */
-const getColors = async () => {
+const getColors = async obj => {
     try {
-        const color = await colors.findAll({
-            attributes: ['id', 'name', 'alias', 'code']
+        const color = await colors_icons.findAll({
+            attributes: ['id', 'name', 'alias', 'code'],
+            where: obj
         })
         // console.log(color)
         return color
