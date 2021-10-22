@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       category.belongsTo(models.post_image, {foreignKey: 'imageId'})
-      category.belongsTo(models.colors, {foreignKey: 'colorId'})
+      category.belongsTo(models.colors_icons, {foreignKey: 'colorId'})
 
       category.hasMany(models.post, {foreignKey: 'categoryId'})
     }
@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.INTEGER,
       references: {
-        model: 'colors',
+        model: 'colors_icons',
         key: 'id',
       }
     },

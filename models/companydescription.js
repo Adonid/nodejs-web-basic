@@ -10,13 +10,28 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      company_description.belongsTo(models.colors_icons, {foreignKey: 'colorId'})
+      company_description.belongsTo(models.colors_icons, {foreignKey: 'iconId'})
     }
   };
   company_description.init({
     name: DataTypes.STRING,
-    color: DataTypes.STRING,
-    icon: DataTypes.STRING,
+    colorId: {
+      allowNull: false,
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'colors_icons',
+        key: 'id',
+      }
+    },
+    iconId: {
+      allowNull: false,
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'colors_icons',
+        key: 'id',
+      }
+    },
     description: DataTypes.TEXT,
   }, {
     sequelize,

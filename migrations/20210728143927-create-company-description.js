@@ -12,13 +12,21 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
-      color: {
+      colorId: {
+        type: Sequelize.INTEGER,
         allowNull: false,
-        type: Sequelize.STRING
+        references: {
+          model: 'colors_icons',
+          key: 'id',
+        }
       },
-      icon: {
+      iconId: {
+        type: Sequelize.INTEGER,
         allowNull: false,
-        type: Sequelize.STRING
+        references: {
+          model: 'colors_icons',
+          key: 'id',
+        }
       },
       description: {
         allowNull: false,

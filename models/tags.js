@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
         through: "post_tags",
         foreignKey: 'tagId'
       })
-      tag.belongsTo(models.colors, {foreignKey: 'colorId'})
+      tag.belongsTo(models.colors_icons, {foreignKey: 'colorId'})
     }
   };
   tag.init({
@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.INTEGER,
       references: {
-        model: 'colors',
+        model: 'colors_icons',
         key: 'id',
       }
     },

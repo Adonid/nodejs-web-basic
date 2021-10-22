@@ -3,25 +3,27 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class colors extends Model {
+  class colors_icons extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      colors.hasMany(models.category, {foreignKey: 'colorId'})
-      colors.hasMany(models.tag, {foreignKey: 'colorId'})
+      colors_icons.hasMany(models.category, {foreignKey: 'colorId'})
+      colors_icons.hasMany(models.tag, {foreignKey: 'colorId'})
+      colors_icons.hasMany(models.company_description, {foreignKey: 'colorId'})
+      colors_icons.hasMany(models.company_description, {foreignKey: 'iconId'})
     }
   };
-  colors.init({
+  colors_icons.init({
     name: DataTypes.STRING,
     alias: DataTypes.STRING,
     code: DataTypes.STRING,
   }, {
     sequelize,
-    modelName: 'colors',
+    modelName: 'colors_icons',
     timestamps: false
   });
-  return colors;
+  return colors_icons;
 };

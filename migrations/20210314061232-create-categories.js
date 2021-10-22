@@ -24,7 +24,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'colors',
+          model: 'colors_icons',
           key: 'id',
         }
       },
