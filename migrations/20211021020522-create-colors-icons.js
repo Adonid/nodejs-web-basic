@@ -9,15 +9,18 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       name: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       type: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       code: {
         type: Sequelize.STRING
       },
       alias: {
+        allowNull: false,
         type: Sequelize.STRING
       }
     });
