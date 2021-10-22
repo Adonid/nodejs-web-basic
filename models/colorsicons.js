@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
   };
   colors_icons.init({
     name: DataTypes.STRING,
+    type: DataTypes.STRING,
     alias: DataTypes.STRING,
     code: DataTypes.STRING,
   }, {
