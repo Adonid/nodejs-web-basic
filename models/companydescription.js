@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       company_description.belongsTo(models.colors_icons, {foreignKey: 'colorId'})
-      company_description.belongsTo(models.colors_icons, {foreignKey: 'iconId'})
+      company_description.belongsTo(models.icons, {foreignKey: 'iconId'})
     }
   };
   company_description.init({
@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.INTEGER,
       references: {
-        model: 'colors_icons',
+        model: 'icons',
         key: 'id',
       }
     },

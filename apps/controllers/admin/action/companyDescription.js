@@ -1,9 +1,7 @@
 const express = require('express')
 const router = express.Router()
-const {CompanyDescription, Colors} = require('../../../models')
+const {CompanyDescription, Colors, Icons} = require('../../../models')
 const {notices} = require('../../../common')
-const {Slug, Random} = require('../../../helpers')
-const config = require('../../../../config/config.json')
 
 /**
  * Lay danh sach tat ca danh muc
@@ -17,7 +15,8 @@ router.get('/', async (req, res) => {
     try {
         const fox = await CompanyDescription.getCompanysDescription()
         const colors = await Colors.getColors()
-        const data = notices.reqSuccess({fox, colors})
+        const icons = await Icons.getIcons()
+        const data = notices.reqSuccess({fox, colors, icons})
         return res.status(data.code).json(data)
     } catch (error) {
         return res.status(notices._500.code).json(notices._500)
@@ -37,11 +36,11 @@ router.post('/manipulation', async (req, res) => {
     try {
         // CO ID->UPDATE
         if(id){
-            await CompanyDescription.updateCompanyDescription({name, color, icon, description}, {id})
+            await CompanyDescription.updateCompanyDescription({name, colorId: color, iconId: icon, description}, {id})
         }
         // KO CO ID->ADD NEW
         else{
-            await CompanyDescription.createCompanyDescription({name, color, icon, description})
+            await CompanyDescription.createCompanyDescription({name, colorId: color, iconId: icon, description})
         }
         // Lay lai danh sach companysDescription
         const companysDescription = await CompanyDescription.getCompanysDescription()

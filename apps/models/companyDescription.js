@@ -1,4 +1,4 @@
-const {company_description, colors_icons} = require('../../models')
+const {company_description, colors, icons} = require('../../models')
 
 /** LAY DANH SACH TAT CA CAC MO TA TRANG
  * 
@@ -12,10 +12,16 @@ const getCompanysDescription = async () => {
             attributes: ['id', 'name', 'description'],
             include: [
                 {
-                    model: colors_icons,
-                    attributes: ['id', 'type', 'name', 'alias', 'code']
+                    model: colors,
+                    attributes: ['name', 'alias', 'code']
+                },
+                
+                {
+                    model: icons,
+                    attributes: ['name', 'alias', 'code']
                 }
-            ]
+                
+            ],
         })
         // console.log(description)
         return description
@@ -37,9 +43,15 @@ const getCompanyDescription = async obj => {
             attributes: ['id', 'name'],
             include: [
                 {
-                    model: colors_icons,
-                    attributes: ['id', 'type', 'name', 'alias', 'code']
+                    model: colors,
+                    attributes: ['name', 'alias', 'code']
+                },
+                
+                {
+                    model: icons,
+                    attributes: ['name', 'alias', 'code']
                 }
+                
             ],
             where: obj
         })

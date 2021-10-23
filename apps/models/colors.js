@@ -1,4 +1,4 @@
-const {colors_icons} = require('../../models')
+const {colors} = require('../../models')
 
 /** LAY DANH SACH TAT CA CAC DOI TUONG
  * 
@@ -6,9 +6,9 @@ const {colors_icons} = require('../../models')
  * 
  * @return {[]}
 */
-const getColorsIcons = async obj => {
+const getColors = async (obj={}) => {
     try {
-        const color = await colors_icons.findAll({
+        const color = await colors.findAll({
             attributes: ['id', 'name', 'alias', 'code'],
             where: obj
         })
@@ -21,5 +21,5 @@ const getColorsIcons = async obj => {
 }
 
 module.exports={
-    getColorsIcons
+    getColors
 }
