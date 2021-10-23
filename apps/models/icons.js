@@ -9,7 +9,7 @@ const {icons} = require('../../models')
 const getIcons = async (obj={}) => {
     try {
         const color = await icons.findAll({
-            attributes: ['id', 'name', 'alias', 'code'],
+            attributes: ['id', 'label', 'icon', 'alias'],
             where: obj
         })
         // console.log(color)

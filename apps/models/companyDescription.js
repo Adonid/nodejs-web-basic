@@ -18,7 +18,7 @@ const getCompanysDescription = async () => {
                 
                 {
                     model: icons,
-                    attributes: ['name', 'alias', 'code']
+                    attributes: ['label', 'icon', 'alias']
                 }
                 
             ],
@@ -49,7 +49,7 @@ const getCompanyDescription = async obj => {
                 
                 {
                     model: icons,
-                    attributes: ['name', 'alias', 'code']
+                    attributes: ['label', 'icon', 'alias']
                 }
                 
             ],

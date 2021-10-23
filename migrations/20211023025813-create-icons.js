@@ -8,15 +8,15 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      name: {
+      label: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      icon: {
         allowNull: false,
         type: Sequelize.STRING
       },
       alias: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
-      code: {
         type: Sequelize.STRING
       },
     });

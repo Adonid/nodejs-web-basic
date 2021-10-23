@@ -14,10 +14,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   icons.init({
-    name: DataTypes.STRING,
-    type: DataTypes.STRING,
-    alias: DataTypes.STRING,
-    code: DataTypes.STRING
+    label: DataTypes.STRING,
+    icon: DataTypes.STRING,
+    alias: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'icons',

@@ -32,11 +32,11 @@ router.get('/', async (req, res) => {
  * 
  */
 router.post('/manipulation', async (req, res) => {
-    const {id, name, color, icon, description} = req.body
+    const {id, name, colorId, iconId, description} = req.body
     try {
         // CO ID->UPDATE
         if(id){
-            await CompanyDescription.updateCompanyDescription({name, colorId: color, iconId: icon, description}, {id})
+            await CompanyDescription.updateCompanyDescription({name, colorId, iconId, description}, {id})
         }
         // KO CO ID->ADD NEW
         else{
