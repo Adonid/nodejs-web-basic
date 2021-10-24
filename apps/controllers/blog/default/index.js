@@ -106,10 +106,10 @@ const { Op } = require("sequelize")
   router.get('/about-us', async (req, res) => {
     try {
         // Lay danh sach cac dac vu
-        const agent = await CompanyDescription.getCompanysDescription()
+        const agents = await CompanyDescription.getCompanysDescription()
         // Danh sach cac thanh vien
         const members = await User.getUsers({active: true, member: true, roleId: {[Op.not]: 3}})
-        const data = notices.reqSuccess({agent, members})
+        const data = notices.reqSuccess({agents, members})
         return res.status(data.code).json(data)
     } catch (error) {
         return res.status(notices._500.code).json(notices._500)
