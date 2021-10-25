@@ -3,6 +3,7 @@ const router = express.Router()
 const {Post, Tag, User, CompanyDescription, DistributedData} = require('../../../models')
 const {notices} = require('../../../common')
 const { Op } = require("sequelize")
+const {userMiddleware} = require("../../../middleware")
 
 
 /**
@@ -55,24 +56,24 @@ const { Op } = require("sequelize")
  * 
  * @returns {posts}
  */
-  router.get('/author', async (req, res) => {
+  router.get('/author', userMiddleware.checkAuthorExists, async (req, res) => {
     const id = req.query.id
     // Lay thong tin tac gia
-    const author = await User.getUser({id, roleId: {[Op.not]: 3}})
+    try {
+        const author = await User.getUser({id, roleId: {[Op.not]: 3}})
                               .then(user => user)
                               .catch(err => err)
-    // Lay danh sach bai viet tu tac gia nay
-    const mainPosts = await Post.getPosts("", {active: true, authorId: id}, 0, 10)
-    // Lay tat ca the tag
-    const tags = await Tag.getTags()
-    // Lay cac bai viet cua tac gia khac
-    const otherPosts = await Post.getPosts("", {active: true, authorId: {[Op.not]: id}}, 0, 15)
-    if(author){
+        // Lay danh sach bai viet tu tac gia nay
+        const mainPosts = await Post.getPosts("", {active: true, authorId: id}, 0, 10)
+        // Lay tat ca the tag
+        const tags = await Tag.getTags()
+        // Lay cac bai viet cua tac gia khac
+        const otherPosts = await Post.getPosts("", {active: true, authorId: {[Op.not]: id}}, 0, 15)
         const data = notices.reqSuccess({author, mainPosts, tags, otherPosts})
-        return res.status(data.code).json(data)
-    }
-    const err = notices._500
-    return res.status(err.code).json(err)
+            return res.status(data.code).json(data)
+    } catch (error) {
+        return res.status(notices._500.code).json(notices._500)
+    }    
  })
 
  /**

@@ -1,6 +1,7 @@
 const {userValidation} = require('../validator')
 const {notices, bcrypt} = require('../common')
 const {User} = require('../models')
+const { Op } = require("sequelize")
 const roleId = 3
 
 /** XAC MINH FORM REGISTER */
@@ -94,10 +95,30 @@ const verifyLoginUser = async (req, res, next) => {
     return next()
 }
 
+/** KIEM TRA TAC GIA CO TON TAI KHONG
+ * 
+ * @param {req, res, next}
+ * 
+ * @return next('route') | next()
+ * 
+ */
+ const checkAuthorExists = async (req, res, next) => {
+    const id = req.query.id
+    // PHAI TON TAI USER NAY
+    const user = await User.existsUser({id, roleId: {[Op.not]: 3}})
+    if(!user){
+        const err = notices._500
+        res.status(err.code).json(err)
+        return next('route')
+    }
+    return next()
+}
+
 
 module.exports={
     verifyUserRegister,
     verifyFormResetPassword,
     verifyEmailForgetPassword,
-    verifyLoginUser
+    verifyLoginUser,
+    checkAuthorExists
 }
