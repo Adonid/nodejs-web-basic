@@ -74,6 +74,16 @@ const getPosts = async (search="", index={}, offset=0, limit=12) => {
                     ]
                 },
                 {
+                    model: tag,
+                    attributes: ['id', 'name'],
+                    include: [
+                        {
+                            model: colors,
+                            attributes: ['id', 'alias', 'code'],
+                        }   
+                    ]
+                },
+                {
                     model: comments_post,
                     attributes: ['userId'],
                 },

@@ -64,12 +64,10 @@ const {userMiddleware} = require("../../../middleware")
                               .then(user => user)
                               .catch(err => err)
         // Lay danh sach bai viet tu tac gia nay
-        const mainPosts = await Post.getPosts("", {active: true, authorId: id}, 0, 10)
-        // Lay tat ca the tag
-        const tags = await Tag.getTags()
+        const postsAuthor = await Post.getPosts("", {active: true, authorId: id}, 0, 10)
         // Lay cac bai viet cua tac gia khac
         const otherPosts = await Post.getPosts("", {active: true, authorId: {[Op.not]: id}}, 0, 15)
-        const data = notices.reqSuccess({author, mainPosts, tags, otherPosts})
+        const data = notices.reqSuccess({author, postsAuthor, otherPosts})
             return res.status(data.code).json(data)
     } catch (error) {
         return res.status(notices._500.code).json(notices._500)
