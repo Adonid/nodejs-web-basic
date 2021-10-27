@@ -46,6 +46,7 @@ module.exports = (sequelize, DataTypes) => {
     age: DataTypes.STRING,
     genre: DataTypes.STRING,
     work: DataTypes.STRING,
+    skill: DataTypes.JSON,
     linkSocials: DataTypes.JSON,
     address: DataTypes.TEXT,
     marker: DataTypes.BOOLEAN,

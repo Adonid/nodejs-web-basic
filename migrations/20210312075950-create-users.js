@@ -71,6 +71,10 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: true,
       },
+      skill: {
+        type: Sequelize.JSON,
+        allowNull: true,
+      },
       linkSocials:{
         type: Sequelize.JSON,
         allowNull: true,
