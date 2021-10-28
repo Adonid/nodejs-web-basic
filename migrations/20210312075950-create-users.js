@@ -44,6 +44,7 @@ module.exports = {
       social:{
         type: Sequelize.JSON,
         allowNull: true,
+        defaultValue: {},
       },
       fullName: {
         type: Sequelize.STRING,
@@ -78,6 +79,7 @@ module.exports = {
       linkSocials:{
         type: Sequelize.JSON,
         allowNull: true,
+        defaultValue: [],
       },
       address: {
         type: Sequelize.TEXT,
