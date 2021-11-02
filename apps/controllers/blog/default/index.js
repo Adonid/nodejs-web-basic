@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const {Post, Tag, User, CompanyDescription, DistributedData} = require('../../../models')
+const {Post, Tag, Category, User, CompanyDescription, DistributedData} = require('../../../models')
 const {notices} = require('../../../common')
 const { Op } = require("sequelize")
 const {userMiddleware} = require("../../../middleware")
@@ -35,14 +35,14 @@ const {userMiddleware} = require("../../../middleware")
  */
   router.get('/category', async (req, res) => {
     const id = req.query.id
+    // Lay danh muc nay
+    const category = await Category.getCategory({id})
     // Lay danh sach bai viet tu danh muc
     const mainPosts = await Post.getPosts("", {active: true, categoryId: id}, 0, 10)
-    // Lay tat ca danh muc
-    const tags = await Tag.getTags()
     // Lay cac bai viet cua danh muc khac
     const otherPosts = await Post.getPosts("", {active: true, categoryId: {[Op.not]: id,}}, 0, 15)
     if(mainPosts){
-        const data = notices.reqSuccess({mainPosts, tags, otherPosts})
+        const data = notices.reqSuccess({category, mainPosts, otherPosts})
         return res.status(data.code).json(data)
     }
     const err = notices._500
