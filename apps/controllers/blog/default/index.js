@@ -40,9 +40,31 @@ const {userMiddleware} = require("../../../middleware")
     // Lay danh sach bai viet tu danh muc
     const mainPosts = await Post.getPosts("", {active: true, categoryId: id}, 0, 10)
     // Lay cac bai viet cua danh muc khac
-    const otherPosts = await Post.getPosts("", {active: true, categoryId: {[Op.not]: id,}}, 0, 15)
+    const otherPosts = await Post.getPosts("", {active: true, categoryId: {[Op.not]: id}}, 0, 15)
     if(mainPosts){
         const data = notices.reqSuccess({category, mainPosts, otherPosts})
+        return res.status(data.code).json(data)
+    }
+    const err = notices._500
+    return res.status(err.code).json(err)
+ })
+ /**
+ * TOI TRANG THE TAG
+ * 
+ * @params {id}
+ * 
+ * @returns {posts}
+ */
+  router.get('/tag', async (req, res) => {
+    const id = req.query.id
+    // Lay chi tiet the tag
+    const tag = await Tag.getTag({id})
+    // Lay danh sach bai viet tu the tag nay
+    const mainPosts = await Tag.getPosts({id})
+    // Lay cac bai viet cua danh muc khac
+    const otherPosts = await Tag.getPosts({id: {[Op.not]: id}}, 0, 15)
+    if(mainPosts){
+        const data = notices.reqSuccess({tag, mainPosts, otherPosts})
         return res.status(data.code).json(data)
     }
     const err = notices._500

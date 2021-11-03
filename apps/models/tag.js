@@ -1,4 +1,4 @@
-const {category, post,  tag, colors} = require('../../models')
+const {post, colors, user, user_image, category, comments_post, favourites_post, post_image, tag} = require('../../models')
 const { Op } = require("sequelize");
 
 /** LAY DANH SACH TAT CA CAC THE TAG
@@ -38,7 +38,7 @@ const getTags = async () => {
 */
 const getTag = async obj => {
     try {
-        const data = await category.findOne({
+        const data = await tag.findOne({
             attributes: ['id', 'name'],
             include: [
                 {
@@ -60,6 +60,80 @@ const getTag = async obj => {
         return false
     }
 }
+
+/** LAY TAT CA BAI VIET THUOC THE NAY
+ * 
+ * @param obj options
+ * 
+ * @return {posts}
+*/
+const getPosts = async (obj) => {
+    try {
+        const data = await tag.findAll({
+            attributes: ['id', 'name'],
+            include: [
+                {
+                    model: post,
+                    attributes: ['id', 'title', 'desc', 'readTime', 'active', 'updatedAt'],
+                    include: [
+                        {
+                            model: user,
+                            attributes: ['id', 'name', 'fullName'],
+                            include: [
+                                {
+                                    model: user_image,
+                                    attributes: ['type', 'name', 'thumbnail']
+                                }
+                            ]
+                        },
+                        {
+                            model: category,
+                            attributes: ['id', 'name'],
+                            include: [
+                                {
+                                    model: colors,
+                                    attributes: ['id', 'name', 'alias', 'code'],
+                                }   
+                            ]
+                        },
+                        {
+                            model: comments_post,
+                            attributes: ['userId'],
+                        },
+                        {
+                            model: favourites_post,
+                            attributes: ['userId'],
+                            include: [
+                                {
+                                    model: user,
+                                    attributes: ['name', 'fullName']
+                                }
+                            ]
+                        },
+                        {
+                            model: post_image,
+                            attributes: ['name', 'original', 'thumbnail']
+                        }                        
+                    ],
+                    where: {
+                        active: true, draft: false, remove: false,
+                    },
+                    order: [ ['id', 'DESC'] ],
+                },
+                {
+                    model: colors,
+                    attributes: ['id', 'name', 'alias', 'code']
+                }
+            ],
+            where: obj
+        })
+        return data
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+}
+
 
 /** TAO MOI THE TAG
  * 
@@ -168,6 +242,7 @@ const countTags = async index => {
 module.exports={
     getTags,
     getTag,
+    getPosts,
     createTag,
     updateTag,
     deleteTag,
