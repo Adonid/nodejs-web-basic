@@ -180,12 +180,7 @@ const getPosts = async (obj) => {
  */
  const deleteTag = async (id) => {
     const resuft = await tag.destroy({
-        where: {
-            id: {
-                [Op.eq]: id,
-                [Op.not]: 1
-            }
-        }
+        where: {id}
     })
     .catch(err => {
         console.log(err)

@@ -111,6 +111,28 @@ router.post('/category/del', adminMiddleware.checkDelCategory, async (req, res) 
     }
 })
 
+/**
+ * DELETE TAG - EXCEPTION
+ * 
+ * @param {id} 
+ * 
+ * @return {*} object JSON
+ * 
+ */
+ router.post('/tag/del', async (req, res) => {
+    const {id} = req.body
+    try {
+        // Xoa the tag
+        await Tag.deleteTag(id)
+        // Lay lai danh sach the tag
+        const tags = await Tag.getTags()
+        const resuft = notices._204(tags)
+        return res.status(resuft.code).json(resuft)
+    } catch (error) {
+        return res.status(notices._500.code).json(notices._500)
+    }
+})
+
 /** 
  * POST - Upload anh CATEGORY
  * 
