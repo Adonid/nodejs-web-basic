@@ -104,17 +104,20 @@ const {userMiddleware} = require("../../../middleware")
  * @returns {content}
  */
   router.get('/post', async (req, res) => {
-      const {id} = req.query
-    // Lay chi tiet tat ca cua bai viet
-    const post = await Post.getDetailedPost({id, active: true, draft: false, remove: false})
-    // Lay cac bai viet co cung the tag nay duoc gan vao
-    const relativePosts = await Post.getPosts(post.title, {active: true, id: {[Op.not]: id}}, 0, 15)
-    if(post){
+    const {id} = req.query
+    try {
+        // Lay chi tiet tat ca cua bai viet
+        const post = await Post.getDetailedPost({id, active: true, draft: false, remove: false})
+        // Lay cac bai viet co cung the tag nay duoc gan vao
+        // const relativePosts = await Post.getPosts(post.title, {active: true, id: {[Op.not]: id}}, 0, 15)
+        // Lay 1 so bai viet cung danh muc 
+        const relativePosts = await Post.getPosts("", {active: true, id: {[Op.not]: id}, categoryId: {[Op.eq]: post.category.id}}, 0, 15)
+        // Tra ve res
         const data = notices.reqSuccess({post, relativePosts})
         return res.status(data.code).json(data)
+    } catch (error) {
+        return res.status(notices._500.code).json(notices._500)
     }
-    const err = notices._500
-    return res.status(err.code).json(err)
  })
 
  /**
