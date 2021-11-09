@@ -109,11 +109,12 @@ const {userMiddleware} = require("../../../middleware")
         // Lay chi tiet tat ca cua bai viet
         const post = await Post.getDetailedPost({id, active: true, draft: false, remove: false})
         // Lay cac bai viet co cung the tag nay duoc gan vao
-        // const relativePosts = await Post.getPosts(post.title, {active: true, id: {[Op.not]: id}}, 0, 15)
+        const tagsId = post.tags.map(tag => {return tag.id})
+        const postsSideBar = await Tag.getPosts({id: {[Op.or]: tagsId}})
         // Lay 1 so bai viet cung danh muc 
         const relativePosts = await Post.getPosts("", {active: true, id: {[Op.not]: id}, categoryId: {[Op.eq]: post.category.id}}, 0, 15)
         // Tra ve res
-        const data = notices.reqSuccess({post, relativePosts})
+        const data = notices.reqSuccess({post, postsSideBar, relativePosts})
         return res.status(data.code).json(data)
     } catch (error) {
         return res.status(notices._500.code).json(notices._500)

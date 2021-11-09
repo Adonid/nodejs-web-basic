@@ -67,7 +67,7 @@ const getTag = async obj => {
  * 
  * @return {posts}
 */
-const getPosts = async (obj) => {
+const getPosts = async (obj, offset=0, limit=15) => {
     try {
         const data = await tag.findAll({
             attributes: ['id', 'name'],
@@ -125,7 +125,9 @@ const getPosts = async (obj) => {
                     attributes: ['id', 'name', 'alias', 'code']
                 }
             ],
-            where: obj
+            where: obj,
+            offset: offset,
+            limit: limit
         })
         return data
     } catch (error) {
