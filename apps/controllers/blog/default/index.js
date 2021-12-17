@@ -27,6 +27,24 @@ const {userMiddleware} = require("../../../middleware")
  })
 
  /**
+ * Lay DU LIEU MENU
+ * 
+ * @params null
+ * 
+ * @returns {menu}
+ */
+  router.get('/menu', async (req, res) => {
+    try {
+        const categories = await Category.getCategories()
+        const logo = await DistributedData.getDistributedData({type: 'logo'})
+        const data = notices.reqSuccess({categories, logo})
+        return res.status(data.code).json(data)
+    } catch (error) {
+        return res.status(notices._500.code).json(notices._500)
+    }    
+ })
+
+ /**
  * TOI TRANG CHU DE
  * 
  * @params {id}
