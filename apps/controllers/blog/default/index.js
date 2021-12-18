@@ -36,6 +36,7 @@ const {userMiddleware} = require("../../../middleware")
   router.get('/menu', async (req, res) => {
     try {
         const categories = await Category.getCategories()
+        categories.pop()
         const logo = await DistributedData.getDistributedData({type: 'logo'})
         const data = notices.reqSuccess({categories, logo})
         return res.status(data.code).json(data)
