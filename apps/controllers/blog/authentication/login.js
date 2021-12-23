@@ -22,10 +22,10 @@ router.post('/', userMiddleware.verifyLoginUser, async (req, res) => {
                              .then(user => user)
                              .catch(err => err)
     // Lay toan bo cac tinh/thanh pho
-    // const provinces = await Address.getProvinces()
+    const provinces = await Address.getProvinces()
     // Tra ve cho user
     if(token&&myself){
-        const info = notices.loginSuccess(token, myself)
+        const info = notices.loginSuccess(token, myself, provinces)
         return res.status(info.code).json(info) 
     }
     return res.status(notices._500.code).json(notices._500) 
