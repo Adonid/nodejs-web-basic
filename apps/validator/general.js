@@ -314,7 +314,7 @@ const checkUserDataBasic = req => {
         if(isRequireAddress){
             return notices.errorField('address', isRequireAddress)
         }
-        const formatAddress = regex.notSpecialChar('address', address)
+        const formatAddress = regex.notSpecialCharChat('address', address)
         if(formatAddress){
             return notices.errorField('address', formatAddress)
         }
@@ -366,7 +366,7 @@ const checkUserDataBasic = req => {
         if(isRequireBio){
             return notices.errorField('bio', isRequireBio)
         }
-        const formatBio = regex.notSpecialChar('bio', bio)
+        const formatBio = regex.notSpecialCharChat('bio', bio)
         if(formatBio){
             return notices.errorField('bio', formatBio)
         }

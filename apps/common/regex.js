@@ -86,6 +86,15 @@ const notSpecialChar = (name, value)=> {
     return error
 }
 
+/** KHONG CHUA KY TU DAC BIET KHI VIET DOAN VAN*/
+const notSpecialCharChat = (name, value) => {
+    const field = alias.filter(item => item.name === name)[0]
+    let error = false
+    if(/[@#$%^*&`~<>':"/[\]|{}()=_+-]/i.test(value))
+        error = field.notFormat
+    return error
+}
+
 /** MINIMUM CHAR*/
 const limitedName = (name, value)=> {
     const field = alias.filter(item => item.name === name)[0]
@@ -108,7 +117,7 @@ const limitedDescription = (name, value)=> {
 const limitedAge = (name, value)=> {
     const field = alias.filter(item => item.name === name)[0]
     let error = false
-    if( Number(value) < 16 || Number(value) > 100)
+    if( Number(value) < 2 || Number(value) > 100)
         error = field.limited
     return error
 }
@@ -146,6 +155,7 @@ module.exports={
     isChecked,
     isCodeReset,
     notSpecialChar,
+    notSpecialCharChat,
     limitedName,
     limitedDescription,
     limitedAge,
