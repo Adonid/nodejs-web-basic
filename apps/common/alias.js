@@ -93,6 +93,11 @@ const alias = [
         alias: "Công việc",
         empty: "Hãy chọn công việc bạn đang làm!",
     },
+    {
+        name: "skill", 
+        alias: "Kỹ năng",
+        empty: "Hãy viết kỹ năng công việc của bản!",
+    },
 ]
 
 module.exports=alias

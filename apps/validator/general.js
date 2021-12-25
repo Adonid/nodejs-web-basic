@@ -261,7 +261,7 @@ const isResetPassword = req => {
  * @returns errors
  */
 const checkUserDataBasic = req => {
-    const {name, fullName, phoneNumber, provinceId, districtId, communeId, address, bio, age, genre, work} = req.body
+    const {name, fullName, phoneNumber, provinceId, districtId, communeId, address, bio, age, genre, work, skill} = req.body
     // Kiem tra NAME
     if(name){
         const nameNotEmpty = regex.requireField('name', name)
@@ -389,6 +389,14 @@ const checkUserDataBasic = req => {
         const isRequireWork = regex.requireField('work', work)
         if(isRequireWork){
             return notices.errorField('work', isRequireWork)
+        }
+    }
+
+    // Kiem tra ky nang
+    if(skill){
+        const isRequireWork = regex.requireField('skill', skill)
+        if(isRequireWork){
+            return notices.errorField('skill', isRequireWork)
         }
     }
 
