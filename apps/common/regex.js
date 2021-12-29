@@ -54,7 +54,7 @@ const requirePassword = (name, value) => {
 const requireUserName = (name, value) => {
     const field = alias.filter(item => item.name === name)[0]
     let error = false
-    if(new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.{6,12})").test(value) != true)
+    if(new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,12})").test(value) != true)
         error = field.notFormat
     return error
 }
