@@ -186,11 +186,11 @@ const {userMiddleware} = require("../../../middleware")
  * 
  */
   router.post('/care/create', async (req, res) => {
-    const {payload} = req.body
+    const payload = req.body
     const content = JSON.stringify(payload)
     try {
         await DistributedData.createDistributedData({type: 'care', content})
-        const notify = notices._201("Phản hồi")
+        const notify = notices._201("Lưu quan tâm của bạn")
         return res.status(notify.code).json(notify)
     } catch (error) {
         return res.status(notices._500.code).json(notices._500)
