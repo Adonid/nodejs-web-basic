@@ -40,7 +40,7 @@ const getCommentsPost = async index => {
         include: [
             {
                 model: user,
-                attributes: ['id', 'name', 'fullName'],
+                attributes: ['id', 'name', 'fullName', 'roleId'],
                 include: [
                     {
                         model: user_image,
@@ -54,7 +54,7 @@ const getCommentsPost = async index => {
                 include: [
                     {
                         model: user,
-                        attributes: ['name', 'fullName'],
+                        attributes: ['id', 'name', 'fullName', 'roleId'],
                         include: [
                             {
                                 model: user_image,
@@ -68,7 +68,7 @@ const getCommentsPost = async index => {
                         include: [
                             {
                                 model: user,
-                                attributes: ['name', 'fullName']
+                                attributes: ['id', 'name', 'fullName', 'roleId']
                             }
                         ]
                     }
@@ -80,7 +80,7 @@ const getCommentsPost = async index => {
                 include: [
                     {
                         model: user,
-                        attributes: ['name', 'fullName']
+                        attributes: ['id', 'name', 'fullName', 'roleId']
                     }
                 ]
             }

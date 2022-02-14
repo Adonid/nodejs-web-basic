@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const {Post, Tag, Category, User, CompanyDescription, DistributedData} = require('../../../models')
+const {Post, Tag, Category, User, CompanyDescription, DistributedData, Comments} = require('../../../models')
 const {notices} = require('../../../common')
 const { Op } = require("sequelize")
 const {userMiddleware} = require("../../../middleware")
@@ -127,13 +127,16 @@ const {userMiddleware} = require("../../../middleware")
     try {
         // Lay chi tiet tat ca cua bai viet
         const post = await Post.getDetailedPost({id, active: true, draft: false, remove: false})
+        // Lay tat ca comments cua bai viet
+        const comments = await Comments.getCommentsPost({postId: id})
         // Lay cac bai viet co cung the tag nay duoc gan vao
         const tagsId = post.tags.map(tag => {return tag.id})
+        // Lay bai viet cho sidebar
         const postsSideBar = await Tag.getPosts({id: {[Op.or]: tagsId}})
         // Lay 1 so bai viet cung danh muc 
         const relativePosts = await Post.getPosts("", {active: true, id: {[Op.not]: id}, categoryId: {[Op.eq]: post.category.id}}, 0, 15)
         // Tra ve res
-        const data = notices.reqSuccess({post, postsSideBar, relativePosts})
+        const data = notices.reqSuccess({post, comments, postsSideBar, relativePosts})
         return res.status(data.code).json(data)
     } catch (error) {
         return res.status(notices._500.code).json(notices._500)
